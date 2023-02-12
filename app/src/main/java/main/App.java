@@ -4,11 +4,15 @@
 package main;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+
+    /**
+     * App starting point
+     */
+    public void init(){
+        new Frame();
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        new App().init();
     }
 }
