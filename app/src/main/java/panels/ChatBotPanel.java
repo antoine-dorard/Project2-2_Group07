@@ -2,18 +2,19 @@ package panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.FileReader;
 
-public class ChatBotPanel extends JPanel {
+public class ChatBotPanel extends JPanel implements Runnable{
 
-    static JTextField textField;
-    static JButton button;
-    static JLabel label;
+    JTextField textField;
+    JButton button;
+    JLabel label;
 
-    static JTextArea jt;
+    JTextArea jt;
+
+    boolean isThreadOver = true;
+
 
     public ChatBotPanel(){
         super();
@@ -44,7 +45,14 @@ public class ChatBotPanel extends JPanel {
         });
 
         button.addActionListener(e -> {
-            actionPerformed(e.getActionCommand());
+            if(isThreadOver){
+                isThreadOver = false;
+                button.setEnabled(false);
+
+                actionPerformed(e.getActionCommand());
+                Thread t = new Thread(this);
+                t.start();
+            }
         });
 
         // create a text area, specifying the rows and columns
@@ -74,5 +82,19 @@ public class ChatBotPanel extends JPanel {
             // set the text of field to blank
             textField.setText("  ");
         }
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i <10; i++) {
+            System.out.println("Thread running: "+i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        button.setEnabled(true);
+        isThreadOver = true;
     }
 }
