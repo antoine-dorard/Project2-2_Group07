@@ -39,26 +39,26 @@ public class ChatBot {
   public void run() {
     while (true) { // loop forever (it's gonna break when the user types "exit")
 
-      System.out.print("You: "); // prompt the user
+      System.out.print("You: "); // I hope you understand this
       String input = in.nextLine(); // read user input
 
       // check if the user wants to exit
-      if (input.equals("exit")) {
+      if (input.equals("exit")) { // check if the user typed "exit"
         break;
       }
 
       String response = generateResponse(input); // generate a response
-      System.out.println("ChatBot: " + response); // print the response
+      System.out.println("ChatBot: " + response); // print ze response
 
-      addToConversation(input, response); // add the user input and the response to the conversation
+      addToConversation(input, response); // add the user input and the response to ze conversation
     }
 
     writeConversationToFile(); // write the conversation to a file
   }
 
-  // generate a response to the user input
+  // Now we need to create a response to the user input
   private String generateResponse(String input) {
-    String[] words = input.split("\\s+"); // split the input into words
+    String[] words = input.split("\\s+"); // split the input into words (split on whitespace, i think it's the good regex, not sure tho)
 
     // check if any of the words are keywords
     for (String word : words) { // loop through the words
@@ -67,20 +67,20 @@ public class ChatBot {
       }
     }
 
-    // Big brain code here that generates a response according to the input param
+    // Big brain code here that generates a response according to the input 
 
-    return null; // ofc we should return the actual response here
+    return null; // ofc we should return the actual response here, didnt implement it yet
   }
 
   // retrieve data from a file
   private String retrieveDataFromFile(String keyword) {
     String file = keywordToFileMap.get(keyword); // get the file name from the keyword
-    JSONParser parser = new JSONParser(); // create a JSON parser
+    JSONParser parser = new JSONParser(); // create a json parser
 
-    // read the file and parse the data
+    // read the file and parse ze data
     try (FileReader reader = new FileReader(file)) { // create a file reader
       Object obj = parser.parse(reader); // parse the file
-      JSONObject data = (JSONObject) obj; // cast the object to a JSONObject
+      JSONObject data = (JSONObject) obj; // cast the object to a jsonobjext
 
       return (String) data.get(keyword); // return the data
     } catch (IOException | ParseException e) { // catch any IO or parse exceptions
@@ -88,13 +88,13 @@ public class ChatBot {
     }
   }
 
-  @SuppressWarnings("unchecked") // suppress warnings about unchecked casts, since we know the types are correct
+  @SuppressWarnings("unchecked") // suppress warnings about unchecked casts, since we know the types are correct, sometimes its annoying
   // add the user input and the response to the conversation
   private void addToConversation(String input, String response) {
     JSONObject message = new JSONObject(); // create a new JSONObject to store the message
     message.put("user", input); // add the user input to the message
-    message.put("chatbot", response); // add the response to the message
-    conversation.add(message); // add the message to the conversation
+    message.put("chatbot", response); // add the resp to the message
+    conversation.add(message); // add the message to the convooo
   }
 
   // retrieve the conversation history from a file
@@ -122,7 +122,7 @@ public class ChatBot {
   }
 
   public static void main(String[] args) {
-    ChatBot chatBot = new ChatBot(); // create a new chatbot
-    chatBot.run(); // run the chatbot
+    ChatBot chatBot = new ChatBot(); // create a new chatbot bipbip
+    chatBot.run(); // run the chatbot bopbop
   }
 }
