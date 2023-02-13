@@ -57,6 +57,7 @@ public class ChatBotPanel extends JPanel implements Runnable{
 
         // create a text area, specifying the rows and columns
         jt = new JTextArea(10, 10);
+        jt.setEnabled(false);
         jt.append("Robot: Hello I'm your chatBot with what can I help you?"+"\n");
         jt.append("Robot: What is your name?"+"\n");
 
