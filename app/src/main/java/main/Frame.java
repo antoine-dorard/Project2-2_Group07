@@ -17,10 +17,11 @@ public class Frame extends JFrame {
     JPanel chatBotPanel, selectOptionsPanel;
 
     public Frame(){
-        super("DACS Project 2-2, Group 07, UM Chatbot");
+        super("UM DACS Project 2-2 - Group 07 Chatbot");
 
-        this.setLayout(new BorderLayout(50,30));
+        this.setLayout(new BorderLayout(10,30));
         selectOptionsPanel = new SelectOptionsPanel();
+        selectOptionsPanel.setPreferredSize(new Dimension(80, 480));
         this.add(selectOptionsPanel, BorderLayout.LINE_START);
         chatBotPanel = new ChatBotPanel();
         this.add(chatBotPanel, BorderLayout.CENTER);
@@ -31,7 +32,7 @@ public class Frame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setSize(winWidth, winHeight);
-        this.setLocation((int) screenSize.getWidth()/2 - winWidth/2, (int) screenSize.getHeight()/2 - winHeight/2);
+        this.setLocationRelativeTo(null);
         this.setIconImage(new ImageIcon("app/src/imgs/UMlogo.jpg").getImage());
 
         this.setVisible(true);

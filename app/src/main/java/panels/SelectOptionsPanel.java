@@ -11,6 +11,7 @@ public class  SelectOptionsPanel extends JPanel {
 
     static JToggleButton chatBtn, skillsBtn;
     static JLabel label;
+    static ButtonGroup group = new ButtonGroup();
 
     public SelectOptionsPanel(){
         super();
@@ -18,16 +19,20 @@ public class  SelectOptionsPanel extends JPanel {
 
         // buttons to select functionality at left side of the screen
 
-        ButtonGroup group = new ButtonGroup();
-        chatBtn = new JToggleButton("chat", new ImageIcon("app/src/imgs/chat_icon.png"));
-        group.add(chatBtn);
-        this.add(chatBtn);
-
+        chatBtn = new JToggleButton("Chat", new ImageIcon("app/src/imgs/chat_icon.png"));
+        buttonSetup(chatBtn);
         skillsBtn = new JToggleButton("Skills", new ImageIcon("app/src/imgs/skills_icon.png"));
-        group.add(skillsBtn);
-        this.add(skillsBtn);
+        buttonSetup(skillsBtn);
 
-        label = new JLabel("More space for additional functionality");
+        label = new JLabel("More space");
         this.add(label);
+
+        this.setBackground(new Color(148, 148, 148));
+    }
+    public void buttonSetup(JToggleButton btn){
+        btn.setHorizontalTextPosition(JButton.CENTER);
+        btn.setVerticalTextPosition(JToggleButton.BOTTOM);
+        group.add(btn);
+        this.add(btn);
     }
 }
