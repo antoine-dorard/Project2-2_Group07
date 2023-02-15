@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileReader;
 
-public class ChatBotPanel extends JPanel {
+public class  ChatBotPanel extends JPanel {
 
     static JTextField textField;
     static JButton button;
@@ -49,7 +49,8 @@ public class ChatBotPanel extends JPanel {
 
         // create a text area, specifying the rows and columns
         jt = new JTextArea(10, 10);
-        jt.append("Robot: Hello I'm your chatBot with what can I help you?"+"\n");
+        jt.setEditable(false);
+        jt.append("Robot: Hello I'm your chatBot, with what can I help you?"+"\n");
         jt.append("Robot: What is your name?"+"\n");
 
         this.add(jt,BorderLayout.NORTH);
