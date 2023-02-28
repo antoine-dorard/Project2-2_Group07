@@ -19,9 +19,9 @@ public class Frame extends JFrame {
     public Frame(){
         super("UM DACS Project 2-2 - Group 07 Chatbot");
 
-        this.setLayout(new BorderLayout(10,30));
+        this.setLayout(new BorderLayout(10,0));
         selectOptionsPanel = new SelectOptionsPanel();
-        selectOptionsPanel.setPreferredSize(new Dimension(80, 480));
+        selectOptionsPanel.setPreferredSize(new Dimension(100, 480));
         this.add(selectOptionsPanel, BorderLayout.LINE_START);
         chatBotPanel = new ChatBotPanel();
         this.add(chatBotPanel, BorderLayout.CENTER);
