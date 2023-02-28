@@ -12,8 +12,8 @@ import java.awt.event.KeyListener;
 
 public class Frame extends JFrame {
 
-    final int winWidth = 700;
-    final int winHeight = 450;
+    final int winWidth = 850;
+    final int winHeight = 600;
     JPanel chatBotPanel, selectOptionsPanel;
 
     public Frame(){
@@ -26,8 +26,6 @@ public class Frame extends JFrame {
         chatBotPanel = new ChatBotPanel();
         this.add(chatBotPanel, BorderLayout.CENTER);
 
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
