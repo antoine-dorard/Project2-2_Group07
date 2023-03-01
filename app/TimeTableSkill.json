@@ -1,0 +1,14 @@
+{
+  "slots":{
+    "DAY": ["Monday", "Tuesday", "Wednesday", "Tuesday", "Friday"],
+    "TIME": [9, 11, 13, 15]
+  },
+  "questions": [
+    "Which lectures are there on <DAY> at <TIME>",
+    "1",
+    "2"
+  ],
+  "actions": {
+
+  }
+}

@@ -8,7 +8,15 @@ import java.awt.event.KeyListener;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
-public class  ChatBotPanel extends JPanel {
+public class ChatBotPanel extends JPanel implements Runnable{
+
+    JTextField textField;
+    JButton button;
+    JLabel label;
+
+    JTextArea jt;
+
+    boolean isThreadOver = true;
 
     static JTextField textField;
     static JButton button;
@@ -54,6 +62,17 @@ public class  ChatBotPanel extends JPanel {
             }
         });
 
+        button.addActionListener(e -> {
+            if(isThreadOver){
+                isThreadOver = false;
+                button.setEnabled(false);
+
+                actionPerformed(e.getActionCommand());
+                Thread t = new Thread(this);
+                t.start();
+            }
+        });
+        
         conversationLogSetup();
 
         button = new JButton("send");
@@ -101,6 +120,19 @@ public class  ChatBotPanel extends JPanel {
     }
 
     @Override
+    public void run() {
+        for (int i = 0; i <10; i++) {
+            System.out.println("Thread running: "+i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        button.setEnabled(true);
+        isThreadOver = true;
+    }
+    
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background.getImage(), 170, 50, null);
