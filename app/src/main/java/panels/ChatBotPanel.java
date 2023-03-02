@@ -8,8 +8,7 @@ import java.awt.event.KeyListener;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
-public class ChatBotPanel extends JPanel implements Runnable{
-
+public class ChatBotPanel extends JPanel implements Runnable {
     JTextField textField;
     JButton button;
     JLabel label;
@@ -118,9 +117,10 @@ public class ChatBotPanel extends JPanel implements Runnable{
     }
 
     public void setChatText(String text, boolean isBot){
-        if(isBot)
-            chatLog = new JLabel(" Robot: "+ text + "\n" , botIcon.getIcon(), SwingConstants.LEFT);
-        else
+        if(isBot) {
+            chatLog = new JLabel(" Robot: ", botIcon.getIcon(), SwingConstants.LEFT);//minor changes by John in this line
+            thinkingBot(chatLog, text);// added by John
+        } else
             chatLog = new JLabel(" You: "+ text + "\n" , userIcon.getIcon(), SwingConstants.LEFT);
 
         chatLog.setOpaque(false);
@@ -129,6 +129,38 @@ public class ChatBotPanel extends JPanel implements Runnable{
         chatLog.setForeground(Color.WHITE);
         chatContainer.add(chatLog);
         chatContainer.updateUI();
+    }
+
+    //Thinking-Bot effect method
+    public void thinkingBot(JLabel target, String str) {
+        Thread runner = new Thread(() -> {
+            String[] dots = {"#"," ","#"," ","#"," "};
+            String[] letters = str.split("");
+            String initial = target.getText();// stores "Robot" word 
+
+            for (String dot : dots) {
+                target.setText(initial + dot);
+                try { 
+                    Thread.sleep(500); 
+                } catch(Exception e) { 
+                    //... oh shit
+                }
+            }
+
+            target.setText(initial);
+            for (String letter:letters) {
+                String current = target.getText();
+                target.setText(current + letter);
+                try { 
+                    Thread.sleep(100); 
+                } catch (Exception e) { 
+                    //... oh dear
+                }
+            }   
+            String current = target.getText();
+            target.setText(current + "\n");
+        });
+        runner.start();
     }
 
 
