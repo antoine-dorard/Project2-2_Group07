@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Node {
 
-    private String name;
-    private String response;
-    protected Node parent;
-    protected List<Node> children;
+    public String name;
+    public String response;
+    public Node parent;
+    public List<Node> children;
 
-    public Node(String name, String response) {
+    public Node(String name, String response,Node parent) {
 
         this.name = name;
         this.response = response;
 
-        this.parent = null;
+        this.parent = parent;
         this.children = new ArrayList<>();
 
     }

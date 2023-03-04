@@ -1,6 +1,6 @@
 {
   "slots":{
-    "DAY": ["Monday", "Tuesday", "Wednesday", "Tuesday", "Friday"],
+    "DAY": ["Monday", "Tuesday", "Wednesday", "Tuesday", "Friday","Saturday"],
     "TIME": [9, 11, 13, 15]
   },
   "questions": [
