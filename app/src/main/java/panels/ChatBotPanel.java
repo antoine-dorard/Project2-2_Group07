@@ -25,7 +25,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
     JScrollPane scrollPane = new JScrollPane(chatContainer, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-    ImageIcon botImageIcon = new ImageIcon("app/src/imgs/chatbot_app_icon_blue.png");
+    //ImageIcon botImageIcon = new ImageIcon("app/src/imgs/chatbot_app_icon_blue.png");
+    ImageIcon botImageIcon = new ImageIcon(getClass().getResource("/imgs/chatbot_app_icon_blue.png"));
     JLabel botIcon = new JLabel(botImageIcon);
     ImageIcon userImageIcon = new ImageIcon("app/src/imgs/user_icon.png");
     JLabel userIcon = new JLabel(userImageIcon);
