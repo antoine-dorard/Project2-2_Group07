@@ -1,7 +1,7 @@
 {
   "slots":{
     "DAY": ["Monday", "Tuesday", "Wednesday", "Tuesday", "Friday"],
-    "TIME": ["9", "11", "13", "15"]
+    "TIME": ["9", "11", "13", "16"]
   },
   "questions": [
     "Which lectures are there on <DAY> at <TIME>",
@@ -9,12 +9,15 @@
     "2"
   ],
   "actions": {
-    "Monday" : {
-      "9" : "TCS",
-      "11" : "MM",
-      "8": {
-        "TCS" : "PROF GREC"
-      }
+    "<DAY> Monday": {
+      "<TIME> 11" : "TCS",
+      "<TIME> 13" : "MM",
+      "<TIME> 16" : "HCI"
+    },
+    "<DAY> Tuesday":{
+      "<TIME> 11" : "TCS",
+      "<TIME> 13" : "MM",
+      "<TIME> 16" : "HCI"
     }
   }
 }
