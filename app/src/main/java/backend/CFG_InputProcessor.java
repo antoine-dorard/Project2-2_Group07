@@ -21,9 +21,9 @@ public class CFG_InputProcessor implements InputProcessor {
     public String processInput(String input) {
         JSONParser parser = new JSONParser(); // create a json parser
         try{
-            String[] words = input.split("\\s+");
-            Object obj = parser.parse(new FileReader(file));
-            JSONObject jsonObject = (JSONObject)obj;
+            String[] words = input.split("\\s+"); //the array of the words from the user input
+            Object obj = parser.parse(new FileReader(new File(getClass().getResource(file).toURI()))); //read the file
+            JSONObject jsonObject = (JSONObject)obj; //make an JSON object from the file
 
 
             JSONObject subjects = (JSONObject) jsonObject.get("slots"); //From the JSON Object we select the sltos
