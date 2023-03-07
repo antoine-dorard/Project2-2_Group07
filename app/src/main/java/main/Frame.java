@@ -51,7 +51,7 @@ public class Frame extends JFrame {
         this.setResizable(false);
         this.setSize(winWidth, winHeight);
         this.setLocationRelativeTo(null);
-        this.setIconImage(new ImageIcon("app/src/imgs/UMlogo.jpg").getImage());
+        this.setIconImage(new ImageIcon(getClass().getResource("/imgs/UMlogo.jpg")).getImage());
         this.setVisible(true);
 
         // define the navigation button Listeners.
@@ -64,10 +64,10 @@ public class Frame extends JFrame {
 
     public void actionPerformed(String buttonName) // define your Listener action.
     {
-        if (buttonName == "Chat"){
+        if (buttonName.equals("Chat")){
             cL.show(cards, "ChatBotPanel");
         }
-        else if (buttonName == "Skills"){
+        else if (buttonName.equals("Skills")){
             cL.show(cards, "SkillsEditorPanel");
         }
     }

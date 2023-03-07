@@ -13,7 +13,7 @@ import static javax.swing.BorderFactory.createLineBorder;
 public class SkillEditorPanel extends JPanel{
 
     // define the background image.
-    private final ImageIcon background = new ImageIcon("app/src/imgs/chatbot_icon_transp.png");
+    private final ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
 
     // define colors & fonts used in the JPanel.
     private final Font listFont = new Font("Monospaced", Font.BOLD, 18);
