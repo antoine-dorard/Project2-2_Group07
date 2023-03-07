@@ -1,10 +1,12 @@
 package panels;
 
+import utils.ConfigUI;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -13,18 +15,10 @@ import static javax.swing.BorderFactory.createLineBorder;
 public class SkillEditorPanel extends JPanel{
 
     // define the background image.
-    private final ImageIcon background = new ImageIcon("app/src/imgs/chatbot_icon_transp.png");
+    //private final ImageIcon background = new ImageIcon("app/src/imgs/chatbot_icon_transp.png");
 
-    // define colors & fonts used in the JPanel.
-    private final Font listFont = new Font("Monospaced", Font.BOLD, 18);
-    private final Font txtFont = new Font("Monospaced", Font.BOLD, 14);
-
-    // define colors used in the JList.
-    private final Color listBGColor = new Color(47, 49, 52);
-    private final Color listFGColor = new Color(210, 210, 210);
-    private final Color listSelectBGColor = new Color(68, 70, 74);
-    private final Color listSelectFGColor = new Color(255, 255, 255);
-    public ArrayList<JTextField> txtFields = new ArrayList<JTextField>();
+    // colors & fonts are defined in the UIConfig class.
+    private final ConfigUI configUI = new ConfigUI();
 
 
     public SkillEditorPanel(){
@@ -32,7 +26,7 @@ public class SkillEditorPanel extends JPanel{
         FlowLayout layout = new FlowLayout();
         layout.setAlignment(FlowLayout.LEFT);
         this.setLayout(layout);
-        this.setBackground(new Color(68, 68, 68));
+        this.setBackground(configUI.colorPanelBG);
 
         // define a boxLayout for all input JTextFields.
         JPanel boxPane = new JPanel();
@@ -42,80 +36,32 @@ public class SkillEditorPanel extends JPanel{
 
         // define a list model, which will work as skill selector.
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("Math");
-        listModel.addElement("History");
-        listModel.addElement("Calendar");
 
         // define the list control with the list model created earlier.
         JList<String> skillList = new JList<>(listModel);
-        skillList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        skillList.setLayoutOrientation(JList.VERTICAL);
-        skillList.setVisibleRowCount(-1);
-        skillList.setBackground(listBGColor);
-        skillList.setForeground(listFGColor);
-        skillList.setFont(listFont);
-        skillList.setSelectionBackground(listSelectBGColor);
-        skillList.setSelectionForeground(listSelectFGColor);
-        skillList.setPreferredSize(new Dimension(200, 550));
 
-        // define the list scroller for the list control.
-        JScrollPane listScroller = new JScrollPane(skillList);
-        listScroller.setPreferredSize(new Dimension(250, 80));
+        // define the list items and call the setup method for the JList.
+        String[] listItems = {"Math", "History", "Calendar", "etc"};
+        setupJList(skillList,listItems);
 
         // create all JTextFields.
         JTextField skillName = new JTextField();
         JTextField skillRule = new JTextField();
         JTextField skillIdentifier = new JTextField();
 
-        txtFields.add(skillName);
-        txtFields.add(skillRule);
-        txtFields.add(skillIdentifier);
-
         // create all JLabels.
         JLabel nameLabel = new JLabel();
         JLabel ruleLabel = new JLabel();
         JLabel identifierLabel = new JLabel();
 
-        nameLabel.setText("Name");
-        ruleLabel.setText("Rule(s)");
-        identifierLabel.setText("Identifier(s)");
+        setupJLabel(nameLabel, "Name", 250, 40);
+        setupJLabel(ruleLabel, "Rule(s)", 250, 80);
+        setupJLabel(identifierLabel, "Identifier(s)", 250, 80);
 
-        nameLabel.setForeground(listFGColor);
-        ruleLabel.setForeground(listFGColor);
-        identifierLabel.setForeground(listFGColor);
-
-        nameLabel.setVerticalAlignment(JLabel.BOTTOM);
-        ruleLabel.setVerticalAlignment(JLabel.BOTTOM);
-        identifierLabel.setVerticalAlignment(JLabel.BOTTOM);
-
-        // define the dimensions of the JTextFields.
-        skillName.setPreferredSize(new Dimension(250, 20));
-        skillRule.setPreferredSize(new Dimension(250, 80));
-        skillIdentifier.setPreferredSize(new Dimension(250, 80));
-
-        // define the dimensions of the JLabels.
-        nameLabel.setPreferredSize(new Dimension(250, 40));
-        ruleLabel.setPreferredSize(new Dimension(250, 80));
-        identifierLabel.setPreferredSize(new Dimension(250, 80));
-
-        // define the background of the JTextFields.
-        skillName.setBackground(new Color(46,49,53));
-        skillName.setFont(txtFont);
-        skillName.setBorder(createLineBorder(new Color(80,80,80), 1));
-        skillName.setForeground(Color.WHITE);
-        skillName.updateUI();
-
-        skillRule.setBackground(new Color(46,49,53));
-        skillRule.setFont(txtFont);
-        skillRule.setBorder(createLineBorder(new Color(80,80,80), 1));
-        skillRule.setForeground(Color.WHITE);
-        skillRule.updateUI();
-
-        skillIdentifier.setBackground(new Color(46,49,53));
-        skillIdentifier.setFont(txtFont);
-        skillIdentifier.setBorder(createLineBorder(new Color(80,80,80), 1));
-        skillIdentifier.setForeground(Color.WHITE);
-        skillIdentifier.updateUI();
+        // setup all JTextFields.
+        setupJTextField(skillName, 250, 20);
+        setupJTextField(skillRule, 250, 80);
+        setupJTextField(skillIdentifier, 250, 80);
 
         // add all the JTextFields to the JPanel.
         boxPane.add(nameLabel);
@@ -144,6 +90,48 @@ public class SkillEditorPanel extends JPanel{
                 }
             }
         });
+    }
+
+    private void setupJList (JList<String> list, String[] listItems){
+
+        // retrieve listModel and set all items from the input array.
+        DefaultListModel<String> model = (DefaultListModel<String>) list.getModel();
+
+        // add all items, provided in the input, to the current JList.
+        for (String item :  listItems) {model.addElement(item);}
+
+        // define the list appearance and functionality.
+        list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        list.setLayoutOrientation(JList.VERTICAL);
+        list.setVisibleRowCount(-1);
+        list.setBackground(configUI.colorListBG);
+        list.setForeground(configUI.colorListFG);
+        list.setFont(configUI.fontList);
+        list.setSelectionBackground(configUI.colorListSelectionBG);
+        list.setSelectionForeground(configUI.colorListSelectionFG);
+        list.setPreferredSize(new Dimension(200, 550));
+
+        // define the list scroller for the list control.
+        JScrollPane listScroller = new JScrollPane(list);
+        listScroller.setPreferredSize(new Dimension(250, 80));
+    }
+
+    private void setupJTextField (JTextField textField, int width, int height) {
+        // define the textField's appearance.
+        textField.setBackground(new Color(46,49,53));
+        textField.setFont(configUI.fontText);
+        textField.setBorder(createLineBorder(new Color(80,80,80), 1));
+        textField.setForeground(Color.WHITE);
+        textField.updateUI();
+        textField.setPreferredSize(new Dimension(width, height));
+    }
+
+    private void setupJLabel (JLabel label, String text, int width, int height) {
+        // define the label's appearance.
+        label.setText(text);
+        label.setForeground(configUI.colorListFG);
+        label.setVerticalAlignment(JLabel.BOTTOM);
+        label.setPreferredSize(new Dimension(width, height));
     }
 
     protected void paintComponent(Graphics g)
