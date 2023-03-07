@@ -28,6 +28,13 @@ dependencies {
 
 }
 
+processResources {
+    with copySpec {
+        from 'src/main/resources'
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+}
+
 application {
     // Define the main class for the application.
     mainClass = 'main.App'
