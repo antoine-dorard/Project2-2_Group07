@@ -1,10 +1,13 @@
 package panels;
 
+
 import backend.CFG_InputProcessor;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -33,6 +36,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
     ImageIcon userImageIcon = new ImageIcon(getClass().getResource("/imgs/user_icon.png"));
     JLabel userIcon = new JLabel(userImageIcon);
     ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
+    ImageIcon sendImageIcon = new ImageIcon(getClass().getResource("/imgs/send_icon.png"));
 
     GridBagConstraints c = new GridBagConstraints();
     Font textFont = new Font("Monospaced", Font.BOLD, 18);
@@ -60,12 +64,12 @@ public class ChatBotPanel extends JPanel implements Runnable {
             }
         });
 
-        button = new JButton("send");
+        button = new JButton("send", sendImageIcon);
 
         button.addActionListener(e -> {
             actionPerformed(e.getActionCommand());
         });
-        
+
         conversationLogSetup();
 
         c.fill = GridBagConstraints.BOTH;
@@ -74,15 +78,15 @@ public class ChatBotPanel extends JPanel implements Runnable {
         c.gridwidth = GridBagConstraints.REMAINDER;
         this.add(scrollPane, c);
 
-
         // user input field
         c.gridy = 1;
-        c.weightx = 0.7;   c.weighty = 0.1;
+        c.weightx = 1;   c.weighty = 0.1;
         c.gridwidth = GridBagConstraints.RELATIVE;
         this.add(textField, c);
 
         // send button
-        c.gridx = 1; c.gridy = 1;
+        c.gridx = 5; c.gridy = 1;
+        c.weightx = 0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         this.add(button, c);
 
@@ -102,7 +106,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
             }
         }
     }
-    
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background.getImage(), 170, 50, null);
@@ -121,7 +125,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
     public void setChatText(String text, boolean isBot){
         if(isBot) {
-            chatLog = new JLabel(" Robot: ", botIcon.getIcon(), SwingConstants.LEFT);//minor changes by John in this line
+            chatLog = new JLabel(" Robot: ", botIcon.getIcon(), SwingConstants.LEFT); //minor changes by John in this line
+            
             thinkingBot(chatLog, text);// added by John
         } else
             chatLog = new JLabel(" You: "+ text + "\n" , userIcon.getIcon(), SwingConstants.LEFT);
@@ -131,7 +136,47 @@ public class ChatBotPanel extends JPanel implements Runnable {
         chatLog.setBorder(createEmptyBorder(0,0,5,0));
         chatLog.setForeground(Color.WHITE);
         chatContainer.add(chatLog);
-        chatContainer.updateUI();
+        chatContainer.revalidate();
+
+        scrollToBottomAutomatically();
+    }
+
+    private void scrollToBottomAutomatically(){
+        JScrollBar bar = scrollPane.getVerticalScrollBar();
+        bar.setValue(bar.getMaximum());
+
+    }
+
+    //Thinking-Bot effect method
+    public void thinkingBot(JLabel target, String str) {
+        Thread runner = new Thread(() -> {
+            String[] dots = {"#"," ","#"," "};
+            String[] letters = str.split("");
+            String initial = target.getText();// stores "Robot" word
+
+            for (String dot : dots) {
+                target.setText(initial + dot);
+                try {
+                    Thread.sleep(500);
+                } catch(Exception e) {
+                    //... oh shit
+                }
+            }
+
+            target.setText(initial);
+            for (String letter:letters) {
+                String current = target.getText();
+                target.setText(current + letter);
+                try {
+                    Thread.sleep(50);
+                } catch (Exception e) {
+                    //... oh dear
+                }
+            }
+            String current = target.getText();
+            target.setText(current + "\n");
+        });
+        runner.start();
     }
 
     //Thinking-Bot effect method
@@ -172,8 +217,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // Main Execution
 
         // set the text of the label to the text of the field
-        //chatLog.setText(textField.getText());
         setChatText(textField.getText() + "\n", false);
+        
         //chatLog.append("me: " + textField.getText() + "\n");
 
         if(textField.getText().contains("Laurent")){
