@@ -17,6 +17,10 @@ public class App {
     }
 
     public static void main(String[] args) {
+        if (App.class.getResource("/GradleResourceChecker") == null){
+            System.err.println("Error: Please run the program using Gradle ( > Gradle run )");
+            return;
+        }
         new App().init();
     }
 }
