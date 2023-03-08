@@ -10,10 +10,10 @@ import java.io.Reader;
 
 public class JSON_Reader {
     
-    private String[] skillFiles = new String[]{"TimeTableSkill.json"};
+    private String[] skillFiles = new String[]{"app/TimeTableSkill.json"};
     private JSONObject[] skillObjects = new JSONObject[1];
 
-    JSON_Reader(){
+    public JSON_Reader(){
 
     }
 
