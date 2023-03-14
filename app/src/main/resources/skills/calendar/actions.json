@@ -1,0 +1,26 @@
+{
+  "1": {
+    "DAY Monday": {
+      "TIME 11": "TCS",
+      "TIME 13": "MM",
+      "TIME 16": "HCI"
+    },
+    "DAY Tuesday": {
+      "TIME 11": "ABC",
+      "TIME 13": "MM",
+      "TIME 16": "HCI"
+    }
+  },
+  "2": {
+    "TEACHER Joel": {
+      "TIME 11" : "TCS",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    },
+    "Teacher Tom":{
+      "TIME 11" : "ABC",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    }
+  }
+}
