@@ -137,6 +137,11 @@ public class ChatBotPanel extends JPanel implements Runnable {
         chatLog.setForeground(Color.WHITE);
         chatContainer.add(chatLog);
         chatContainer.revalidate();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         scrollToBottomAutomatically();
     }
@@ -173,38 +178,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
                     //... oh dear
                 }
             }
-            String current = target.getText();
-            target.setText(current + "\n");
-        });
-        runner.start();
-    }
-
-    //Thinking-Bot effect method
-    public void thinkingBot(JLabel target, String str) {
-        Thread runner = new Thread(() -> {
-            String[] dots = {"#"," ","#"," "};
-            String[] letters = str.split("");
-            String initial = target.getText();// stores "Robot" word 
-
-            for (String dot : dots) {
-                target.setText(initial + dot);
-                try { 
-                    Thread.sleep(500);
-                } catch(Exception e) { 
-                    //... oh shit
-                }
-            }
-
-            target.setText(initial);
-            for (String letter:letters) {
-                String current = target.getText();
-                target.setText(current + letter);
-                try { 
-                    Thread.sleep(50);
-                } catch (Exception e) { 
-                    //... oh dear
-                }
-            }   
             String current = target.getText();
             target.setText(current + "\n");
         });
