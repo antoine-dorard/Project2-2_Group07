@@ -18,7 +18,7 @@ public class Frame extends JFrame {
     CardLayout cL;
     JPanel cards;
 
-    public Frame(){
+    public Frame(App app){
         super("UM DACS Project 2-2 - Group 07 Chatbot");
 
         this.setLayout(new BorderLayout(10,0));
@@ -29,7 +29,7 @@ public class Frame extends JFrame {
         this.add(selectOptionsPanel, BorderLayout.LINE_START);
 
         // create your sub-panels.
-        chatBotPanel = new ChatBotPanel();
+        chatBotPanel = new ChatBotPanel(app);
         skillEditorPanel = new SkillEditorPanel();
 
         // create the panel that contains the "cards".
