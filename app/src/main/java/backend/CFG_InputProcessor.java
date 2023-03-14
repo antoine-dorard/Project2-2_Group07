@@ -1,5 +1,6 @@
 package backend;
 
+import main.SkillLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,6 +11,7 @@ import java.util.*;
 
 public class CFG_InputProcessor implements InputProcessor {
 
+    SkillLoader skillLoader;
     private String file = "/skills/TimeTableSkill.json";
     private ArrayList<JSONArray> slotsValues;
     private ArrayList<String> slotsKeys;
@@ -17,8 +19,17 @@ public class CFG_InputProcessor implements InputProcessor {
     private ArrayList<JSONObject> actionObjects;
     private ArrayList<JSONArray> actionArrays;
     private String output;
-    
+
+    public CFG_InputProcessor(SkillLoader skillLoader) {
+        this.skillLoader = skillLoader;
+    }
+
+
     public String processInput(String input) {
+        return processInputOnKeywords(input);
+    }
+
+    private String processInputOnKeywords(String input){
         JSONParser parser = new JSONParser(); // create a json parser
         try{
             String[] words = input.split("\\s+"); //the array of the words from the user input
@@ -78,6 +89,9 @@ public class CFG_InputProcessor implements InputProcessor {
         return "Error in CFG_InputProcessor";
     }
 
+    private String processInputOnFullText(String input){
+        return null; // TODO
+    }
 
     public void traverse(Object obj) {
         if (obj instanceof JSONObject) {
