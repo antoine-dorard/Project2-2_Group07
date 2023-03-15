@@ -1,13 +1,11 @@
 package panels;
 
 
-import backend.CFG_InputProcessor;
+import backend.FullTextIP;
+import main.App;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class ChatBotPanel extends JPanel implements Runnable {
+    App app;
     JTextField textField;
     JButton button;
     JLabel label;
@@ -42,8 +41,9 @@ public class ChatBotPanel extends JPanel implements Runnable {
     GridBagConstraints c = new GridBagConstraints();
     Font textFont = new Font("Monospaced", Font.BOLD, 18);
 
-    public ChatBotPanel(){
+    public ChatBotPanel(App app){
         super();
+        this.app = app;
         this.setLayout(new GridBagLayout());
 
         textField = new JTextField();
@@ -222,7 +222,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         }
         else{
             String input = textField.getText();
-            String output = new CFG_InputProcessor().processInput(input);
+            String output = new FullTextIP(app.getSkillLoader()).processInput(input);
             setChatText(output, true);
         }
 
