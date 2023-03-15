@@ -10,6 +10,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
@@ -126,10 +127,12 @@ public class ChatBotPanel extends JPanel implements Runnable {
     public void setChatText(String text, boolean isBot){
         if(isBot) {
             chatLog = new JLabel(" Robot: ", botIcon.getIcon(), SwingConstants.LEFT); //minor changes by John in this line
-            
             thinkingBot(chatLog, text);// added by John
         } else
             chatLog = new JLabel(" You: "+ text + "\n" , userIcon.getIcon(), SwingConstants.LEFT);
+
+        if (chatLog.getPreferredSize().width > 440) //if text is wider than panel, need to wrap text
+            chatLog.setText(wrapText(chatLog.getText()));
 
         chatLog.setOpaque(false);
         chatLog.setFont(textFont);
@@ -150,6 +153,23 @@ public class ChatBotPanel extends JPanel implements Runnable {
         JScrollBar bar = scrollPane.getVerticalScrollBar();
         bar.setValue(bar.getMaximum());
 
+    }
+
+    /**
+     * Method that wraps given text, making use of HTML format
+     * @param text text to be wrapped
+     * @return wrapped text in html
+     */
+    private String wrapText(String text){
+        int size = 60; //number of characters that can be displayed in 1 line
+        ArrayList<String> list = new ArrayList<>(); //list of all separated lines
+        for (int i = 0; i < text.length(); i += size)
+            list.add(text.substring(i, Math.min(text.length(), i + size))); //take substring till either the end of the text or end of each jump
+        String newText = "<html>";
+        for (int i = 0; i < list.size()-1; i++)
+            newText += list.get(i)+"<br>"; //break line
+        newText+=list.get(list.size()-1)+"</html>";
+        return newText;
     }
 
     //Thinking-Bot effect method
