@@ -9,19 +9,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
-public class CFG_InputProcessor implements InputProcessor {
+public class KeywordsIP implements InputProcessor {
 
     SkillLoader skillLoader;
     private String file = "/skills/TimeTableSkill.json";
     private ArrayList<JSONArray> slotsValues;
     private ArrayList<String> slotsKeys;
     private HashMap<String, String> placeHolders;
-    private ArrayList<JSONObject> actionObjects;
-    private ArrayList<JSONArray> actionArrays;
     private String output;
 
-    public CFG_InputProcessor(SkillLoader skillLoader) {
+    public KeywordsIP(SkillLoader skillLoader) {
         this.skillLoader = skillLoader;
+        placeHolders = new HashMap<>();
     }
 
 
@@ -43,9 +42,6 @@ public class CFG_InputProcessor implements InputProcessor {
             slotsKeys = new ArrayList<>(); //Store the key of the subarray of the slots
 
             placeHolders = new HashMap<>(); //Store the key words that match the input from the user and the slots values
-
-            actionObjects = new ArrayList<>(); // Store the actions json objects that are relevant to the user input
-            actionArrays = new ArrayList<>();  // Store the actions json arrays that are relevant to the user input
 
             Iterator<String> keysIter = subjects.keySet().iterator();
             while(keysIter.hasNext()) { //Store all the keys and values of the slots "DAY : [...]"
@@ -77,7 +73,7 @@ public class CFG_InputProcessor implements InputProcessor {
             }
 
             traverse(actions);
-            return "You have "+ output+ " class at " + placeHolders.get("TIME") + " o'clock on " + placeHolders.get("DAY");
+            return output;
 
 
         }
@@ -86,11 +82,7 @@ public class CFG_InputProcessor implements InputProcessor {
             System.out.println(IO.getMessage());
         }
 
-        return "Error in CFG_InputProcessor";
-    }
-
-    private String processInputOnFullText(String input){
-        return null; // TODO
+        return "Error in KeywordsIP.java";
     }
 
     public void traverse(Object obj) {
@@ -103,11 +95,14 @@ public class CFG_InputProcessor implements InputProcessor {
                 if(placeHolders.containsKey(keySplit[0])){
                     System.out.println("this is a placeholder " + placeHolders.get(keySplit[0]));
 
-                    if(placeHolders.get(keySplit[0]).equals(keySplit[1])){
-                        traverse(jsonObj.get(key));
+                    if(placeHolders.get(keySplit[0]).equalsIgnoreCase(keySplit[1])){
                         System.out.println("this is a match " + jsonObj.get(key));
-                        if(jsonObj.get(key) instanceof JSONObject)  actionObjects.add((JSONObject) jsonObj.get(key));
-                        else if(jsonObj.get(key) instanceof JSONArray) actionArrays.add((JSONArray) jsonObj.get(key));
+                        if(jsonObj.get(key) instanceof JSONObject){
+                            traverse(jsonObj.get(key));
+                        }
+                        else if(jsonObj.get(key) instanceof JSONArray) {
+                            throw new RuntimeException("Please provide a correct actions file structure (JSON Object, not JSON Array)");
+                        }
                         else {
                             output = (String) jsonObj.get(key);
                             return;
@@ -116,14 +111,12 @@ public class CFG_InputProcessor implements InputProcessor {
                 }
             }
         } else if (obj instanceof JSONArray) {
-            JSONArray jsonArr = (JSONArray) obj;
-            for (Object elem : jsonArr) {
-                // TODO in case of arrays in the actions
-                traverse(elem);
-            }
+            throw new RuntimeException("Please provide a correct actions file structure (JSON Object, not JSON Array)");
         } else {
             //System.out.println(obj.toString());
             //TODO maybe going to use it later
         }
+
+        output = "I understood the question but the answer could not be found";
     }
 }

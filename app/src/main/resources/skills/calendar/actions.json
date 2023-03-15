@@ -9,7 +9,8 @@
       "TIME 11": "ABC",
       "TIME 13": "MM",
       "TIME 16": "HCI"
-    }
+    },
+    "default": "You don't have any class at this time!"
   },
   "2": {
     "TEACHER Joel": {
@@ -21,6 +22,7 @@
       "TIME 11" : "ABC",
       "TIME 13" : "MM",
       "TIME 16" : "HCI"
-    }
+    },
+    "default": "You don't have any class with this teacher at this time!"
   }
 }
