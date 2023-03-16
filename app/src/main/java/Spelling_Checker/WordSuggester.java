@@ -15,8 +15,9 @@ public class WordSuggester {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.length() > 2 && line.length() < 26) {
+                if (line.length() > 2 && line.length() < 26) { //the parameters of the words.txt we want to compare with (in between 2 and 26)
                     wordlist.add(line);
+                    System.out.println("this is the line " + line);
                 }
             }
         } catch (IOException e) {
@@ -59,7 +60,8 @@ public class WordSuggester {
 
     public static void main(String[] args) {
         WordSuggester ws = new WordSuggester();
-        String input = "hello";
-        ws.inputMatches(input);
+        String input = "Manday";
+        ws.inputMatches(input); //in this case I made a predefined input, but we need to implement this method
+                                //at the moment we split our input into an array of words
     }
 }
