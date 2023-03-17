@@ -1,12 +1,23 @@
 package Spelling_Checker;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class WordSuggester {
-    String file = "app/src/main/java/Spelling_Checker/words.txt";
+    File file;
+
+    {
+        try {
+            file = new File(getClass().getResource("/words.txt").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
     ArrayList<String> wordlist = new ArrayList<>();
     LevenshteinDistance lDistance = new LevenshteinDistance();
 
@@ -60,7 +71,7 @@ public class WordSuggester {
 
     public static void main(String[] args) {
         WordSuggester ws = new WordSuggester();
-        String input = "Manday";
+        String input = "What";
         ws.inputMatches(input); //in this case I made a predefined input, but we need to implement this method
                                 //at the moment we split our input into an array of words
     }
