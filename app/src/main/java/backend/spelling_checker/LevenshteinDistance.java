@@ -1,4 +1,4 @@
-package Spelling_Checker;
+package backend.spelling_checker;
 
 public class LevenshteinDistance {
     public int computeDistance(String s1, String s2) {
