@@ -27,7 +27,6 @@ public class  SelectOptionsPanel extends JPanel {
         // add a label as a placeholder below the navigation buttons.
         label = new JLabel(" ...More space...");
         label.setForeground(Color.white);
-        this.add(label);
 
         // set the background of this JPanel.
         this.setBackground(new Color(59, 59, 59));

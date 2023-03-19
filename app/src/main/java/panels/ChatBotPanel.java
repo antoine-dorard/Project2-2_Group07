@@ -1,17 +1,23 @@
 package panels;
 
 import backend.CFG_InputProcessor;
+import controls.CtrlTextField;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class ChatBotPanel extends JPanel implements Runnable {
-    JTextField textField;
+    //JTextField textField;
+    CtrlTextField textField;
     JButton button;
     JLabel label;
 
@@ -23,7 +29,18 @@ public class ChatBotPanel extends JPanel implements Runnable {
     JLabel chatLog = new JLabel("");
 
     // the text + icon
-    JPanel chatContainer = new JPanel();
+    JPanel chatContainer = new JPanel(){
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            // find where we should put the image to be in the center.
+            int x = (this.getWidth() - background.getImage().getWidth(null)) / 2;
+            int y = (this.getHeight() - background.getImage().getHeight(null)) / 2;
+            // draw the background image in the center.
+            g2d.drawImage(background.getImage(), x, y, null);
+        }
+    };
     JScrollPane scrollPane = new JScrollPane(chatContainer, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -41,7 +58,12 @@ public class ChatBotPanel extends JPanel implements Runnable {
         super();
         this.setLayout(new GridBagLayout());
 
-        textField = new JTextField();
+        // should be focusable to lose focus from other controls.
+        this.setFocusable(true);
+
+        //textField = new JTextField();
+        textField = new CtrlTextField();
+
         textField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -79,6 +101,10 @@ public class ChatBotPanel extends JPanel implements Runnable {
         c.gridy = 1;
         c.weightx = 0.7;   c.weighty = 0.1;
         c.gridwidth = GridBagConstraints.RELATIVE;
+        textField.setBackground(new Color(64, 68, 75));
+        textField.setFont(new Font("Monospaced", Font.BOLD, 14));
+        textField.setForeground(new Color(255, 255, 255, 200));
+
         this.add(textField, c);
 
         // send button
@@ -86,6 +112,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         c.gridwidth = GridBagConstraints.REMAINDER;
         this.add(button, c);
 
+        //this.setBackground(new Color(49, 51, 56));
         this.setBackground(new Color(68, 68, 68));
     }
 
@@ -102,11 +129,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
             }
         }
     }
-    
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background.getImage(), 170, 50, null);
-    }
 
     public void conversationLogSetup(){
         chatContainer.setLayout(new BoxLayout(chatContainer, BoxLayout.Y_AXIS));
@@ -121,7 +143,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
     public void setChatText(String text, boolean isBot){
         if(isBot) {
-            chatLog = new JLabel(" Robot: ", botIcon.getIcon(), SwingConstants.LEFT);//minor changes by John in this line
+            chatLog = new JLabel(" Robot: ", botImageIcon, SwingConstants.LEFT);//botIcon.getIcon(), SwingConstants.LEFT);//minor changes by John in this line
             thinkingBot(chatLog, text);// added by John
         } else
             chatLog = new JLabel(" You: "+ text + "\n" , userIcon.getIcon(), SwingConstants.LEFT);
@@ -130,6 +152,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         chatLog.setFont(textFont);
         chatLog.setBorder(createEmptyBorder(0,0,5,0));
         chatLog.setForeground(Color.WHITE);
+
         chatContainer.add(chatLog);
         chatContainer.updateUI();
     }

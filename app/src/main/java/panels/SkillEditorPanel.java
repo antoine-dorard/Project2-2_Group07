@@ -1,11 +1,18 @@
 package panels;
 
 import utils.ConfigUI;
+import controls.TreeControl;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -27,8 +34,15 @@ public class SkillEditorPanel extends JPanel{
         super();
         FlowLayout layout = new FlowLayout();
         layout.setAlignment(FlowLayout.LEFT);
-        this.setLayout(layout);
-        this.setBackground(configUI.colorPanelBG);
+        setLayout(layout);
+        //JPanel listPane = new JPanel();
+        //JPanel treePane = new JPanel();
+        //add(listPane);
+        //add(treePane);
+
+        //this.setLayout(layout);
+        //this.setBackground(configUI.colorPanelBG);
+
 
         // define a boxLayout for all input JTextFields.
         JPanel boxPane = new JPanel();
@@ -45,6 +59,11 @@ public class SkillEditorPanel extends JPanel{
         // define the list items and call the setup method for the JList.
         String[] listItems = {"Math", "History", "Calendar", "etc"};
         setupJList(skillList,listItems);
+
+        TreeControl treeControl = new TreeControl();
+
+        JTextField treeTextField = new JTextField();
+        setupJTextField(treeTextField, 400, 40);
 
         // create all JTextFields.
         JTextField skillName = new JTextField();
@@ -67,19 +86,35 @@ public class SkillEditorPanel extends JPanel{
 
         // add all the JTextFields to the JPanel.
         boxPane.add(nameLabel);
-        boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        boxPane.add(skillName);
-        boxPane.add(ruleLabel);
-        boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        boxPane.add(skillRule);
-        boxPane.add(identifierLabel);
-        boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        boxPane.add(skillIdentifier);
+        boxPane.add(treeControl);
+        //boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
+        //boxPane.add(skillName);
+        //boxPane.add(ruleLabel);
+        //boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
+        //boxPane.add(skillRule);
+        //boxPane.add(identifierLabel);
+        //boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
+        //boxPane.add(skillIdentifier);
 
         // add the skill selector to this JPanel. (do this first)
-        this.add(skillList);
+        //add(skillList);
         // add the boxPane, which contains all JTextFields.
-        this.add(boxPane);
+        //this.add(boxPane);
+        //treeControl.setAlignmentY(JTree.TOP_ALIGNMENT);
+        //add(treeControl);
+        //setAlignmentY(JPanel.TOP_ALIGNMENT);
+        //add(skillList, BorderLayout.NORTH);
+        //skillList.setPreferredSize(new Dimension(100, 200));
+        //add(treeControl, BorderLayout.NORTH);
+        skillList.setPreferredSize(new Dimension(200, 600));
+        treeControl.setPreferredSize(new Dimension(200, 600));
+        add(skillList);
+        add(treeControl);
+        setBackground(new Color(68, 68, 68));
+        skillList.setBackground(new Color(63,63,63));
+        treeControl.setBackground(new Color(68, 68, 68));
+        treeControl.setForeground(configUI.colorListFG);
+        add(treeTextField);
 
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
@@ -92,6 +127,41 @@ public class SkillEditorPanel extends JPanel{
                 }
             }
         });
+
+        // add Action Listener for the JTree "treeControl".
+        treeControl.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeControl.getLastSelectedPathComponent();
+                Object userObject = node.getUserObject();
+                treeTextField.setText(userObject.toString());
+            }
+        });
+
+        // add Action Listener for the JTextField "treeTextField".
+        treeTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                updateTreeNode(treeControl, treeTextField);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                updateTreeNode(treeControl, treeTextField);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                updateTreeNode(treeControl, treeTextField);
+            }
+        });
+    }
+
+    private void updateTreeNode (TreeControl tree, JTextField textField){
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        node.setUserObject(textField.getText());
+        model.nodeChanged(node);
     }
 
     private void setupJList (JList<String> list, String[] listItems){
@@ -121,7 +191,7 @@ public class SkillEditorPanel extends JPanel{
     private void setupJTextField (JTextField textField, int width, int height) {
         // define the textField's appearance.
         textField.setBackground(new Color(46,49,53));
-        textField.setFont(configUI.fontText);
+        textField.setFont(new Font("Monospaced", Font.BOLD, 16));//configUI.fontText);
         textField.setBorder(createLineBorder(new Color(80,80,80), 1));
         textField.setForeground(Color.WHITE);
         textField.updateUI();
