@@ -1,5 +1,7 @@
 package controls;
 
+import utils.ConfigUI;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,17 +10,19 @@ import static javax.swing.BorderFactory.createLineBorder;
 
 public class TextFieldControl extends JTextField {
 
+    ConfigUI configUI = new ConfigUI();
     int padding = 8;
 
-    public TextFieldControl(int width, int height){
+    public TextFieldControl(String name, int width, int height){
         super();
 
         // define the textField's appearance.
         setBackground(new Color(46,49,53));
-        setFont(new Font("Monospaced", Font.BOLD, 16));//configUI.fontText);
+        setFont(configUI.fontList);
         setBorder(createLineBorder(new Color(80,80,80), 1));
         setForeground(Color.WHITE);
         updateUI();
+        setName(name);
         setPreferredSize(new Dimension(width, height));
 
         // set a text color, for when this control is disabled.
@@ -36,6 +40,18 @@ public class TextFieldControl extends JTextField {
         if (!toggle){
             // if control was disabled, set some disabled text to inform user.
             setText("nothing selected");
+        }
+    }
+
+    @Override
+    public String getText() {
+        if (super.isEnabled()){
+            // Control is enabled, just return the text.
+            return super.getText();
+        }
+        else {
+            // Control is disabled, return empty text.
+            return "";
         }
     }
 }

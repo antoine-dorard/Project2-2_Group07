@@ -1,23 +1,16 @@
 package panels;
 
 import backend.CFG_InputProcessor;
-import controls.CtrlTextField;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class ChatBotPanel extends JPanel implements Runnable {
-    //JTextField textField;
-    CtrlTextField textField;
+    JTextField textField;
     JButton button;
     JLabel label;
 
@@ -61,8 +54,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // should be focusable to lose focus from other controls.
         this.setFocusable(true);
 
-        //textField = new JTextField();
-        textField = new CtrlTextField();
+        textField = new JTextField();
 
         textField.addKeyListener(new KeyListener() {
             @Override

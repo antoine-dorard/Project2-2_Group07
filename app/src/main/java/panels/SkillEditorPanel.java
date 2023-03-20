@@ -8,7 +8,11 @@ import controls.TreeControl;
 import controls.ListControl;
 import controls.TextFieldControl;
 
+import javax.print.Doc;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -22,6 +26,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.Flow;
 
 import static java.lang.String.format;
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -36,7 +41,7 @@ public class SkillEditorPanel extends JPanel{
     private final ConfigUI configUI = new ConfigUI();
 
     // define the skills array list.
-    ArrayList<String> skills = new ArrayList<String>();
+    ArrayList<String> skills;
 
     // define the file path, where we should look for the questions.json file.
     String questionsJSONFilePath = "./app/src/main/resources/skills/questions.json";
@@ -46,38 +51,52 @@ public class SkillEditorPanel extends JPanel{
 
     public SkillEditorPanel(){
         super();
+        setAlignmentX(JPanel.LEFT_ALIGNMENT);
         // define the main layout of this panel.
         FlowLayout layout = new FlowLayout();
         layout.setAlignment(FlowLayout.LEFT);
+        // set gaps to zero, it should stick to the left.
+        layout.setVgap(0);
+        layout.setHgap(0);
+        // set the layout
         setLayout(layout);
 
         // define a new TreeControl
-        TreeControl treeControl = new TreeControl();
+        TreeControl treeControl = new TreeControl(200, 600);
 
         // define the skills array and populate it from the questions.json
         skills = getSkills(questionsJSONFilePath);
 
         // populate the skill List with the found skills in the questions.json
-        ListControl skillList = new ListControl(skills.toArray(String[]::new));
+        ListControl skillList = new ListControl("SKILLS",skills.toArray(String[]::new), 200, 650);
+
+        // define a layout with key, identifier & value JTextFields(TextFieldControls).
+        JPanel textFieldPane = new JPanel();
+        BoxLayout textFieldLayout = new BoxLayout(textFieldPane, BoxLayout.Y_AXIS);
+        textFieldPane.setLayout(textFieldLayout);
 
         // define a new TextFieldControl, with a specific width & height.
-        TextFieldControl treeTextField = new TextFieldControl(400, 40);
-        // immediately set disabled, because we haven't selected anything yet.
-        treeTextField.setEnabled(false);
+        TextFieldControl keyTextField = new TextFieldControl("Key",400, 40);
+        TextFieldControl idTextField = new TextFieldControl("Identifier",400, 40);
+        TextFieldControl valueTextField = new TextFieldControl("Value",400, 40);
+        // set up the controls in the right panel.
+        setupTextFieldControl(keyTextField, textFieldPane);
+        setupTextFieldControl(idTextField, textFieldPane);
+        setupTextFieldControl(valueTextField, textFieldPane);
 
-        // create all JLabels.
-        //JLabel nameLabel = new JLabel();
-        //setupJLabel(nameLabel, "Name", 250, 40);
-
-        skillList.setPreferredSize(new Dimension(200, 600));
-        treeControl.setPreferredSize(new Dimension(200, 600));
-        add(skillList);
+        // add the controls to the current layout.
+        //add(skillList);
+        add(skillList.getListPane());
+        add(Box.createHorizontalStrut(30));
         add(treeControl);
+        add(Box.createHorizontalStrut(30));
+        add(textFieldPane);
+
+        // set some UI colors.
         setBackground(new Color(68, 68, 68));
         skillList.setBackground(new Color(63,63,63));
         treeControl.setBackground(new Color(68, 68, 68));
         treeControl.setForeground(configUI.colorListFG);
-        add(treeTextField);
 
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
@@ -100,46 +119,77 @@ public class SkillEditorPanel extends JPanel{
                 // only handle the valueChange when the new selected path component is not 'null'.
                 if (node != null) {
                     Object userObject = node.getUserObject();
-                    // get the text from that node and set it to the treeTextField.
-                    treeTextField.setText(userObject.toString());
-                    // set it enabled (if it was disabled last valueChange).
-                    treeTextField.setEnabled(true);
+                    String nodeText = userObject.toString();
+                    String[] split = nodeText.split(" ");
+                    if (split.length == 2) {
+                        // get the text from that node and set it to the treeTextField.
+                        keyTextField.setText(split[0]);
+                        // set it enabled (if it was disabled last valueChange).
+                        keyTextField.setEnabled(true);
+                        idTextField.setEnabled(true);
+                        String[] split2 = split[1].split("=");
+                        if (split2.length == 2){
+                            idTextField.setText(split2[0]);
+                            valueTextField.setText(split2[1]);
+                            valueTextField.setEnabled(true);
+                        }
+                        else {
+                            idTextField.setText(split[1]);
+                            valueTextField.setEnabled(false);
+                        }
+                    }
+                    else {
+                        keyTextField.setEnabled(false);
+                        idTextField.setEnabled(false);
+                        valueTextField.setEnabled(false);
+                    }
                 }
                 else {
-                    // new selected path component is 'null'.
-                    //treeTextField.setText("nothing selected");
-                    // set disabled.
-                    treeTextField.setEnabled(false);
+                    // set Disabled.
+                    keyTextField.setEnabled(false);
+                    idTextField.setEnabled(false);
+                    valueTextField.setEnabled(false);
                 }
             }
         });
 
         // add Action Listener for the JTextField "treeTextField".
-        treeTextField.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener documentListener = (new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent documentEvent) {
-                updateTreeNode(treeControl, treeTextField);
+                updateTreeNode(treeControl, keyTextField, idTextField, valueTextField);
             }
-
             @Override
             public void removeUpdate(DocumentEvent documentEvent) {
-                updateTreeNode(treeControl, treeTextField);
+                updateTreeNode(treeControl, keyTextField, idTextField, valueTextField);
             }
-
             @Override
             public void changedUpdate(DocumentEvent documentEvent) {
-                updateTreeNode(treeControl, treeTextField);
+                updateTreeNode(treeControl, keyTextField, idTextField, valueTextField);
             }
         });
+        keyTextField.getDocument().addDocumentListener(documentListener);
+        idTextField.getDocument().addDocumentListener(documentListener);
+        valueTextField.getDocument().addDocumentListener(documentListener);
     }
 
-    private void updateTreeNode (TreeControl tree, JTextField textField){
+    private void updateTreeNode (TreeControl tree, JTextField keyTF, JTextField idTF, JTextField valTF){
         // define the node that we want to change.
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         // only handle this, if the new defined node is not 'null'.
-        if (node != null) {
+        if (node != null && keyTF.isEnabled()) {
+            // define the text which should be replaced in the tree node.
+            String nodeText = keyTF.getText();
+            if (idTF.isEnabled()) {
+                // also add the identifier to the text.
+                nodeText = nodeText +  " " + idTF.getText();
+                if (valTF.isEnabled()){
+                    // also add the value to the text.
+                    nodeText = nodeText + "=" + valTF.getText();
+                }
+            }
             // set the new text as userObject to that node.
-            node.setUserObject(textField.getText());
+            node.setUserObject(nodeText);
             // get the model and call nodeChanged on the model (to update).
             ((DefaultTreeModel) tree.getModel()).nodeChanged(node);
         }
@@ -164,12 +214,28 @@ public class SkillEditorPanel extends JPanel{
         return outputArray;
     }
 
-    private void setupJLabel (JLabel label, String text, int width, int height) {
-        // define the label's appearance.
-        label.setText(text);
-        label.setForeground(configUI.colorListFG);
-        label.setVerticalAlignment(JLabel.BOTTOM);
-        label.setPreferredSize(new Dimension(width, height));
+    private void setupTextFieldControl(TextFieldControl control, JPanel pane){
+
+        pane.setBackground(new Color(68,68,68));
+        pane.setOpaque(true);
+
+        // create the label with the name.
+        JLabel label = new JLabel();
+        label.setForeground(new Color(200,200,200));
+        label.setText(control.getName() + " : ");
+        System.out.println(control.getName());
+        label.setBackground(new Color(68,68,68));
+        label.setOpaque(true);
+        label.setPreferredSize(new Dimension(label.getWidth(), 40));
+
+        // set both alignments to the left.
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        control.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // set it first disabled, because it isn't used in the beginning.
+        control.setEnabled(false);
+        pane.add(label);
+        pane.add(control);
     }
 
     protected void paintComponent(Graphics g)
