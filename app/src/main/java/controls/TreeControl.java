@@ -14,36 +14,34 @@ import java.io.IOException;
 
 public class TreeControl extends JTree {
 
+    //DefaultTreeCellRenderer cellRenderer = new DefaultTreeCellRenderer();
+    DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Questions");
+    DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+
     public TreeControl() {
         super();
-        DefaultTreeCellRenderer cellRenderer = new DefaultTreeCellRenderer();
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Questions");
-        DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
         setModel(treeModel);
+        setOpaque(false);
+        setForeground(new Color(255,255,255));
         treeModel.reload();
+    }
 
+    public void parseJSONtoTree(String jsonFile){
         try {
             JSONParser parser = new JSONParser(); // create a json parser
             // read the file and parse the data
-            String file = "./app/src/main/resources/skills/actions.json";
-            Object obj = parser.parse(new FileReader(file));
+            Object obj = parser.parse(new FileReader(jsonFile));
             JSONObject jsonObject = (JSONObject) obj;
-
+            // start with an empty tree again.
+            rootNode.removeAllChildren();
+            // populate the entire tree again.
             populate(rootNode, jsonObject);
-
         }
         catch (ParseException | IOException e) {
             throw new RuntimeException(e);
         }
-
         treeModel.reload();
-
     }
-
-    //@Override
-    //public void setForeground(Color color){
-    //    (DefaultTreeCellRenderer) cellRenderer.setForeground(color);
-    //}
 
     protected void populate(DefaultMutableTreeNode node, JSONObject jsonObject) {
         for (Object keyStr : jsonObject.keySet()) {

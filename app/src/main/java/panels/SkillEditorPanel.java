@@ -1,8 +1,12 @@
 package panels;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import utils.ConfigUI;
 import controls.TreeControl;
 import controls.ListControl;
+import controls.TextFieldControl;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -14,9 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static java.lang.String.format;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
@@ -25,10 +32,16 @@ public class SkillEditorPanel extends JPanel{
     // define the background image.
     private final ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
 
-    // define colors & fonts used in the JPanel.
-
     // colors & fonts are defined in the UIConfig class.
     private final ConfigUI configUI = new ConfigUI();
+
+    // define the skills array list.
+    ArrayList<String> skills = new ArrayList<String>();
+
+    // define the file path, where we should look for the questions.json file.
+    String questionsJSONFilePath = "./app/src/main/resources/skills/questions.json";
+    // define the unformatted file path, where we should look for the actions.json files.
+    String actionsJSONFilePath = "./app/src/main/resources/skills/%s/actions.json";
 
 
     public SkillEditorPanel(){
@@ -38,10 +51,19 @@ public class SkillEditorPanel extends JPanel{
         layout.setAlignment(FlowLayout.LEFT);
         setLayout(layout);
 
-        ListControl skillList = new ListControl();
+        // define a new TreeControl
         TreeControl treeControl = new TreeControl();
-        JTextField treeTextField = new JTextField();
-        setupJTextField(treeTextField, 400, 40);
+
+        // define the skills array and populate it from the questions.json
+        skills = getSkills(questionsJSONFilePath);
+
+        // populate the skill List with the found skills in the questions.json
+        ListControl skillList = new ListControl(skills.toArray(String[]::new));
+
+        // define a new TextFieldControl, with a specific width & height.
+        TextFieldControl treeTextField = new TextFieldControl(400, 40);
+        // immediately set disabled, because we haven't selected anything yet.
+        treeTextField.setEnabled(false);
 
         // create all JLabels.
         //JLabel nameLabel = new JLabel();
@@ -60,16 +82,35 @@ public class SkillEditorPanel extends JPanel{
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
+                // change the population of the tree, if something else was selected in the skill list.
+                treeControl.parseJSONtoTree(format(actionsJSONFilePath, skills.get(skillList.getSelectedIndex())));
             }
         });
+
+        // for startup, select the first skill automatically (do this after the listener is initialized).
+        skillList.setSelectedIndex(0);
 
         // add Action Listener for the JTree "treeControl".
         treeControl.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+
+                // get the node of the last selected element in the tree.
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeControl.getLastSelectedPathComponent();
-                Object userObject = node.getUserObject();
-                treeTextField.setText(userObject.toString());
+                // only handle the valueChange when the new selected path component is not 'null'.
+                if (node != null) {
+                    Object userObject = node.getUserObject();
+                    // get the text from that node and set it to the treeTextField.
+                    treeTextField.setText(userObject.toString());
+                    // set it enabled (if it was disabled last valueChange).
+                    treeTextField.setEnabled(true);
+                }
+                else {
+                    // new selected path component is 'null'.
+                    //treeTextField.setText("nothing selected");
+                    // set disabled.
+                    treeTextField.setEnabled(false);
+                }
             }
         });
 
@@ -93,20 +134,34 @@ public class SkillEditorPanel extends JPanel{
     }
 
     private void updateTreeNode (TreeControl tree, JTextField textField){
-        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        // define the node that we want to change.
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        node.setUserObject(textField.getText());
-        model.nodeChanged(node);
+        // only handle this, if the new defined node is not 'null'.
+        if (node != null) {
+            // set the new text as userObject to that node.
+            node.setUserObject(textField.getText());
+            // get the model and call nodeChanged on the model (to update).
+            ((DefaultTreeModel) tree.getModel()).nodeChanged(node);
+        }
     }
 
-    private void setupJTextField (JTextField textField, int width, int height) {
-        // define the textField's appearance.
-        textField.setBackground(new Color(46,49,53));
-        textField.setFont(new Font("Monospaced", Font.BOLD, 16));//configUI.fontText);
-        textField.setBorder(createLineBorder(new Color(80,80,80), 1));
-        textField.setForeground(Color.WHITE);
-        textField.updateUI();
-        textField.setPreferredSize(new Dimension(width, height));
+    private ArrayList<String> getSkills (String questionsFilePath){
+        // define arrayList of strings to output as skills.
+        ArrayList<String> outputArray = new ArrayList<String>();
+        try {
+            JSONParser parser = new JSONParser(); // create a json parser
+            // read the file and parse the data
+            Object obj = parser.parse(new FileReader(questionsFilePath));
+            JSONObject jsonObject = (JSONObject) obj;
+            for (Object keyStr : jsonObject.keySet()) {
+                // for every found key in the question.json, add it to the arrayList.
+                outputArray.add((String)keyStr);
+            }
+        }
+        catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        return outputArray;
     }
 
     private void setupJLabel (JLabel label, String text, int width, int height) {

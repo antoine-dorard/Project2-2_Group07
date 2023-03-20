@@ -1,0 +1,28 @@
+{
+  "1": {
+    "DAY Monday": {
+      "TIME 11": "TCS",
+      "TIME 13": "MM",
+      "TIME 16": "HCI"
+    },
+    "DAY Tuesday": {
+      "TIME 11": "ABC",
+      "TIME 13": "MM",
+      "TIME 16": "HCI"
+    },
+    "default": "You don't have any class at this time!"
+  },
+  "2": {
+    "TEACHER Joel": {
+      "TIME 11" : "TCS",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    },
+    "TEACHER Tom":{
+      "TIME 11" : "ABC",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    },
+    "default": "You don't have any class with this teacher at this time!"
+  }
+}

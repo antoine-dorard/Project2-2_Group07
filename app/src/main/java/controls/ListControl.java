@@ -10,7 +10,7 @@ public class ListControl extends JList<String> {
     private final ConfigUI configUI = new ConfigUI();
 
 
-    public ListControl(){
+    public ListControl(String[] listItems){
         super();
 
         // define a list model, which will work as skill selector.
@@ -20,7 +20,7 @@ public class ListControl extends JList<String> {
         setModel(listModel);
 
         // define the list items and call the setup method for the JList.
-        String[] listItems = {"Math", "History", "Calendar", "etc"};
+        //String[] listItems = {"Math", "History", "Calendar", "etc"};
 
         // add all items, provided in the input, to the current JList.
         for (String item :  listItems) {listModel.addElement(item);}
