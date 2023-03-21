@@ -7,13 +7,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Enumeration;
 
 public class TreeControl extends JTree {
 
@@ -80,6 +79,7 @@ public class TreeControl extends JTree {
         treeModel.reload();
     }
 
+
     protected void populate(DefaultMutableTreeNode node, JSONObject jsonObject) {
         for (Object keyStr : jsonObject.keySet()) {
             DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(keyStr);
@@ -95,6 +95,28 @@ public class TreeControl extends JTree {
                 //nodeObject nodeObject = new nodeObject((String) newNode.getUserObject(),(String) jsonObject.get(keyStr));
                 //newNode.setUserObject(nodeObject);
             }
+        }
+    }
+
+    public JSONObject convertTreeToJson(DefaultMutableTreeNode node) {
+        JSONObject obj = new JSONObject();
+        Enumeration<TreeNode> children = node.children();
+        while (children.hasMoreElements()) {
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode) children.nextElement();
+            if (child.isLeaf()) {
+                obj.put(child.toString(), "");
+            } else {
+                obj.put(child.toString(), convertTreeToJson(child));
+            }
+        }
+        return obj;
+    }
+
+    public void writeJsonToFile(JSONObject json, String fileName) {
+        try (FileWriter file = new FileWriter(fileName)) {
+            file.write(json.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

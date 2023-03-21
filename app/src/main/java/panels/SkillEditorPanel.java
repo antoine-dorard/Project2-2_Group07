@@ -1,5 +1,7 @@
 package panels;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -33,6 +35,7 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
 public class SkillEditorPanel extends JPanel{
+
 
     // define the background image.
     private final ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
@@ -84,6 +87,15 @@ public class SkillEditorPanel extends JPanel{
         setupTextFieldControl(idTextField, textFieldPane);
         setupTextFieldControl(valueTextField, textFieldPane);
 
+        JButton addToJsonBtn = new JButton("Save");
+        addToJsonBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                treeControl.writeJsonToFile(treeControl.convertTreeToJson((DefaultMutableTreeNode) treeControl.getModel().getRoot()),format(actionsJSONFilePath, skills.get(skillList.getSelectedIndex())));
+            }
+        });
+
+
         // add the controls to the current layout.
         //add(skillList);
         add(skillList.getListPane());
@@ -91,6 +103,7 @@ public class SkillEditorPanel extends JPanel{
         add(treeControl);
         add(Box.createHorizontalStrut(30));
         add(textFieldPane);
+        add(addToJsonBtn);
 
         // set some UI colors.
         setBackground(new Color(68, 68, 68));
@@ -105,6 +118,8 @@ public class SkillEditorPanel extends JPanel{
                 treeControl.parseJSONtoTree(format(actionsJSONFilePath, skills.get(skillList.getSelectedIndex())));
             }
         });
+
+
 
         // for startup, select the first skill automatically (do this after the listener is initialized).
         skillList.setSelectedIndex(0);
@@ -211,8 +226,11 @@ public class SkillEditorPanel extends JPanel{
         catch (ParseException | IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(outputArray);
         return outputArray;
     }
+
+
 
     private void setupTextFieldControl(TextFieldControl control, JPanel pane){
 
