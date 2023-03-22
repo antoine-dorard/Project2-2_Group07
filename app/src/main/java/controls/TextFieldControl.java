@@ -19,7 +19,8 @@ public class TextFieldControl extends JTextField {
         super();
 
         // define the textField's appearance.
-        setBackground(new Color(46,49,53));
+        //setBackground(new Color(46,49,53));
+        setBackground(new Color(63,63,63));
         setFont(configUI.fontList);
         setBorder(createLineBorder(new Color(80,80,80), 1));
         setForeground(Color.WHITE);

@@ -162,6 +162,7 @@ public class SkillEditorPanel extends JPanel{
         // set some UI colors.
         setBackground(configUI.colorPanelBG);
         skillList.setBackground(new Color(63,63,63));
+        questionsList.setBackground(new Color(63,63,63));
         treeControl.setBackground(configUI.colorPanelBG);
         treeControl.setForeground(configUI.colorListFG);
 
