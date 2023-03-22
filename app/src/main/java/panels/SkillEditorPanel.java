@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static java.lang.String.format;
@@ -94,7 +95,7 @@ public class SkillEditorPanel extends JPanel{
         // create a label pane around the tree, so it can display the label : "ACTIONS"
         CustomLabelPanel customTreePane = new CustomLabelPanel(
                 treeControl.listScroller, "ACTIONS", 30, 30, 30);
-        customTreePane.setPreferredSize(new Dimension(300, 350));
+        customTreePane.setPreferredSize(new Dimension(400, 350));
         customTreePane.spacingPane.add(Box.createVerticalStrut(30));
 
         // define a button to save changes.
@@ -231,14 +232,15 @@ public class SkillEditorPanel extends JPanel{
                     Object userObject = node.getUserObject();
                     String nodeText = userObject.toString();
                     String[] split = nodeText.split(" ");
-                    if (split.length == 2) {
+                    if (split.length >= 2) {
                         // get the text from that node and set it to the treeTextField.
                         keyTextField.setText(split[0]);
                         // set it enabled (if it was disabled last valueChange).
                         keyTextField.setEnabled(true);
                         idTextField.setEnabled(true);
-                        String[] split2 = split[1].split("=");
-                        if (split2.length == 2){
+                        String subNodeText = nodeText.substring(split[0].length()+1);
+                        String[] split2 = subNodeText.split(" : ");
+                        if (split2.length >= 2){
                             idTextField.setText(split2[0]);
                             valueTextField.setText(split2[1]);
                             valueTextField.setEnabled(true);
@@ -287,7 +289,7 @@ public class SkillEditorPanel extends JPanel{
         // define the node that we want to change.
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         // only handle this, if the new defined node is not 'null'.
-        if (node != null && keyTF.isEnabled()) {
+        if (node != null && keyTF.isEnabled() && (keyTF.hasFocus() || idTF.hasFocus() || valTF.hasFocus())) {
             // define the text which should be replaced in the tree node.
             String nodeText = keyTF.getText();
             if (idTF.isEnabled()) {
@@ -295,7 +297,7 @@ public class SkillEditorPanel extends JPanel{
                 nodeText = nodeText +  " " + idTF.getText();
                 if (valTF.isEnabled()){
                     // also add the value to the text.
-                    nodeText = nodeText + "=" + valTF.getText();
+                    nodeText = nodeText + " : " + valTF.getText();
                 }
             }
             // set the new text as userObject to that node.

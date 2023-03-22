@@ -108,9 +108,9 @@ public class TreeControl extends JTree {
                 }
             }
             catch (Exception ignore){
-                //newNode.setUserObject((String) newNode.getUserObject(), jsonObject.get(keyStr));
-                //nodeObject nodeObject = new nodeObject((String) newNode.getUserObject(),(String) jsonObject.get(keyStr));
-                //newNode.setUserObject(nodeObject);
+                // add the value to the last node possible.
+                String nodeObject = (newNode.getUserObject() + " : " + jsonObject.get(keyStr));
+                newNode.setUserObject(nodeObject);
             }
         }
     }
