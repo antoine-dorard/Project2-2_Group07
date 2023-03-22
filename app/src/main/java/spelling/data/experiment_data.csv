@@ -1,0 +1,101 @@
+Probability,Original Question,Spelling Mistake,Corrected Phrase,Score,Time (ms),Original Length,Mistake Length,Corrected Length
+1,"Which lectures are there on Friday at 1:00?","Which lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,125,43,43,40
+1,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson at 12:00?","what lecture do i have with is johnson at 10",55,33,49,49,44
+1,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,26,40,40,39
+1,"What temperature is it in Houston?","What temperature is it in Houstoq?","what temperature is it in houston",91,27,34,34,33
+1,"Is it raining in Houston?","Is it raining in Houston?","is it raining in houston",88,27,25,25,24
+1,"Is it snowing in Los Angeles?","Is it snowing in Los Angeles?","is it snowing in low angeles",82,26,29,29,28
+1,"Which lectures are there on Friday at 1:00?","Which lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,26,43,43,40
+1,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson at 12:00?","what lecture do i have with is johnson at 10",55,15,49,49,44
+1,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,16,40,40,39
+1,"What temperature is it in Houston?","What temoerature is it in Houston?","what temperature is it in houston",91,17,34,34,33
+2,"Which lectures are there on Friday at 1:00?","Which lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,17,43,43,40
+2,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson at 12:z0?","what lecture do i have with is johnson at 10",55,15,49,49,44
+2,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,14,40,40,39
+2,"What temperature is it in Houston?","What temyerature is it in Housion?","what temperature is it in housing",82,12,34,34,33
+2,"Is it raining in Houston?","Is it raining in Houston?","is it raining in houston",88,12,25,25,24
+2,"Is it snowing in Los Angeles?","Is it snowing in Los Angeles?","is it snowing in low angeles",82,15,29,29,28
+2,"Which lectures are there on Friday at 1:00?","Whvch lectures are there on Friday at 1:t0?","which lectures are there on friday at 10",86,25,43,43,40
+2,"What lecture do I have with Ms. Johnson at 12:00?","What lecture donI have with Ms. Johnson at 12q00?","what lecture done have with is johnson at 10",53,37,49,49,44
+2,"What is the weather like in Los Angeles?","What is the weather like in Los Anrells?","what is the weather like in low angels",82,31,40,40,38
+2,"What temperature is it in Houston?","What temterature rs it in Houston?","what temperature is it in houston",91,17,34,34,33
+3,"Which lectures are there on Friday at 1:00?","Which oecturss are there on Friday at 1:00?","which occurs are there on friday at 10",16,18,43,43,38
+3,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson at 12:00?","what lecture do i have with is johnson at 10",55,21,49,49,44
+3,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,23,40,40,39
+3,"What temperature is it in Houston?","What tempematvrj is it in Houston?","what temperature is it in houston",91,19,34,34,33
+3,"Is it raining in Houston?","Is it raining in Houston?","is it raining in houston",88,14,25,25,24
+3,"Is it snowing in Los Angeles?","Is it snowing in Los Angeles?","is it snowing in low angeles",82,19,29,29,28
+3,"Which lectures are there on Friday at 1:00?","Which lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,22,43,43,40
+3,"What lecture do I have with Ms. Johnson at 12:00?","What lecturs do I have witk Ms.pJohnson atg12:00?","what lecture do i have with johnson 10",55,21,49,49,38
+3,"What is the weather like in Los Angeles?","What is the weather like rn Los Angeles?","what is the weather like in low angeles",87,30,40,40,39
+3,"What temperature is it in Houston?","What tebpefaturrqis zm in Houston?","what temperatures of in houston",44,23,34,34,31
+4,"Which lectures are there on Friday at 1:00?","Whivh lectures arr there on Fniday at 1:00?","which lectures or there on friday at 10",34,18,43,43,39
+4,"What lecture do I have with Ms. Johnson at 12:00?","lhat lecwurecdh I have with Ms. Johnson at 12:00?","that lecture i have with is johnson at 10",28,19,49,49,41
+4,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,21,40,40,39
+4,"What temperature is it in Houston?","What tempervture is it in Houstoj?","what temperature is it in houston",91,19,34,34,33
+4,"Is it raining in Houston?","Is it raining in Houston?","is it raining in houston",88,13,25,25,24
+4,"Is it snowing in Los Angeles?","Is it snowiqg in Los Angeles?","is it snowing in low angeles",82,15,29,29,28
+4,"Which lectures are there on Friday at 1:00?","Whica lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,22,43,43,40
+4,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I havenwith Ms. Johnson at 12:v0?","what lecture do i haven is johnson at 10",42,19,49,49,40
+4,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,18,40,40,39
+4,"What temperature is it in Houston?","What temperature isfit in Houston?","what temperature it in houston",58,15,34,34,30
+5,"Which lectures are there on Friday at 1:00?","Which lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,21,43,43,40
+5,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson atl12:00h","what lecture do i have with is johnson although",57,22,49,49,47
+5,"What is the weather like in Los Angeles?","What is the wedther likg id Los Angeles?","what is the weather like in low angeles",87,37,40,40,39
+5,"What temperature is it in Houston?","What tompurature is it in Houston?","what temperature is it in houston",91,40,34,34,33
+5,"Is it raining in Houston?","Is it raining in Houston?","is it raining in houston",88,22,25,25,24
+5,"Is it snowing in Los Angeles?","Is it snowing fn Los Angeles?","is it snowing in low angeles",82,22,29,29,28
+5,"Which lectures are there on Friday at 1:00?","Which lectures are there on Fridwy kt 1:00?","which lectures are there on friday it 10",83,16,43,43,40
+5,"What lecture do I have with Ms. Johnson at 12:00?","Whaf lecture do I have withzMs. bohnsonoat 12:r0?","what lecture do i have with johnson 10",55,19,49,49,38
+5,"What is the weather like in Los Angeles?","What is thebweatker like in Los Angeoes?","what is theater like in low angeles",32,17,40,40,35
+5,"What temperature is it in Houston?","rhht temperatdre is it in Houston?","the temperature is it in houston",2,15,34,34,32
+6,"Which lectures are there on Friday at 1:00?","Whicp lectures are there on Friday at 1:00?","which lectures are there on friday at 10",86,20,43,43,40
+6,"What lecture do I have with Ms. Johnson at 12:00?","Whatalecture do I have with Ms. Johnson tt 12:00?","lecture do i have with is johnson to 10",10,24,49,49,39
+6,"What is the weather like in Los Angeles?","Whatmis the weather lika in Los Angeles?","whats the weather like in low angeles",10,13,40,40,37
+6,"What temperature is it in Houston?","Wham temperadurelis it in Houston?","what temperatures it in houston",44,19,34,34,31
+6,"Is it raining in Houston?","Is it raining ic Houston?","is it raining in houston",88,12,25,25,24
+6,"Is it snowing in Los Angeles?","Is it dnowing in Los Angeles?","is it snowing in low angeles",82,14,29,29,28
+6,"Which lectures are there on Friday at 1:00?","Which lectures are thire on Frndry at 1:00?","which lectures are there on friday at 10",86,16,43,43,40
+6,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have hith Ms. Johnson at 12:00?","what lecture do i have with is johnson at 10",55,17,49,49,44
+6,"What is the weather like in Los Angeles?","What is the weather like in Los Angeles?","what is the weather like in low angeles",87,14,40,40,39
+6,"What temperature is it in Houston?","Whaw temperature is it in Housthn?","what temperature is it in houston",91,14,34,34,33
+7,"Which lectures are there on Friday at 1:00?","Whichelectures are there on Friday at d:00?","pictures are there on friday at :00",6,17,43,43,35
+7,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson ate12:00?","what lecture do i have with is johnson attention",57,18,49,49,48
+7,"What is the weather like in Los Angeles?","What is the weather lvke in Los Angeles?","what is the weather like in low angeles",87,18,40,40,39
+7,"What temperature is it in Houston?","What bemperature is it indHausnon?","what temperature is it indian",70,16,34,34,29
+7,"Is it raining in Houston?","Ib it raining in Houston?","in it raining in houston",84,13,25,25,24
+7,"Is it snowing in Los Angeles?","Is it snowing ve Los Angeles?","is it snowing be low angeles",75,13,29,29,28
+7,"Which lectures are there on Friday at 1:00?","Which lectures are theve onsFrddyy vt 1:00?","which lectures are the study it 10",48,18,43,43,34
+7,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnson at 12:00?","what lecture do i have with is johnson at 10",55,15,49,49,44
+7,"What is the weather like in Los Angeles?","Whatsis the weather likefin Los Angelem?","whats the weather like low angeles",7,12,40,40,34
+7,"What temperature is it in Houston?","What tekperature is it in Houston?","what temperature is it in houston",91,16,34,34,33
+8,"Which lectures are there on Friday at 1:00?","Which lecturesoxre there bn Friday at 1:0r?","which lecture there in friday at 10",27,16,43,43,35
+8,"What lecture do I have with Ms. Johnson at 12:00?","What lecturl do I hakeywith Ms. Johzsoj at 12w00?","what lecture do i keith is johnson at 10",34,16,49,49,40
+8,"What is the weather like in Los Angeles?","What is the weatfer ljke in Los Angeles?","what is the weather like in low angeles",87,17,40,40,39
+8,"What temperature is it in Houston?","What temperucure is it in Houston?","what temperature is it in houston",91,16,34,34,33
+8,"Is it raining in Houston?","Is wt rakning in Houdqoo?","is it raining in houston",88,13,25,25,24
+8,"Is it snowing in Los Angeles?","Is it snowwng in Los Atgeles?","is it snowing in low angeles",82,13,29,29,28
+8,"Which lectures are there on Friday at 1:00?","Which lectures are tnere on Frivay at 1:00?","which lectures are there on friday at 10",86,14,43,43,40
+8,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have with Ms. Johnton at 12:00?","what lecture do i have with is johnson at 10",55,16,49,49,44
+8,"What is the weather like in Los Angeles?","What is the weather jice zn Los Angeles?","what is the weather nice in low angeles",82,16,40,40,39
+8,"What temperature is it in Houston?","What temperaturl gj it in Houston?","what temperature go it in houston",85,16,34,34,33
+9,"Which lectures are there on Friday at 1:00?","Wnich leftudes aselthere on Friyay at 1t00?","which lectures there on friday at 10",34,19,43,43,36
+9,"What lecture do I have with Ms. Johnson at 12:00?","Whak eecturz do u haverwuth isv Johnson at 12:00?","what lecture do u have is johnson at 10",42,18,49,49,39
+9,"What is the weather like in Los Angeles?","Whar is the weathlr like in Los Angeles?","what is the weather like in low angeles",87,16,40,40,39
+9,"What temperature is it in Houston?","What temperature hs it in Hbuston?","what temperature is it in houston",91,14,34,34,33
+9,"Is it raining in Houston?","ts itmraining is Houston?","to training is houston",12,13,25,25,22
+9,"Is it snowing in Los Angeles?","Is it snowing in Los Angxles?","is it snowing in low angeles",82,11,29,29,28
+9,"Which lectures are there on Friday at 1:00?","Wkico lectures arelwdere on Friday at 1:00?","which lectures are on friday at 10",41,13,43,43,34
+9,"What lecture do I have with Ms. Johnson at 12:00?","What lecture do I have winh Ms. Johnson at 12:n0?","what lecture do i have with is johnson at 10",55,14,49,49,44
+9,"What is the weather like in Los Angeles?","What is the weather like in Lor Angeles?","what is the weather like in for angeles",87,10,40,40,39
+9,"What temperature is it in Houston?","What temperytxre es it in Houston?","what temperature is it in houston",91,12,34,34,33
+10,"Which lectures are there on Friday at 1:00?","Whici leccured arf there on Friday at 1:0q?","which secured are there on friday at 10",16,13,43,43,39
+10,"What lecture do I have with Ms. Johnson at 12:00?","What lmcture do I haxqrwity Ms. Johnson at 12:00?","what lecture do i majority is johnson at 10",34,12,49,49,43
+10,"What is the weather like in Los Angeles?","What is the wepther like in Lop Angeles?","what is the weather like in loop angeles",70,13,40,40,40
+10,"What temperature is it in Houston?","Wyat temperature is it in Houston?","what temperature is it in houston",91,12,34,34,33
+10,"Is it raining in Houston?","Is it rainind in touston?","is it raining in houston",88,11,25,25,24
+10,"Is it snowing in Los Angeles?","Is it snowing ig Lor Angeles?","is it snowing in for angeles",82,10,29,29,28
+10,"Which lectures are there on Friday at 1:00?","Whiqh lectures are there onxFkiday at 1:00?","which lectures are there friday at 10",60,10,43,43,37
+10,"What lecture do I have with Ms. Johnson at 12:00?","yhac lecture do Ibhave with Ms. Johbson at q2:00?","that lecture do have with is johnson at 20",34,13,49,49,42
+10,"What is the weather like in Los Angeles?","What is tle weather kiki in Los Angeles?","what is the weather wiki in low angeles",82,15,40,40,39
+10,"What temperature is it in Houston?","Whgtutemperature is ih in Houstoz?","temperature is in in houston",0,16,34,34,28
