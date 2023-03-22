@@ -14,11 +14,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import static javax.swing.BorderFactory.createLineBorder;
+
 public class TreeControl extends JTree {
 
     ConfigUI configUI = new ConfigUI();
     DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Questions");
     DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+    public JScrollPane listScroller = new JScrollPane();
+
     DefaultTreeCellRenderer cellRenderer = new DefaultTreeCellRenderer(){
         @Override
         public Color getBackgroundNonSelectionColor() {
@@ -46,15 +50,28 @@ public class TreeControl extends JTree {
         }
     };
 
-    public TreeControl(int width, int height) {
+    public TreeControl() {
         super();
 
         setModel(treeModel);
         setCellRenderer(cellRenderer);
         setOpaque(false);
         setForeground(new Color(255,255,255));
-        setPreferredSize(new Dimension(width, height));
+        //setPreferredSize(new Dimension(width, height));
         treeModel.reload();
+
+        // define the list scroller for the list control.
+        listScroller.setViewportView(this);
+        listScroller.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+
+    }
+
+    @Override
+    public void setBackground(Color bg) {
+        super.setBackground(bg);
+        if(listScroller!=null){
+            listScroller.getViewport().setBackground(bg);
+        }
     }
 
     public void parseJSONtoTree(String jsonFile){

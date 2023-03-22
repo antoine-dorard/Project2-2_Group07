@@ -50,16 +50,15 @@ public class SkillEditorPanel extends JPanel{
         super();
         setAlignmentX(JPanel.LEFT_ALIGNMENT);
         // define the main layout of this panel.
-        FlowLayout layout = new FlowLayout();
-        layout.setAlignment(FlowLayout.LEFT);
+        //FlowLayout layout = new FlowLayout();
+        //layout.setAlignment(FlowLayout.LEADING);//LEFT);
+        BoxLayout layout = new BoxLayout(this, BoxLayout.X_AXIS);
         // set gaps to zero, it should stick to the left.
-        layout.setVgap(0);
-        layout.setHgap(0);
+        //layout.setVgap(0);
+        //layout.setHgap(0);
+        //layout.setAlignOnBaseline(true);
         // set the layout
         setLayout(layout);
-
-        // define a new TreeControl
-        TreeControl treeControl = new TreeControl(200, 600);
 
         // define the skills array and populate it from the questions.json
         ReadFromJSON jsonReader = new ReadFromJSON(questionsJSONFilePath);
@@ -77,38 +76,28 @@ public class SkillEditorPanel extends JPanel{
 
         // define a new ListControl to display all questions from the currently selected skill.
         ListControl questionsList = new ListControl(600, 25, "##");
-        questionsList.setVisibleRowCount(2);
+        questionsList.setVisibleRowCount(4);
         // create a label pane around the list, so it can display the label : "SKILLS"
         CustomLabelPanel customQuestionsListPane = new CustomLabelPanel(
                 questionsList.listScroller, "QUESTIONS", 30, 30, 30);
+        questionsList.setBorder(createLineBorder(new Color(80,80,80), 1));
 
         // create a TextField below the questions list, to display the selected question in.
         TextFieldControl questionText = new TextFieldControl("Question", 50, 40);
         customQuestionsListPane.addWithGap(questionText, 30);
+        customQuestionsListPane.add(Box.createHorizontalStrut(30));
         questionText.setEnabled(false);
 
+        // define a new TreeControl
+        TreeControl treeControl = new TreeControl();//200, 400);
+        treeControl.setVisibleRowCount(10);
+        // create a label pane around the tree, so it can display the label : "ACTIONS"
+        CustomLabelPanel customTreePane = new CustomLabelPanel(
+                treeControl.listScroller, "ACTIONS", 30, 30, 30);
+        customTreePane.setPreferredSize(new Dimension(300, 350));
+        customTreePane.spacingPane.add(Box.createVerticalStrut(30));
 
-        // define a layout with key, identifier & value JTextFields(TextFieldControls).
-        JPanel textFieldPane = new JPanel();
-        BoxLayout textFieldLayout = new BoxLayout(textFieldPane, BoxLayout.Y_AXIS);
-        textFieldPane.setLayout(textFieldLayout);
-
-        textFieldPane.add(customQuestionsListPane);
-
-        //setAlignmentY(Component.TOP_ALIGNMENT);
-        //customQuestionsListPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        //textFieldPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        //textFieldPane.setPreferredSize(new Dimension(800, 650));
-
-        // define a new TextFieldControl, with a specific width & height.
-        TextFieldControl keyTextField = new TextFieldControl("Key",400, 40);
-        TextFieldControl idTextField = new TextFieldControl("Identifier",400, 40);
-        TextFieldControl valueTextField = new TextFieldControl("Value",400, 40);
-        // set up the controls in the right panel.
-        setupTextFieldControl(keyTextField, textFieldPane);
-        setupTextFieldControl(idTextField, textFieldPane);
-        setupTextFieldControl(valueTextField, textFieldPane);
-
+        // define a button to save changes.
         JButton addToJsonBtn = new JButton("Save");
         addToJsonBtn.addActionListener(new ActionListener() {
             @Override
@@ -119,20 +108,69 @@ public class SkillEditorPanel extends JPanel{
             }
         });
 
+        // define a new TextFieldControl, with a specific width & height.
+        TextFieldControl keyTextField = new TextFieldControl("Key",400, 40);
+        TextFieldControl idTextField = new TextFieldControl("Identifier",400, 40);
+        TextFieldControl valueTextField = new TextFieldControl("Value",400, 40);
 
+        // define a layout with questionsList, tree & other components.
+        JPanel rightYPane = new JPanel();
+        BoxLayout rightYLayout = new BoxLayout(rightYPane, BoxLayout.Y_AXIS);
+        rightYPane.setLayout(rightYLayout);
+
+        // define a layout with tree and textFields for editing (X aligned).
+        JPanel treePane = new JPanel();
+        BoxLayout treeLayout = new BoxLayout(treePane, BoxLayout.X_AXIS);
+        treePane.setLayout(treeLayout);
+
+        // define a layout with all textFields (Y aligned).
+        JPanel textFieldPane = new JPanel();
+        BoxLayout textFieldLayout = new BoxLayout(textFieldPane, BoxLayout.Y_AXIS);
+        textFieldPane.setLayout(textFieldLayout);
+
+        // set up the controls in the right panel.
+        textFieldPane.add(Box.createVerticalStrut(100));
+        setupTextFieldControl(keyTextField, textFieldPane);
+        setupTextFieldControl(idTextField, textFieldPane);
+        setupTextFieldControl(valueTextField, textFieldPane);
+        textFieldPane.add(Box.createVerticalStrut(30));
+        textFieldPane.add(addToJsonBtn);
+        textFieldPane.add(Box.createVerticalStrut(30));
+        textFieldPane.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        treePane.add(customTreePane);
+        treePane.add(Box.createHorizontalStrut(30));
+        treePane.add(textFieldPane);
+        treePane.add(Box.createHorizontalStrut(30));
+        treePane.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        rightYPane.add(customQuestionsListPane);
+        rightYPane.add(Box.createHorizontalStrut(30));
+        rightYPane.add(treePane);
+        rightYPane.add(Box.createHorizontalStrut(30));
+        rightYPane.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        customSkillListPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        customQuestionsListPane.setPreferredSize(new Dimension(100, 250));
+
+        addToJsonBtn.setAlignmentY(Component.TOP_ALIGNMENT);
         // add the controls to the current layout.
         add(customSkillListPane);
         add(Box.createHorizontalStrut(30));
-        //add(treeControl);
-        //add(Box.createHorizontalStrut(30));
-        add(textFieldPane);
-        add(addToJsonBtn);
+        add(rightYPane);
 
         // set some UI colors.
-        setBackground(new Color(68, 68, 68));
+        setBackground(configUI.colorPanelBG);
         skillList.setBackground(new Color(63,63,63));
-        treeControl.setBackground(new Color(68, 68, 68));
+        treeControl.setBackground(configUI.colorPanelBG);
         treeControl.setForeground(configUI.colorListFG);
+
+        rightYPane.setBackground(configUI.colorPanelBG);
+        treePane.setBackground(configUI.colorPanelBG);
+        textFieldPane.setBackground(configUI.colorPanelBG);
+        customTreePane.setBackground(configUI.colorPanelBG);
+        customQuestionsListPane.setBackground(configUI.colorPanelBG);
+        customSkillListPane.setBackground(new Color(63,63,63));
 
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
