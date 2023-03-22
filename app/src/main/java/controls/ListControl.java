@@ -26,6 +26,7 @@ public class ListControl extends JList<String> {
         // set this model to the JList (ListControl).
         setModel(listModel);
 
+
         // define the list appearance and functionality.
         setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         setLayoutOrientation(JList.VERTICAL);

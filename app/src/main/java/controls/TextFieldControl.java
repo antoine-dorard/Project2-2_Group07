@@ -15,6 +15,9 @@ public class TextFieldControl extends JTextField {
     ConfigUI configUI = new ConfigUI();
     int padding = 8;
 
+    public JPanel labelPane = new JPanel();
+    private BoxLayout labelLayout = new BoxLayout(labelPane, BoxLayout.Y_AXIS);
+
     public TextFieldControl(String name, int width, int height){
         super();
 
@@ -39,6 +42,24 @@ public class TextFieldControl extends JTextField {
         setBorder(BorderFactory.createCompoundBorder(
                 getBorder(),
                 BorderFactory.createEmptyBorder(padding, padding, padding, padding)));
+
+
+        labelPane.setLayout(labelLayout);
+        // create the label with the name.
+        JLabel label = new JLabel();
+        label.setForeground(new Color(255,255,255));
+        label.setText(name);
+        label.setBackground(new Color(68,68,68));
+        label.setOpaque(true);
+
+        // set both alignments to the left.
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // set it first disabled, because it isn't used in the beginning.
+        setEnabled(false);
+        labelPane.add(label);
+        labelPane.add(this);
 
         addFocusListener(new FocusListener() {
             @Override
