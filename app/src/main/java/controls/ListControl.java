@@ -7,25 +7,24 @@ import java.awt.*;
 
 public class ListControl extends JList<String> {
 
-    private final ConfigUI configUI = new ConfigUI();
+    public DefaultListModel<String> listModel;
 
-    public JPanel listPane = new JPanel();
-    public JPanel spacingPane = new JPanel();
+    public JScrollPane listScroller = new JScrollPane();
 
-    public ListControl(String name, String[] listItems, int width, int height){
+    private String prefixStr;
+
+    public ListControl(int cellWidth, int cellHeight, String prefix){
         super();
-        setName(name);
+        ConfigUI configUI = new ConfigUI();
+
+        prefixStr = prefix;
 
         UIManager.put("List.focusCellHighlightBorder", BorderFactory.createEmptyBorder());
 
         // create a list model.
-        DefaultListModel<String> listModel = newModel();
-
+        listModel = newModel(prefix);
         // set this model to the JList (ListControl).
         setModel(listModel);
-
-        // add all items, provided in the input, to the current JList.
-        for (String item :  listItems) {listModel.addElement(item);}
 
         // define the list appearance and functionality.
         setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -36,75 +35,53 @@ public class ListControl extends JList<String> {
         setFont(configUI.fontList);
         setSelectionBackground(configUI.colorListSelectionBG);
         setSelectionForeground(configUI.colorListSelectionFG);
-        setFixedCellHeight(25);
-        setFixedCellWidth(width-25);
-        setPreferredSize(new Dimension(width, height));
+        setFixedCellHeight(cellHeight);
+        setFixedCellWidth(cellWidth);
 
         // define the list scroller for the list control.
-        JScrollPane listScroller = new JScrollPane(this);
-        listScroller.setPreferredSize(new Dimension(250, 80));
-
-        // set up a panel with a label
-        setupLabel();
+        listScroller.setViewportView(this);
+        setLayoutOrientation(JList.VERTICAL);
+        listScroller.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
     }
 
-    public JPanel getListPane() {
-        return spacingPane;
+    public void setListItems(String[] listItems){
+        // firstly remove all elements.
+        listModel.removeAllElements();
+        // add all items, provided in the input, to the current JList.
+        for (String item :  listItems) {listModel.addElement(item);}
     }
 
-    private DefaultListModel<String> newModel(){
+    private DefaultListModel<String> newModel(String prefix){
         // define a list model, which will work as skill selector.
         DefaultListModel<String> listModel = new DefaultListModel<>(){
             @Override
             public void addElement(String element) {
-                super.addElement(" " + element); // add some spacing.
-            }
-            @Override
-            public String elementAt(int index) {
-                return (super.elementAt(index).substring(1)); // remove the spacing.
+                if (prefix.equals("##")){
+                    super.addElement(String.format("%02d ) ", super.getSize()+1) + element); // prefix is number.
+                }
+                else{
+                    super.addElement(prefix + element); // add prefix.
+                }
             }
         };
         return listModel;
     }
 
-    private void setupLabel(){
-
-        // define a layout for the label.
-        BoxLayout listLayout = new BoxLayout(listPane, BoxLayout.Y_AXIS);
-        listPane.setLayout(listLayout);
-        listPane.setBackground(new Color(63,63,63));
-        listPane.setOpaque(true);
-
-        // define another layout for the horizontal spacing.
-        BoxLayout spacingLayout = new BoxLayout(spacingPane, BoxLayout.X_AXIS);
-        spacingPane.setLayout(spacingLayout);
-        spacingPane.setBackground(new Color(63,63,63));
-        spacingPane.setOpaque(true);
-
-        // create the label with the name.
-        JLabel listLabel = new JLabel();
-        listLabel.setFont(configUI.fontList);
-        listLabel.setForeground(new Color(255,255,255,100));
-        listLabel.setText(this.getName());
-        listLabel.setBackground(new Color(63,63,63));
-        listLabel.setOpaque(true);
-        listLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-
-        // set both alignments to the left.
-        listLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        // add all elements to pane, also some empty spacers
-        listPane.add(Box.createVerticalStrut(30));
-        listPane.add(listLabel);
-        listPane.add(Box.createVerticalStrut(30));
-        listPane.add(this);
-        spacingPane.add(Box.createHorizontalStrut(30));
-        spacingPane.add(listPane);
-        // set both alignments to the top.
-        listPane.setAlignmentY(Component.TOP_ALIGNMENT);
-        spacingPane.setAlignmentY(Component.TOP_ALIGNMENT);
+    @Override
+    public String getSelectedValue() {
+        int beginIndex;
+        if (super.getSelectedValue()!=null) {
+            if (prefixStr.equals("##")) {
+                beginIndex = 5;
+            } // number prefix always has length 5.
+            else {
+                beginIndex = prefixStr.length();
+            } // get the length of the prefix.
+            return (super.getSelectedValue().substring(beginIndex)); // remove prefix.
+        }
+        else{
+            return null;
+        }
     }
-
 }
 

@@ -2,6 +2,7 @@ package panels;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controls.CustomLabelPanel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,25 +11,18 @@ import controls.TreeControl;
 import controls.ListControl;
 import controls.TextFieldControl;
 
-import javax.print.Doc;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.sql.Array;
 import java.util.ArrayList;
-import java.util.concurrent.Flow;
+import java.util.HashMap;
 
 import static java.lang.String.format;
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -44,7 +38,7 @@ public class SkillEditorPanel extends JPanel{
     private final ConfigUI configUI = new ConfigUI();
 
     // define the skills array list.
-    ArrayList<String> skills;
+    String[] skills;
 
     // define the file path, where we should look for the questions.json file.
     String questionsJSONFilePath = "./app/src/main/resources/skills/questions.json";
@@ -68,15 +62,43 @@ public class SkillEditorPanel extends JPanel{
         TreeControl treeControl = new TreeControl(200, 600);
 
         // define the skills array and populate it from the questions.json
-        skills = getSkills(questionsJSONFilePath);
+        ReadFromJSON jsonReader = new ReadFromJSON(questionsJSONFilePath);
+        // get the skills list from the jsonReader and cast it to String[]
+        skills = jsonReader.skills.toArray(String[]::new);
 
+        // define a new ListControl to display all skills.
+        ListControl skillList = new ListControl(175, 25, " ");
         // populate the skill List with the found skills in the questions.json
-        ListControl skillList = new ListControl("SKILLS",skills.toArray(String[]::new), 200, 650);
+        skillList.setListItems(skills);
+        skillList.setPreferredSize(new Dimension(200, 650));
+        // create a label pane around the list, so it can display the label : "SKILLS"
+        CustomLabelPanel customSkillListPane = new CustomLabelPanel(
+                skillList, "SKILLS", 30, 30, 30);
+
+        // define a new ListControl to display all questions from the currently selected skill.
+        ListControl questionsList = new ListControl(600, 25, "##");
+        questionsList.setVisibleRowCount(2);
+        // create a label pane around the list, so it can display the label : "SKILLS"
+        CustomLabelPanel customQuestionsListPane = new CustomLabelPanel(
+                questionsList.listScroller, "QUESTIONS", 30, 30, 30);
+
+        // create a TextField below the questions list, to display the selected question in.
+        TextFieldControl questionText = new TextFieldControl("Question", 50, 40);
+        customQuestionsListPane.addWithGap(questionText, 30);
+        questionText.setEnabled(false);
+
 
         // define a layout with key, identifier & value JTextFields(TextFieldControls).
         JPanel textFieldPane = new JPanel();
         BoxLayout textFieldLayout = new BoxLayout(textFieldPane, BoxLayout.Y_AXIS);
         textFieldPane.setLayout(textFieldLayout);
+
+        textFieldPane.add(customQuestionsListPane);
+
+        //setAlignmentY(Component.TOP_ALIGNMENT);
+        //customQuestionsListPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        //textFieldPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        //textFieldPane.setPreferredSize(new Dimension(800, 650));
 
         // define a new TextFieldControl, with a specific width & height.
         TextFieldControl keyTextField = new TextFieldControl("Key",400, 40);
@@ -91,17 +113,18 @@ public class SkillEditorPanel extends JPanel{
         addToJsonBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                treeControl.writeJsonToFile(treeControl.convertTreeToJson((DefaultMutableTreeNode) treeControl.getModel().getRoot()),format(actionsJSONFilePath, skills.get(skillList.getSelectedIndex())));
+                treeControl.writeJsonToFile(treeControl.convertTreeToJson(
+                        (DefaultMutableTreeNode) treeControl.getModel().getRoot()),format(actionsJSONFilePath,
+                        skills[skillList.getSelectedIndex()]));
             }
         });
 
 
         // add the controls to the current layout.
-        //add(skillList);
-        add(skillList.getListPane());
+        add(customSkillListPane);
         add(Box.createHorizontalStrut(30));
-        add(treeControl);
-        add(Box.createHorizontalStrut(30));
+        //add(treeControl);
+        //add(Box.createHorizontalStrut(30));
         add(textFieldPane);
         add(addToJsonBtn);
 
@@ -114,12 +137,45 @@ public class SkillEditorPanel extends JPanel{
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
+                // get the currently selected skill.
+                String current_skill = skills[skillList.getSelectedIndex()];
                 // change the population of the tree, if something else was selected in the skill list.
-                treeControl.parseJSONtoTree(format(actionsJSONFilePath, skills.get(skillList.getSelectedIndex())));
+                treeControl.parseJSONtoTree(format(actionsJSONFilePath, current_skill));
+                questionsList.setListItems(jsonReader.questions.get(current_skill).toArray(String[]::new));
             }
         });
 
+        questionsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent listSelectionEvent) {
+                String selected = questionsList.getSelectedValue();
+                if (selected!=null){
+                    // getElementAt is overriden to remove the prefix, that's why it's used here.
+                    questionText.setText(selected);
+                    questionText.setEnabled(true);
+                }
+                else{
+                    // selection changed to 'no selection', so set textField disabled.
+                    questionText.setEnabled(false);
+                }
+            }
+        });
 
+        DocumentListener questionsDocListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                updateQuestionList(questionsList, questionText);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                updateQuestionList(questionsList, questionText);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                updateQuestionList(questionsList, questionText);
+            }
+        };
+        questionText.getDocument().addDocumentListener(questionsDocListener);
 
         // for startup, select the first skill automatically (do this after the listener is initialized).
         skillList.setSelectedIndex(0);
@@ -210,7 +266,7 @@ public class SkillEditorPanel extends JPanel{
         }
     }
 
-    private ArrayList<String> getSkills (String questionsFilePath){
+    private ArrayList<String> getSkills (String questionsFilePath) {
         // define arrayList of strings to output as skills.
         ArrayList<String> outputArray = new ArrayList<String>();
         try {
@@ -220,17 +276,19 @@ public class SkillEditorPanel extends JPanel{
             JSONObject jsonObject = (JSONObject) obj;
             for (Object keyStr : jsonObject.keySet()) {
                 // for every found key in the question.json, add it to the arrayList.
-                outputArray.add((String)keyStr);
+                outputArray.add((String) keyStr);
             }
-        }
-        catch (ParseException | IOException e) {
+        } catch (ParseException | IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println(outputArray);
         return outputArray;
     }
 
-
+    private void updateQuestionList(ListControl list, JTextField text){
+        //list.setSelectedValue(text.getText(), false);
+        //list.listModel.set(list.getSelectedIndex(), text.getText());
+    }
 
     private void setupTextFieldControl(TextFieldControl control, JPanel pane){
 
@@ -263,4 +321,39 @@ public class SkillEditorPanel extends JPanel{
         super.paintComponent(g);
     }
 
+}
+
+final class ReadFromJSON {
+
+    // define arrayList of strings to define the skills.
+    public ArrayList<String> skills = new ArrayList<String>();
+
+    // define a HashMap, with as key the skill string, and as value an arrayList of questions.
+    public HashMap<String,ArrayList<String>> questions=new HashMap<String,ArrayList<String>>();
+
+    public ReadFromJSON(String questionsFilePath){
+        try {
+            JSONParser parser = new JSONParser(); // create a json parser
+            // read the file and parse the data
+            Object obj = parser.parse(new FileReader(questionsFilePath));
+            JSONObject jsonObject = (JSONObject) obj;
+            for (Object keyStr : jsonObject.keySet()) {
+                // for every found key in the question.json, add it to the arrayList.
+                skills.add((String)keyStr);
+                // create a new JSONObject to go another level deeper (to find the questions).
+                JSONObject newJSONObject = (JSONObject) jsonObject.get(keyStr);
+                // also define the questions array in which we will save the questions found.
+                ArrayList<String> qArray = new ArrayList<>();
+                for (Object keyStr2 : newJSONObject.keySet()) {
+                    // add the questions found.
+                    qArray.add((String)newJSONObject.get(keyStr2));
+                }
+                // put the hash map element as, current skill string & current questions array.
+                questions.put((String)keyStr, qArray);
+            }
+        }
+        catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        };
+    }
 }
