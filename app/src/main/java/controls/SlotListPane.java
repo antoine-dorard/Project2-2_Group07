@@ -1,6 +1,8 @@
 package controls;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import utils.*;
 
 import javax.swing.*;
@@ -78,8 +80,8 @@ public class SlotListPane extends JPanel {
 
         createSlotList(jsonObject, map);
 
-        System.out.println(map.keySet());
-        System.out.println(map.values());
+//        System.out.println(map.keySet());
+//        System.out.println(map.values());
     }
 
     private void createSlotList(JSONObject jsonObject, HashMap<String, ArrayList<String>> map){
@@ -118,6 +120,87 @@ public class SlotListPane extends JPanel {
 
     public void convertSlotListToTree(){
 
+    }
+
+    /**
+     * Test method. The code below is capable of parsing a JSON object of a certain question's corresponding
+     * action (answer) and generating a lists of slots and keys that describe the path to each value.
+     * From the populate() method above in the code, you can call the generate() method below to fill in the
+     * slot list on the UI (a better name for the generate() method may be found when implemented in the actual code).
+     * The main method and its content can be deleted when the code has been implemented.
+     * @param args
+     */
+    public static void main(String[] args) {
+        String jsonString = "{\"DAY Monday\":{\"TIME 11\":\"TCS\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"DAY Tuesday\":{\"TIME 11\":\"ABC\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"default\":\"You don't have any class at this time!\"}";
+        JSONParser parser = new JSONParser();
+        JSONObject json = null;
+        try {
+            json = (JSONObject) parser.parse(jsonString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        generate(json);
+    }
+
+    private static void generate(JSONObject json){
+        // the following two lists contain the slots and keys respectively in the order they appear in the JSON until a
+        // value is reached. They are cleared after each value is reached, so actions must be taken to create the slot
+        // list on the UI when each value is reached.
+        ArrayList<String> slotsList = new ArrayList<>();
+        ArrayList<String> keysList = new ArrayList<>();
+        String defaultValue = "";
+        traverse(json, slotsList, keysList, defaultValue);
+    }
+
+    private static void traverse(JSONObject obj, ArrayList<String> slotsList, ArrayList<String> keysList, String defaultValue) {
+        for (Object key : obj.keySet()) {
+            Object value = obj.get(key);
+            if (value instanceof JSONObject) {
+                String[] splitArray = ((String) key).split(" ");
+                slotsList.add(splitArray[0]);
+                keysList.add(splitArray[1]);
+
+                traverse((JSONObject) value, slotsList, keysList, defaultValue);
+
+                slotsList.remove(slotsList.size()-1);
+                keysList.remove(keysList.size()-1);
+            } else { // value is reached
+                if(key.equals("default")){
+                    defaultValue = (String) value;
+                }else {
+                    String[] splitArray = ((String) key).split(" ");
+                    slotsList.add(splitArray[0]);
+                    keysList.add(splitArray[1]);
+
+                    // #########
+                    // This is where you can do something with the slotsList,  keysList, defaultValue and value
+                    // Instead of printing them out, you can use them to create the slot lists on the UI
+                    //
+                    // Example:
+                    //
+                    // === Values ===
+                    // slotsList = ["DAY", "TIME"]
+                    // keysList = ["Monday", "11"]
+                    // value = "TCS"
+                    // defaultValue = "You don't have any class at this time!"
+                    // ==============
+                    //
+                    // Output on the UI (in the skill editor under the question text field):
+                    //
+                    // DAY     TIME  |  Value
+                    // Monday  11    |  TCS
+                    //
+
+                    System.out.println(slotsList + "\n" + keysList + "\n" + value);
+                    System.out.println();
+
+                    // #########
+
+                    slotsList.remove(slotsList.size()-1);
+                    keysList.remove(keysList.size()-1);
+                }
+            }
+        }
     }
 
 }
