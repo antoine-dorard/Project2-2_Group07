@@ -3,6 +3,7 @@ package panels;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controls.*;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -145,6 +146,10 @@ public class SkillEditorPanel extends JPanel{
         questionsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
+                if(listSelectionEvent.getValueIsAdjusting()){ // ignore multiple events, only process one.
+                    return;
+                }
+
                 String selected = questionsList.getSelectedValue();
                 if (selected != null) {
                     questionText.setText(selected);
