@@ -13,7 +13,7 @@ import static javax.swing.BorderFactory.createLineBorder;
 public class TextFieldControl extends JTextField {
 
     ConfigUI configUI = new ConfigUI();
-    int padding = 8;
+    int padding = 5;
 
     public JPanel labelPane = new JPanel();
     private BoxLayout labelLayout = new BoxLayout(labelPane, BoxLayout.Y_AXIS);
@@ -26,7 +26,7 @@ public class TextFieldControl extends JTextField {
         setBackground(new Color(63,63,63));
         setFont(configUI.fontList);
         setBorder(createLineBorder(new Color(80,80,80), 1));
-        setForeground(Color.WHITE);
+        setForeground(configUI.colorListFG);
         updateUI();
         setName(name);
         setPreferredSize(new Dimension(width, height));
@@ -56,8 +56,7 @@ public class TextFieldControl extends JTextField {
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // set it first disabled, because it isn't used in the beginning.
-        setEnabled(false);
+        setEnabled(true);
         labelPane.add(label);
         labelPane.add(this);
 

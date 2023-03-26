@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class SlotListPane extends JPanel {
@@ -51,15 +52,21 @@ public class SlotListPane extends JPanel {
         }
     }
 
-    public void addSlot(String[] strList){
+    private void addSlot(String[] strList, String[] valueList, String action){
         SlotListControl slotListCtrl = new SlotListControl();
         slotListCtrl.setBackground(configUI.colorPanelBG);
+        int i = 0;
         for (String name: strList){
-            slotListCtrl.addSlot(name);
+            slotListCtrl.addSlot(name, valueList[i]);
+            i = i + 1;
         }
+        slotListCtrl.addSlot("Action", action);
         gbc.gridx = 1;
         gbc.gridy = getComponentCount();
         add(slotListCtrl, gbc);
+        //IMPORTANT
+        revalidate();
+        repaint();
 
         slotListCtrl.removeBtn.addActionListener(new ActionListener() {
             @Override
@@ -74,14 +81,14 @@ public class SlotListPane extends JPanel {
         });
     }
 
-    public void populate(JSONObject jsonObject){
-
-        HashMap<String, ArrayList<String>> map = new HashMap<>();
-
-        createSlotList(jsonObject, map);
-
-//        System.out.println(map.keySet());
-//        System.out.println(map.values());
+    public void addNewSlot(){
+        // names string[] is same as the first component (and all others).
+        String[] names = ((SlotListControl) getComponents()[0]).names.toArray(new String[0]);
+        // values will be empty, but of equal length to names.
+        String[] values = new String[names.length];
+        Arrays.fill(values, "");
+        // add the slot.
+        addSlot(names, values, "");
     }
 
     private void createSlotList(JSONObject jsonObject, HashMap<String, ArrayList<String>> map){
@@ -130,7 +137,7 @@ public class SlotListPane extends JPanel {
      * The main method and its content can be deleted when the code has been implemented.
      * @param args
      */
-    public static void main(String[] args) {
+    public void main(String[] args) {
         String jsonString = "{\"DAY Monday\":{\"TIME 11\":\"TCS\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"DAY Tuesday\":{\"TIME 11\":\"ABC\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"default\":\"You don't have any class at this time!\"}";
         JSONParser parser = new JSONParser();
         JSONObject json = null;
@@ -142,17 +149,18 @@ public class SlotListPane extends JPanel {
         generate(json);
     }
 
-    private static void generate(JSONObject json){
+    public void generate(JSONObject json){
         // the following two lists contain the slots and keys respectively in the order they appear in the JSON until a
         // value is reached. They are cleared after each value is reached, so actions must be taken to create the slot
         // list on the UI when each value is reached.
         ArrayList<String> slotsList = new ArrayList<>();
         ArrayList<String> keysList = new ArrayList<>();
         String defaultValue = "";
+        removeAll();
         traverse(json, slotsList, keysList, defaultValue);
     }
 
-    private static void traverse(JSONObject obj, ArrayList<String> slotsList, ArrayList<String> keysList, String defaultValue) {
+    private void traverse(JSONObject obj, ArrayList<String> slotsList, ArrayList<String> keysList, String defaultValue) {
         for (Object key : obj.keySet()) {
             Object value = obj.get(key);
             if (value instanceof JSONObject) {
@@ -171,6 +179,8 @@ public class SlotListPane extends JPanel {
                     String[] splitArray = ((String) key).split(" ");
                     slotsList.add(splitArray[0]);
                     keysList.add(splitArray[1]);
+
+                    addSlot(slotsList.toArray(new String[0]), keysList.toArray(new String[0]), (String) value);
 
                     // #########
                     // This is where you can do something with the slotsList,  keysList, defaultValue and value

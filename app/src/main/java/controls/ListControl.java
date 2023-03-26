@@ -11,18 +11,17 @@ public class ListControl extends JList<String> {
 
     public JScrollPane listScroller = new JScrollPane();
 
-    private String prefixStr;
 
-    public ListControl(int cellWidth, int cellHeight, String prefix){
+    public ListControl(int cellWidth, int cellHeight){
         super();
         ConfigUI configUI = new ConfigUI();
 
-        prefixStr = prefix;
+        //prefixStr = prefix;
 
         UIManager.put("List.focusCellHighlightBorder", BorderFactory.createEmptyBorder());
 
         // create a list model.
-        listModel = newModel(prefix);
+        listModel = new DefaultListModel<String>(); //newModel();
         // set this model to the JList (ListControl).
         setModel(listModel);
 
@@ -52,7 +51,8 @@ public class ListControl extends JList<String> {
         for (String item :  listItems) {listModel.addElement(item);}
     }
 
-    private DefaultListModel<String> newModel(String prefix){
+    /*
+    private DefaultListModel<String> newModel(){
         // define a list model, which will work as skill selector.
         DefaultListModel<String> listModel = new DefaultListModel<>(){
             @Override
@@ -83,6 +83,6 @@ public class ListControl extends JList<String> {
         else{
             return null;
         }
-    }
+    }*/
 }
 
