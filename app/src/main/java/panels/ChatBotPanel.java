@@ -43,6 +43,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
     ImageIcon userImageIcon = new ImageIcon(getClass().getResource("/imgs/user_icon.png"));
     JLabel userIcon = new JLabel(userImageIcon);
     ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
+    ImageIcon sendBtn = new ImageIcon(getClass().getResource("/imgs/send_icon.png"));
 
     GridBagConstraints c = new GridBagConstraints();
     Font textFont = new Font("Monospaced", Font.BOLD, 18);
@@ -79,6 +80,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         button.addActionListener(e -> {
             actionPerformed(e.getActionCommand());
         });
+        button.setIcon(sendBtn);
         
         conversationLogSetup();
 
@@ -91,20 +93,18 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
         // user input field
         c.gridy = 1;
-        c.weightx = 0.7;   c.weighty = 0.1;
+        c.weightx = 0.9; c.weighty = 0.1;
         c.gridwidth = GridBagConstraints.RELATIVE;
-        textField.setBackground(new Color(64, 68, 75));
-        textField.setFont(new Font("Monospaced", Font.BOLD, 14));
-        textField.setForeground(new Color(255, 255, 255, 200));
+        textFieldSetUp(textField);
 
         this.add(textField, c);
 
         // send button
-        c.gridx = 1; c.gridy = 1;
+        c.gridx = 1;
+        c.weightx = 0.1;
         c.gridwidth = GridBagConstraints.REMAINDER;
         this.add(button, c);
 
-        //this.setBackground(new Color(49, 51, 56));
         this.setBackground(new Color(68, 68, 68));
     }
 
@@ -121,7 +121,12 @@ public class ChatBotPanel extends JPanel implements Runnable {
             }
         }
     }
+    public void textFieldSetUp(JTextField textField){
+        textField.setBackground(new Color(64, 68, 75));
+        textField.setFont(new Font("Monospaced", Font.BOLD, 14));
+        textField.setForeground(new Color(255, 255, 255));
 
+    }
     public void conversationLogSetup(){
         chatContainer.setLayout(new BoxLayout(chatContainer, BoxLayout.Y_AXIS));
         setChatText("Hello I'm your chatBot, with what can I help you?", true);
@@ -187,9 +192,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // Main Execution
 
         // set the text of the label to the text of the field
-        //chatLog.setText(textField.getText());
         setChatText(textField.getText() + "\n", false);
-        //chatLog.append("me: " + textField.getText() + "\n");
 
         if(textField.getText().contains("Laurent")){
             setChatText("That's a cool name"+"\n", true);
