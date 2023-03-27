@@ -357,15 +357,22 @@ public class SkillEditorPanel extends JPanel{
         questionsList.listModel.set(questionsList.getSelectedIndex(), questionText.getText());
     }
 
-    private void saveQuestionsToJSON(){
+    private void saveQuestionsToJSON() {
         System.out.println(questionsJSON.questions);
 
-        if(skillList.getSelectedIndex() >= 0 ) {
+        if (skillList.getSelectedIndex() >= 0) {
             // get the currently selected skill.
             String current_skill = skills[skillList.getSelectedIndex()];
             int i = 0;
-            for (String question: questionsJSON.questions.get(current_skill)) {
-                checkQuestionWithActions(question, i);
+            for (String question : questionsJSON.questions.get(current_skill)) {
+                //checkQuestionWithActions(question, i);
+
+                // reverse generate on the question.
+                // put that in actionsJSON.actions
+                // also put it in questionsJSON.questions
+                populateSlotList(); // refresh SlotList.
+                // save to file
+
                 i = i + 1;
             }
         }
@@ -373,8 +380,12 @@ public class SkillEditorPanel extends JPanel{
 
     private void saveActionsToJSON(){
         System.out.println(actionsJSON.actions);
+        // reverse_generate
+        // put it in actionsJSON.actions
+        // save to file.
     }
 
+    /*
     private void checkQuestionWithActions(String question, int idx){
         JSONObject obj = actionsJSON.actions.get(idx);
         int ids = ((SlotListControl) slotListPane.getComponents()[0]).getComponentCount()-2; // remove&actionBtn=-2
@@ -435,6 +446,7 @@ public class SkillEditorPanel extends JPanel{
             populateSlotList();
         }
     }
+     */
 
     protected void paintComponent(Graphics g)
     {
