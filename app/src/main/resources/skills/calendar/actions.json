@@ -1,28 +1,39 @@
 {
   "1": {
+    "default": "You don't have any class at this time!",
     "DAY Monday": {
+      "TIME 16": "HCI",
       "TIME 11": "TCS",
-      "TIME 13": "MM",
-      "TIME 16": "HCI"
+      "TIME 13": "MM"
     },
     "DAY Tuesday": {
+      "TIME 16": "HCI",
       "TIME 11": "ABC",
-      "TIME 13": "MM",
-      "TIME 16": "HCI"
-    },
-    "default": "You don't have any class at this time!"
+      "TIME 13": "MM"
+    }
   },
   "2": {
+    "TEACHER Aurelien": {
+      "A value": {
+        "B value": "aa"
+      }
+    },
     "TEACHER Joel": {
-      "TIME 11" : "TCS",
-      "TIME 13" : "MM",
-      "TIME 16" : "HCI"
-    },
-    "TEACHER Tom":{
-      "TIME 11" : "ABC",
-      "TIME 13" : "MM",
-      "TIME 16" : "HCI"
-    },
-    "default": "You don't have any class with this teacher at this time!"
+      "A value": {
+        "B value": "MM"
+      }
+    }
+  },
+  "3": {
+    "SLOT1 slot1": {
+      "SLOT2 slot2": "aaaa",
+      "SLOT2 kjsnfk": "abbb"
+    }
+  },
+  "4": {
+    "default": "",
+    "SLOT1 slot1": {
+      "SLOT2 slot2": ""
+    }
   }
 }

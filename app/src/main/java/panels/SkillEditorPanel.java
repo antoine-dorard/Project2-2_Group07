@@ -1,5 +1,6 @@
 package panels;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controls.*;
@@ -16,7 +17,9 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class SkillEditorPanel extends JPanel{
 
     private final ConfigUI configUI = new ConfigUI(); // colors & fonts are defined in the UIConfig class.
 
+    String skillsFolderPath = "./app/src/main/resources/skills/";
     String questionsJSONFilePath = "./app/src/main/resources/skills/questions.json";
     String actionsJSONFilePath = "./app/src/main/resources/skills/%s/actions.json";
     String templateActionsJSONFilePath = "./app/src/main/resources/skills/template-actions.json";
@@ -164,6 +168,29 @@ public class SkillEditorPanel extends JPanel{
                 questionsJSON.skills.add(newSkillStr);
                 questionsJSON.questions.put(newSkillStr, new ArrayList<>());
                 skillList.listModel.addElement(newSkillStr);
+                questionsJSON.save();
+
+                File skillFolder = new File(skillsFolderPath + newSkillStr);
+                System.out.println(skillFolder.getAbsolutePath());
+                System.out.println(skillFolder.getPath());
+                if(!skillFolder.exists()){
+                    skillFolder.mkdir();
+                }
+
+                // Create the actions.json file for the skill if it doesn't exist.
+                File actionsJSONFile = new File(String.format(actionsJSONFilePath, newSkillStr));
+                if(!actionsJSONFile.exists()){
+                    try {
+                        actionsJSONFile.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                readQuestionsJSON();
+
+                System.out.println(actionsJSON.actions);
+
             }
         });
     }
@@ -186,13 +213,19 @@ public class SkillEditorPanel extends JPanel{
         // add Selection Listener for the JList "questionsList".
         questionsList.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                if(listSelectionEvent.getValueIsAdjusting()){ // ignore multiple events, only process one.
+            public void valueChanged(ListSelectionEvent e) {
+                if(e.getValueIsAdjusting()){ // ignore multiple events, only process one.
                     return;
                 }
 
                 String selected = questionsList.getSelectedValue();
                 if (selected != null) {
+
+                    int selectedIndex = questionsList.getSelectedIndex();
+                    int previousIndex = selectedIndex == e.getFirstIndex() ? e.getLastIndex() : e.getFirstIndex();
+
+                    questionsList.listModel.set(previousIndex, questionsJSON.questions.get(skillList.getSelectedValue()).get(previousIndex));
+
                     questionText.setText(selected);
                     questionText.setEnabled(true);
                     //
@@ -246,13 +279,15 @@ public class SkillEditorPanel extends JPanel{
                     System.out.println(obj);
                     // add to current actionsJSON.
                     actionsJSON.actions.add(obj);
+                    actionsJSON.save();
                     System.out.println(actionsJSON.actions);
                 }
                 catch (ParseException | IOException e) {
                     throw new RuntimeException(e);
                 }
                 questionsList.setSelectedIndex(-1);
-                populateQuestionList(false);
+                populateQuestionList(true);
+                populateSlotList();
             }
         });
 
@@ -270,6 +305,77 @@ public class SkillEditorPanel extends JPanel{
         saveBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("Save Button Clicked");
+                ArrayList<String> slotNames = parseSlots(questionText.getText());
+                int numSlots = slotNames.size();
+
+
+                ArrayList<ArrayList<String>> slotValuesLists = new ArrayList<>();
+                ArrayList<ArrayList<String>> slotKeysLists = new ArrayList<>();
+                ArrayList<String> valuesList = new ArrayList<>();
+
+                for (Component component : slotListPane.getComponents()) { // For each row
+                    if (component instanceof SlotListControl) {
+
+                        if(numSlots < ((SlotListControl) component).names.size()){
+                            System.out.println("Case 1");
+                            // Case 1: remove slots
+                            for (int i = 0; i < ((SlotListControl) component).names.size() - numSlots; i++) {
+                                ((SlotListControl) component).names.remove(((SlotListControl) component).names.size() - 1);
+                                ((SlotListControl) component).values.remove(((SlotListControl) component).values.size() - 1);
+
+                            }
+                        }
+                        else {
+                            System.out.println("Case 2");
+                            System.out.println("numSlots = " + numSlots);
+                            System.out.println("names.size() = " + ((SlotListControl) component).names.size());
+                            // Case 2: add slots
+
+                            ArrayList<String> values = new ArrayList<>();
+                            for (JTextField slotValuesTextField : ((SlotListControl) component).slotValuesTextFields) {
+                                values.add(slotValuesTextField.getText());
+                            }
+
+                            for (int i = 0; i < ((SlotListControl) component).names.size(); i++) {
+                                ((SlotListControl) component).names.set(i, slotNames.get(i));
+                                ((SlotListControl) component).values.set(i, values.get(i));
+                            }
+
+
+
+                            if(numSlots > ((SlotListControl) component).names.size()){
+                                for (int i = 0; i < numSlots - ((SlotListControl) component).names.size(); i++) {
+                                    int index = ((SlotListControl) component).names.size();
+                                    ((SlotListControl) component).names.add(slotNames.get(index));
+                                    ((SlotListControl) component).values.add("value");
+                                }
+                            }
+
+                        }
+
+                        slotKeysLists.add(((SlotListControl) component).names); // Slot keys
+
+                        slotValuesLists.add(((SlotListControl) component).values); // Slot values
+
+                        valuesList.add(((SlotListControl) component).actionTextField.getText()); // value
+
+                        System.out.println(slotKeysLists.get(slotKeysLists.size() - 1));
+                        System.out.println(slotValuesLists.get(slotValuesLists.size() - 1));
+                    }
+                }
+
+                System.out.println(valuesList.get(valuesList.size() - 1));
+
+                // reverse_generate
+                JSONObject newObj = slotListPane.createJSONObject(slotKeysLists, slotValuesLists, valuesList);
+
+                //System.out.println(newObj);
+                actionsJSON.actions.set(questionsList.getSelectedIndex(), newObj);
+                actionsJSON.save();
+
+                populateSlotList();
+
                 saveQuestionsToJSON();
             }
         });
@@ -320,6 +426,25 @@ public class SkillEditorPanel extends JPanel{
         });
     }
 
+    public ArrayList<String> parseSlots(String inputString) {
+        ArrayList<String> slotNames = new ArrayList<String>();
+        int slotCount = 0;
+        int index = 0;
+        while ((index = inputString.indexOf("<", index)) != -1) {
+            int endIndex = inputString.indexOf(">", index);
+            if (endIndex != -1) {
+                String slotName = inputString.substring(index + 1, endIndex);
+                slotNames.add(slotName);
+                slotCount++;
+                index = endIndex;
+            } else {
+                break;
+            }
+        }
+
+        return slotNames;
+    }
+
     private void populateSlotList(){
         int selectedIdx = questionsList.getSelectedIndex();
         if(selectedIdx>=0){
@@ -358,95 +483,74 @@ public class SkillEditorPanel extends JPanel{
     }
 
     private void saveQuestionsToJSON() {
-        System.out.println(questionsJSON.questions);
 
         if (skillList.getSelectedIndex() >= 0) {
             // get the currently selected skill.
             String current_skill = skills[skillList.getSelectedIndex()];
-            int i = 0;
-            for (String question : questionsJSON.questions.get(current_skill)) {
-                //checkQuestionWithActions(question, i);
+
+            questionsList.listModel.size();
+            for (int i = 0; i < questionsList.listModel.size(); i++) {
+                String question = questionsList.listModel.get(i);
 
                 // reverse generate on the question.
                 // put that in actionsJSON.actions
                 // also put it in questionsJSON.questions
+                questionsJSON.questions.get(current_skill).set(i, question);
+
                 populateSlotList(); // refresh SlotList.
                 // save to file
+                questionsJSON.save();
 
-                i = i + 1;
             }
+
+            questionsJSON.save();
         }
     }
 
     private void saveActionsToJSON(){
-        System.out.println(actionsJSON.actions);
-        // reverse_generate
-        // put it in actionsJSON.actions
-        // save to file.
-    }
+        System.out.println("Saving Actions");
 
-    /*
-    private void checkQuestionWithActions(String question, int idx){
-        JSONObject obj = actionsJSON.actions.get(idx);
-        int ids = ((SlotListControl) slotListPane.getComponents()[0]).getComponentCount()-2; // remove&actionBtn=-2
-        // count the number of times the element '<' occurs.
-        int count = 0;
-        for(int i=0; i<question.length(); i++){
-            if(question.substring(i,i+1).equals("<")){
-                count = count + 1;
-            }
-        }
-        String questionSub = question;
-        ArrayList<String> array = new ArrayList<>();
-        for (int i=0; i<count; i++){
-            String sub1 = questionSub.substring(questionSub.indexOf("<")+1);
-            String id = sub1.substring(0,sub1.indexOf(">"));
-            questionSub = sub1.substring(sub1.indexOf(">")+1);
-            array.add(id);
-        }
-        if(ids==count){
-            Boolean stop = false;
-            JSONObject newObj = obj;
-            ArrayList<String> strArr = new ArrayList<>();
-            while(stop==false){
-                for (Object keyStr: obj.keySet()){
-                    String str = (String) keyStr;
-                    if (str.contains(" ")){
-                        str = str.substring(0, ((String) keyStr).indexOf(" "));
-                    }
-                    if (str!="default" && !strArr.contains(str)){
-                        strArr.add(str);
-                        try {
-                            newObj = (JSONObject) newObj.get(keyStr);
-                        }
-                        catch (Exception ignore){stop=true;}
-                    }
+        ArrayList<ArrayList<String>> slotValuesLists = new ArrayList<>();
+        ArrayList<ArrayList<String>> slotKeysLists = new ArrayList<>();
+        ArrayList<String> valuesList = new ArrayList<>();
+
+
+        for (Component component : slotListPane.getComponents()) {
+            //System.out.println(component);
+            if (component instanceof SlotListControl) {
+                System.out.print(((SlotListControl) component).names);
+                System.out.print(" - ");
+                System.out.print(((SlotListControl) component).values);
+                System.out.print(" - ");
+                System.out.println(((SlotListControl) component).action);
+
+
+                //loop through value text fields (slotValuesTextFields) in slot list control
+                ArrayList<String> values = new ArrayList<>();
+                for (JTextField slotValuesTextField : ((SlotListControl) component).slotValuesTextFields) {
+                    values.add(slotValuesTextField.getText());
                 }
+
+                slotKeysLists.add(((SlotListControl) component).names); // Slot keys
+
+                slotValuesLists.add(values); // Slot values
+
+                valuesList.add(((SlotListControl) component).actionTextField.getText()); // value
+
             }
-            System.out.println(strArr);
         }
-        else {
-            JSONObject previousJSONObj = new JSONObject();
-            JSONObject newJSONObj = new JSONObject();
-            System.out.println(array);
-            for (int i = 0; i < array.size(); i++) {
-                String str = array.get(array.size() - i - 1); // get elements in reverse.
-                newJSONObj = new JSONObject();
-                if (i == 0) {
-                    // first call
-                    newJSONObj.put(str + " ", "");
-                } else {
-                    newJSONObj.put(str + " ", previousJSONObj);
-                }
-                previousJSONObj = newJSONObj;
-            }
-            newJSONObj.put("default", "");
-            actionsJSON.actions.set(idx, newJSONObj);
-            System.out.println(actionsJSON.actions);
-            populateSlotList();
-        }
+        // reverse_generate
+        JSONObject newObj = slotListPane.createJSONObject(slotKeysLists, slotValuesLists, valuesList);
+
+        // put it in actionsJSON.actions
+        int current_question = questionsList.getSelectedIndex();
+        actionsJSON.actions.set(current_question, newObj);
+
+        // save to file.
+        actionsJSON.save();
+
+
     }
-     */
 
     protected void paintComponent(Graphics g)
     {
@@ -459,12 +563,14 @@ public class SkillEditorPanel extends JPanel{
 final class QuestionsJSON {
 
     // define arrayList of strings to define the skills.
-    public ArrayList<String> skills = new ArrayList<String>();
+    public ArrayList<String> skills = new ArrayList<>();
 
     // define a HashMap, with as key the skill string, and as value an arrayList of questions.
-    public HashMap<String,ArrayList<String>> questions=new HashMap<String,ArrayList<String>>();
+    public HashMap<String,ArrayList<String>> questions = new HashMap<String,ArrayList<String>>();
+    private String questionsFilePath;
 
     public QuestionsJSON(String questionsFilePath){
+        this.questionsFilePath = questionsFilePath;
         try {
             JSONParser parser = new JSONParser(); // create a json parser
             // read the file and parse the data
@@ -477,9 +583,14 @@ final class QuestionsJSON {
                 JSONObject newJSONObject = (JSONObject) jsonObject.get(keyStr);
                 // also define the questions array in which we will save the questions found.
                 ArrayList<String> qArray = new ArrayList<>();
+                //fill qArray with empty values, so we can add the questions at the right index.
+                for (int i = 0; i < newJSONObject.size(); i++) {
+                    qArray.add("");
+                }
+                // add the questions to the array at the right index.
                 for (Object keyStr2 : newJSONObject.keySet()) {
                     // add the questions found.
-                    qArray.add((String)newJSONObject.get(keyStr2));
+                    qArray.set(Integer.parseInt(keyStr2.toString())-1, (String) newJSONObject.get(keyStr2));
                 }
                 // put the hash map element as, current skill string & current questions array.
                 questions.put((String)keyStr, qArray);
@@ -489,18 +600,64 @@ final class QuestionsJSON {
             throw new RuntimeException(e);
         };
     }
+
+    public void save(){
+        try (FileWriter file = new FileWriter(questionsFilePath)) {
+            JSONObject objToWrite = new JSONObject();
+
+            for (String skill : skills) {
+                JSONObject obj = new JSONObject();
+
+                int questIndex = 0;
+                for (String question : questions.get(skill)) {
+                    questIndex = questIndex + 1;
+                    obj.put(""+questIndex, question);
+                }
+                objToWrite.put(skill, obj);
+            }
+
+            file.write(objToWrite.toJSONString());
+            file.flush();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 final class ActionsJSON {
 
     public ArrayList<JSONObject> actions = new ArrayList<>();
+    private String actionsJSONFilePath;
+    String templateActionsJSONFilePath = "./app/src/main/resources/skills/template-actions.json";
 
     public ActionsJSON(String JSONFilePath){
+        actionsJSONFilePath = JSONFilePath;
+
+        // if the file is empty, copy the template file to it.
+        if (new File(JSONFilePath).length() == 0) {
+            try (FileWriter file = new FileWriter(actionsJSONFilePath)) {
+                JSONParser parser = new JSONParser();
+                JSONObject objTemplate = (JSONObject) parser.parse(new FileReader(templateActionsJSONFilePath));
+                JSONObject objToWrite = new JSONObject();
+                objToWrite.put("1", objTemplate);
+                file.write(objToWrite.toJSONString());
+
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        }
+
+
         try {
             JSONParser parser = new JSONParser(); // create a json parser
             // read the file and parse the data
+            System.out.println(JSONFilePath);
             JSONObject obj = (JSONObject) parser.parse(new FileReader(JSONFilePath));
             for (Object keyStr : obj.keySet()) {
+                System.out.println(keyStr);
                 actions.add((JSONObject) obj.get(keyStr));
             }
         }
@@ -508,4 +665,22 @@ final class ActionsJSON {
             throw new RuntimeException(e);
         }
     }
+
+    public void save(){
+        try (FileWriter file = new FileWriter(actionsJSONFilePath)) {
+            JSONObject objToWrite = new JSONObject();
+
+            int i = 0;
+            for (JSONObject action : actions) {
+                i = i + 1;
+                objToWrite.put(""+i, action);
+            }
+
+            file.write(objToWrite.toJSONString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

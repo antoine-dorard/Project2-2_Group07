@@ -137,17 +137,82 @@ public class SlotListPane extends JPanel {
      * The main method and its content can be deleted when the code has been implemented.
      * @param args
      */
-    public void main(String[] args) {
-        String jsonString = "{\"DAY Monday\":{\"TIME 11\":\"TCS\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"DAY Tuesday\":{\"TIME 11\":\"ABC\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"default\":\"You don't have any class at this time!\"}";
-        JSONParser parser = new JSONParser();
-        JSONObject json = null;
-        try {
-            json = (JSONObject) parser.parse(jsonString);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        generate(json);
+    public static void main(String[] args) {
+//        String jsonString = "{\"DAY Monday\":{\"TIME 11\":\"TCS\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"DAY Tuesday\":{\"TIME 11\":\"ABC\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"default\":\"You don't have any class at this time!\"}";
+//        JSONParser parser = new JSONParser();
+//        JSONObject json = null;
+//        try {
+//            json = (JSONObject) parser.parse(jsonString);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        generate(json);
+
+        ArrayList<ArrayList<String>> slotsLists = new ArrayList<>();
+        ArrayList<ArrayList<String>> keysLists = new ArrayList<>();
+        ArrayList<Object> valuesList = new ArrayList<>();
+
+        // populate slotsLists, keysLists, and valuesList with the desired values
+        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
+        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "11")));
+        valuesList.add("TCS");
+
+        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
+        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "14")));
+        valuesList.add("MM");
+
+        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
+        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "16")));
+        valuesList.add("HCI");
+
+        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME", "MONTH")));
+        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "16", "April")));
+        valuesList.add("Hola");
+
+        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
+        keysLists.add(new ArrayList<>(Arrays.asList("Tuesday", "16")));
+        valuesList.add("ABB");
+
+        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
+        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "18")));
+        valuesList.add("OOO");
+
+        //JSONObject obj = createJSONObject(slotsLists, keysLists, valuesList);
+
+        //System.out.println(obj);
     }
+
+    public JSONObject createJSONObject(final ArrayList<ArrayList<String>> slotKeysLists, final ArrayList<ArrayList<String>> slotValuesLists, final ArrayList<String> valuesList) {
+        if (valuesList.size() != slotKeysLists.size()) {
+            throw new IllegalArgumentException("The number of values does not match the number of slots/keys lists");
+        }
+
+        JSONObject obj = new JSONObject();
+        for (int i = 0; i < slotKeysLists.size(); i++) {
+            ArrayList<String> slotsList = slotKeysLists.get(i);
+            ArrayList<String> keysList = slotValuesLists.get(i);
+            Object value = valuesList.get(i);
+
+            JSONObject currentObj = obj;
+            for (int j = 0; j < slotsList.size(); j++) {
+                String slot = slotsList.get(j);
+                String key = keysList.get(j);
+                if (j == slotsList.size() - 1) {
+                    currentObj.put(slot + " " + key, value);
+                } else {
+                    JSONObject newObj = (JSONObject) currentObj.get(slot + " " + key);
+
+                    if (newObj == null) {
+                        newObj = new JSONObject();
+                        currentObj.put(slot + " " + key, newObj);
+                    }
+                    currentObj = newObj;
+                }
+            }
+        }
+        return obj;
+    }
+
 
     public void generate(JSONObject json){
         // the following two lists contain the slots and keys respectively in the order they appear in the JSON until a
@@ -201,8 +266,8 @@ public class SlotListPane extends JPanel {
                     // Monday  11    |  TCS
                     //
 
-                    System.out.println(slotsList + "\n" + keysList + "\n" + value);
-                    System.out.println();
+                    //System.out.println(slotsList + "\n" + keysList + "\n" + value);
+                    //System.out.println();
 
                     // #########
 

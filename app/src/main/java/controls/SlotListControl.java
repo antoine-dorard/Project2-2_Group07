@@ -13,6 +13,11 @@ public class SlotListControl extends JPanel {
 
     public ArrayList<String> names = new ArrayList<>();
     public ArrayList<String> values = new ArrayList<>();
+    public String action = "";
+
+    // Storing the text fields allows to get at anytime what is the value of the text field to save it to file.
+    public ArrayList<TextFieldControl> slotValuesTextFields = new ArrayList<>();
+    public TextFieldControl actionTextField = null;
 
     public SlotListControl(){
         super();
@@ -38,6 +43,12 @@ public class SlotListControl extends JPanel {
             // don't add the action ctrl.
             names.add(name);
             values.add(value);
+
+            slotValuesTextFields.add(newField);
+        }
+        else{
+            action = value;
+            actionTextField = newField;
         }
     }
 

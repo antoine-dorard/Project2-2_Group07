@@ -21,6 +21,11 @@ public class  SelectOptionsPanel extends JPanel {
         // define the navigation buttons, which select functionality, at left side of the screen
         chatBtn = new JToggleButton("Chat", new ImageIcon(getClass().getResource("/imgs/chat_icon.png")));
         buttonSetup(chatBtn);
+
+        chatBtn.addActionListener(e -> {
+            // TODO
+        });
+
         skillsBtn = new JToggleButton("Skills", new ImageIcon(getClass().getResource("/imgs/skills_icon.png")));
         buttonSetup(skillsBtn);
 
