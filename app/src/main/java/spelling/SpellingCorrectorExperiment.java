@@ -16,22 +16,21 @@ public class SpellingCorrectorExperiment {
         String[] questions = mainLauncher.generateQuestions();
 
         try (FileWriter csvWriter = new FileWriter(CSV_FILE)) {
-            // Write the CSV header
+            // Write the CSV header (first row)
             csvWriter.append(
-                    "Probability,Original Question,Spelling Mistake,Corrected Phrase,Score,Time (ms),Original Length,Mistake Length,Corrected Length\n");
+                    "Probability,Original Question,Spelling Mistake,Corrected Phrase,Score,Time (ms)\n");
 
             // Run the experiments
             for (int probability : PROBABILITIES) {
+                int counter = 0;
                 for (int i = 0; i < NUMBER_OF_QUESTIONS; i++) {
-                    String originalQuestion = questions[i % questions.length];
-                    String spellingMistake = mainLauncher.getSpellingMistakes(originalQuestion, (double) probability/100);
+                    String originalQuestion = removeQuestionMark(questions[i % questions.length]); 
+                    String spellingMistake = removeQuestionMark(mainLauncher.getSpellingMistakes(originalQuestion, (double) probability/100));
                     String correctedPhrase = "";
 
                     long startTime = System.currentTimeMillis();
 
                     try {
-                        // Create an instance of the SpellingCorrector class and correct the spelling
-                        // mistake
                         SpellingCorrector corrector = new SpellingCorrector(DICTIONARY_FILE);
                         correctedPhrase = corrector.correctSpelling(spellingMistake);
                     } catch (IOException e) {
@@ -43,14 +42,14 @@ public class SpellingCorrectorExperiment {
 
                     // Calculate the score
                     double score = calculateScore(originalQuestion, correctedPhrase);
-
-                    // Write the results to the CSV file
-                    csvWriter.append(String.format("%d,\"%s\",\"%s\",\"%s\",%d,%d,%d,%d,%d%n",
+                    counter += (int) (score * 100);
+                    // Write the results to the CSV file (and format the data according to the header)
+                    csvWriter.append(String.format("%d,\"%s\",\"%s\",\"%s\",%d,%d%n",
                             probability, originalQuestion,
-                            spellingMistake, correctedPhrase, (int) (score * 100), timeTaken, originalQuestion.length(),
-                            spellingMistake.length(), correctedPhrase.length()));
+                            spellingMistake, correctedPhrase, (int) (score * 100), timeTaken));
 
                 }
+                System.out.println("Average score for probability " + probability + " is " + counter/NUMBER_OF_QUESTIONS);
             }
 
             csvWriter.flush();
@@ -61,7 +60,13 @@ public class SpellingCorrectorExperiment {
         System.out.println("Experiment data has been exported to " + CSV_FILE);
     }
 
+    /*
+     * The calculateScore method calculates the score of the corrected phrase.
+     * It returns the percentage of characters that are correct.
+     */
     private static double calculateScore(String original, String corrected) {
+        original = original.toLowerCase();
+        corrected = corrected.toLowerCase();
         int correctCharacters = 0;
         int minLength = Math.min(original.length(), corrected.length());
 
@@ -72,5 +77,17 @@ public class SpellingCorrectorExperiment {
         }
 
         return (double) correctCharacters / original.length();
+    }
+
+    /*
+     * The removeQuestionMark method removes the question mark from the end of a
+     * question.
+     * It returns the question without the question mark.
+     */
+    private static String removeQuestionMark(String question) {
+        if (question.charAt(question.length() - 1) == '?') {
+            return question.substring(0, question.length() - 1);
+        }
+        return question;
     }
 }

@@ -72,25 +72,20 @@ public class mainLauncher {
         // print the header of the table
         System.out.printf("%-15s %-30s %-30s%n", "Probability", "Spelling Mistake", "Corrected Phrase");
         for (int j = 0; j < questions.length; j++) {
-            // loop through the probabilities array and print the spelling mistakes
-            for (int i = 0; i < probabilities.length; i++) {
+             for (int i = 0; i < probabilities.length; i++) {
                 // create a string with the spelling mistake
                 String spellingMistake = getSpellingMistakes(questions[j], probabilities[i]);
                 String correctedPhrase = "";
 
                 try {
-                    // create an instance of the SpellingCorrector class and correct the spelling
-                    // mistake
                     SpellingCorrector corrector = new SpellingCorrector(fileName);
                     correctedPhrase = corrector.correctSpelling(spellingMistake);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 // print the row of the table
                 System.out.printf("%-15s %-30s %-30s%n", probabilities[i], spellingMistake, correctedPhrase);
             }
         }
-
     }
 }

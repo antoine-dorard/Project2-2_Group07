@@ -1,6 +1,3 @@
-/*
- * The spelling package contains classes that implement a spelling checker.
- */
 package spelling;
 
 import java.util.HashMap;

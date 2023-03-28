@@ -1,6 +1,3 @@
-/*
- * The spelling package contains classes that implement a spelling checker.
- */
 package spelling;
 
 import java.io.BufferedReader;
@@ -21,10 +18,6 @@ public class SpellingCorrector {
     private static Trie dictionary;
     private static String fileName;
 
-    /*
-     * Constructor for the SpellingCorrector class.
-     * It initializes the fileName and loads the dictionary from the file.
-     */
     public SpellingCorrector(String fileNameWordList) throws IOException {
         fileName = fileNameWordList;
         loadDictionary();
@@ -47,10 +40,9 @@ public class SpellingCorrector {
     /*
      * The correctSpelling method corrects the spelling mistakes in a given text.
      * It splits the text into words, finds the closest matching word in the
-     * dictionary for each word,
-     * and returns the corrected text as a string.
+     * dictionary for each word, and returns the corrected text as a string.
      */
-    public static String correctSpelling(String question) {
+    public static String correctSpelling(String question) {        
         List<String> words = Arrays.asList(question.split("\\s+"));
         List<String> correctedWords = words.parallelStream()
                 .map(word -> findClosestWord(word))
@@ -96,16 +88,31 @@ public class SpellingCorrector {
      */
     private static int levenshteinDistance(String a, String b) {
         int[][] dp = new int[a.length() + 1][b.length() + 1];
+        
+        // example using dp:
+        // a = "kitten"
+        // b = "sitting"
+        // dp = [
+        //     [0, 1, 2, 3, 4, 5, 6, 7],
+        //     [1, 0, 1, 2, 3, 4, 5, 6],
+        //     [2, 1, 0, 1, 2, 3, 4, 5],
+        //     [3, 2, 1, 1, 2, 3, 4, 5],
+        //     [4, 3, 2, 2, 2, 3, 4, 5],
+        //     [5, 4, 3, 3, 3, 3, 4, 5],
+        //     [6, 5, 4, 4, 4, 4, 3, 4]
+        // ]
 
-        for (int i = 0; i <= a.length(); i++) {
-            for (int j = 0; j <= b.length(); j++) {
-                if (i == 0) {
-                    dp[i][j] = j;
-                } else if (j == 0) {
-                    dp[i][j] = i;
-                } else {
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1])
-                            + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1);
+
+        for (int i = 0; i <= a.length(); i++) { // rows
+            for (int j = 0; j <= b.length(); j++) { // columns
+                if (i == 0) { // first row
+                    dp[i][j] = j; // fill first row with 0, 1, 2, 3, 4, 5, 6, 7
+                } else if (j == 0) { // first column
+                    dp[i][j] = i; // fill first column with 0, 1, 2, 3, 4, 5, 6
+                } else { // fill the rest of the matrix
+                    dp[i][j] = Math.min( // minimum of 
+                        Math.min(dp[i - 1][j], dp[i][j - 1]), // left, top + 1 
+                        dp[i - 1][j - 1]) + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1); // diagonal + 1 if not equal else 0 
                 }
             }
         }
@@ -113,13 +120,6 @@ public class SpellingCorrector {
         return dp[a.length()][b.length()];
     }
 
-    /*
-     * 
-     * The getCorrectedQuestion method is a convenience method that calls the
-     * correctSpelling method.
-     * It takes a string question as input and returns the corrected question by
-     * calling the correctSpelling method.
-     */
     public static String getCorrectedQuestion(String question) {
         return correctSpelling(question);
     }
