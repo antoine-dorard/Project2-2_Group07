@@ -1,0 +1,26 @@
+{
+  "1": {
+    "SLOT1 slot1": {
+      "SLOT2 slot2": "aaa"
+    }
+  },
+  "2": {
+    "SLOT1 A": {
+      "SLOT2 A": {
+        "A aaa": "bbb",
+        "A aa": "bbb"
+      }
+    },
+    "SLOT1 slot1": {
+      "SLOT2 slot2": {
+        "A value": "bbb"
+      }
+    }
+  },
+  "3": {
+    "default": "",
+    "SLOT1 slot1": {
+      "SLOT2 slot2": ""
+    }
+  }
+}

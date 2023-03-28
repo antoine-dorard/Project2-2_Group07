@@ -1,139 +1,555 @@
 package panels;
 
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import controls.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import utils.ConfigUI;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
-import java.lang.reflect.Array;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
+import static java.lang.String.format;
+import static java.lang.Thread.sleep;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
 public class SkillEditorPanel extends JPanel{
 
-    // define the background image.
-    private final ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
+    private final ConfigUI configUI = new ConfigUI(); // colors & fonts are defined in the UIConfig class.
 
-    // define colors & fonts used in the JPanel.
+    String skillsFolderPath = "./app/src/main/resources/skills/";
+    String questionsJSONFilePath = "./app/src/main/resources/skills/questions.json";
+    String actionsJSONFilePath = "./app/src/main/resources/skills/%s/actions.json";
+    String templateActionsJSONFilePath = "./app/src/main/resources/skills/template-actions.json";
+    QuestionsJSON questionsJSON;
+    ActionsJSON actionsJSON;
 
-    // colors & fonts are defined in the UIConfig class.
-    private final ConfigUI configUI = new ConfigUI();
+    String[] skills;  // define the skills array list.
+    ListControl skillList; // define a new ListControl.
+    CustomLabelPanel customSkillListPane; // with it, define a custom pane for that ListControl.
+
+    ListControl questionsList;
+    CustomLabelPanel customQuestionsListPane;
+    TextFieldControl questionText;
+    ButtonPane questionButtonPane;
+
+    SlotListPane slotListPane;
+    ButtonPane slotListButtonPane;
 
 
-    public SkillEditorPanel(){
+
+    public SkillEditorPanel() {
         super();
-        FlowLayout layout = new FlowLayout();
-        layout.setAlignment(FlowLayout.LEFT);
-        this.setLayout(layout);
-        this.setBackground(configUI.colorPanelBG);
+        setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        // define the main layout of this panel.
+        BoxLayout layout = new BoxLayout(this, BoxLayout.X_AXIS);
+        // set the layout
+        setLayout(layout);
 
-        // define a boxLayout for all input JTextFields.
-        JPanel boxPane = new JPanel();
-        boxPane.setLayout(new BoxLayout(boxPane, BoxLayout.PAGE_AXIS));
-        boxPane.setPreferredSize(new Dimension(400, 500));
-        boxPane.setOpaque(false);
+        // initialize the skill list.
+        initSkillList();
 
-        // define a list model, which will work as skill selector.
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        // initialize the question list.
+        initQuestionList();
 
-        // define the list control with the list model created earlier.
-        JList<String> skillList = new JList<>(listModel);
+        // initialize the slot list pane (which will contain a list of slots)
+        initSlotListPane();
 
-        // define the list items and call the setup method for the JList.
-        String[] listItems = {"Math", "History", "Calendar", "etc"};
-        setupJList(skillList,listItems);
+        // initialize the buttons belonging to the question list.
+        initQuestionButtons();
 
-        // create all JTextFields.
-        JTextField skillName = new JTextField();
-        JTextField skillRule = new JTextField();
-        JTextField skillIdentifier = new JTextField();
+        // initialize the buttons belonging to the slot list.
+        initSlotListButtons();
 
-        // create all JLabels.
-        JLabel nameLabel = new JLabel();
-        JLabel ruleLabel = new JLabel();
-        JLabel identifierLabel = new JLabel();
+        // define the panel that will be to the right of the skills Pane.
+        JPanel rightYPane = new JPanel();
+        BoxLayout rightYLayout = new BoxLayout(rightYPane, BoxLayout.Y_AXIS);
+        rightYPane.setLayout(rightYLayout);
 
-        setupJLabel(nameLabel, "Name", 250, 40);
-        setupJLabel(ruleLabel, "Rule(s)", 250, 80);
-        setupJLabel(identifierLabel, "Identifier(s)", 250, 80);
+        // add the Question List.
+        rightYPane.add(customQuestionsListPane);
+        rightYPane.add(Box.createHorizontalStrut(30));
 
-        // setup all JTextFields.
-        setupJTextField(skillName, 250, 20);
-        setupJTextField(skillRule, 250, 80);
-        setupJTextField(skillIdentifier, 250, 80);
+        // add the buttons for the Question List.
+        rightYPane.add(questionButtonPane);
+        rightYPane.add(Box.createVerticalStrut(30));
 
-        // add all the JTextFields to the JPanel.
-        boxPane.add(nameLabel);
-        boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        boxPane.add(skillName);
-        boxPane.add(ruleLabel);
-        boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        boxPane.add(skillRule);
-        boxPane.add(identifierLabel);
-        boxPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        boxPane.add(skillIdentifier);
+        // add the Slot List with a scrollbar.
+        rightYPane.add(slotListPane.scrollPane);
+        rightYPane.add(Box.createVerticalStrut(30));
 
-        // add the skill selector to this JPanel. (do this first)
-        this.add(skillList);
-        // add the boxPane, which contains all JTextFields.
-        this.add(boxPane);
+        // add the buttons for the Slot List.
+        rightYPane.add(slotListButtonPane);
+        rightYPane.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        // set some alignments.
+        customSkillListPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        customQuestionsListPane.setPreferredSize(new Dimension(100, 250));
+
+        // add the controls to the current layout.
+        add(customSkillListPane);
+        add(Box.createHorizontalStrut(30));
+        add(rightYPane);
+
+        // set some UI colors.
+        setBackground(configUI.colorPanelBG);
+        skillList.setBackground(new Color(63, 63, 63));
+        questionsList.setBackground(new Color(63, 63, 63));
+        rightYPane.setBackground(configUI.colorPanelBG);
+        customQuestionsListPane.setBackground(configUI.colorPanelBG);
+        customSkillListPane.setBackground(new Color(63, 63, 63));
+
+        // for startup, select the first skill automatically (do this after the listener is initialized).
+        skillList.setSelectedIndex(0);
+    }
+
+    private void initSkillList(){
+
+        // first read the questions.json
+        readQuestionsJSON();
+
+        // define a new ListControl to display all skills.
+        skillList = new ListControl(175, 25);
+        // populate the skill List with the found skills in the questions.json
+        skillList.setListItems(skills);
+        skillList.setPreferredSize(new Dimension(200, 650));
+        // create a label pane around the list, so it can display the label : "SKILLS"
+        customSkillListPane = new CustomLabelPanel(
+                skillList, "SKILLS", 30, 30, 30);
+
+        JButton addSkillBtn = new JButton();
+        addSkillBtn.setText("Add Skill");
+
+        customSkillListPane.spacingPane.add(addSkillBtn);
 
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
-                skillListValueChanged(evt);
+                populateQuestionList(true);
+                //questionsList.setSelectedIndex(-1);
+                //populateSlotList();
+                slotListPane.removeAll();
             }
-            private void skillListValueChanged(ListSelectionEvent evt) {
-                if (!skillList.getValueIsAdjusting()) {
-                    skillName.setText((String) skillList.getSelectedValue());
+        });
+
+        // add Action Listener for the Add Skill Button.
+        addSkillBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String newSkillStr = "Skill";
+                if(questionsJSON.skills.contains("Skill")){
+                    int i = 0;
+                    for(String skill: questionsJSON.skills){
+                        if(skill=="Skill"){
+                            i = i + 1;
+                        }
+                    }
+                    newSkillStr = String.format(newSkillStr + "(%d)", i);
                 }
+                questionsJSON.skills.add(newSkillStr);
+                questionsJSON.questions.put(newSkillStr, new ArrayList<>());
+                skillList.listModel.addElement(newSkillStr);
+                questionsJSON.save();
+
+                File skillFolder = new File(skillsFolderPath + newSkillStr);
+                System.out.println(skillFolder.getAbsolutePath());
+                System.out.println(skillFolder.getPath());
+                if(!skillFolder.exists()){
+                    skillFolder.mkdir();
+                }
+
+                // Create the actions.json file for the skill if it doesn't exist.
+                File actionsJSONFile = new File(String.format(actionsJSONFilePath, newSkillStr));
+                if(!actionsJSONFile.exists()){
+                    try {
+                        actionsJSONFile.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                readQuestionsJSON();
+
+                System.out.println(actionsJSON.actions);
+
             }
         });
     }
 
-    private void setupJList (JList<String> list, String[] listItems){
+    private void initQuestionList(){
+        // define a new ListControl to display all questions from the currently selected skill.
+        questionsList = new ListControl(600, 25);
+        questionsList.setVisibleRowCount(4);
+        // create a label pane around the list, so it can display the label : "SKILLS"
+        customQuestionsListPane = new CustomLabelPanel(
+                questionsList.listScroller, "QUESTIONS", 30, 30, 30);
+        questionsList.setBorder(createLineBorder(new Color(80, 80, 80), 1));
 
-        // retrieve listModel and set all items from the input array.
-        DefaultListModel<String> model = (DefaultListModel<String>) list.getModel();
+        // create a TextField below the questions list, to display the selected question in.
+        questionText = new TextFieldControl("Question", 50, 40);
+        customQuestionsListPane.addWithGap(questionText, 30);
+        customQuestionsListPane.add(Box.createHorizontalStrut(30));
+        questionText.setEnabled(false);
 
-        // add all items, provided in the input, to the current JList.
-        for (String item :  listItems) {model.addElement(item);}
+        // add Selection Listener for the JList "questionsList".
+        questionsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(e.getValueIsAdjusting()){ // ignore multiple events, only process one.
+                    return;
+                }
 
-        // define the list appearance and functionality.
-        list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        list.setLayoutOrientation(JList.VERTICAL);
-        list.setVisibleRowCount(-1);
-        list.setBackground(configUI.colorListBG);
-        list.setForeground(configUI.colorListFG);
-        list.setFont(configUI.fontList);
-        list.setSelectionBackground(configUI.colorListSelectionBG);
-        list.setSelectionForeground(configUI.colorListSelectionFG);
-        list.setPreferredSize(new Dimension(200, 550));
+                String selected = questionsList.getSelectedValue();
+                if (selected != null) {
 
-        // define the list scroller for the list control.
-        JScrollPane listScroller = new JScrollPane(list);
-        listScroller.setPreferredSize(new Dimension(250, 80));
+                    int selectedIndex = questionsList.getSelectedIndex();
+                    int previousIndex = selectedIndex == e.getFirstIndex() ? e.getLastIndex() : e.getFirstIndex();
+
+                    questionsList.listModel.set(previousIndex, questionsJSON.questions.get(skillList.getSelectedValue()).get(previousIndex));
+
+                    questionText.setText(selected);
+                    questionText.setEnabled(true);
+                    //
+                    populateSlotList();
+                } else {
+                    // selection changed to 'no selection', so set textField disabled.
+                    questionText.setEnabled(false);
+                    // remove the slotList controls from the slotList pane.
+                    slotListPane.removeAll();
+                }
+            }
+        });
+
+        // add DocumentListener to the questionText JTextField.
+        questionText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                if(questionText.hasFocus()){
+                    saveQuestion();
+                }}
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                if(questionText.hasFocus()){
+                    saveQuestion();
+            }}
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                if(questionText.hasFocus()){
+                    saveQuestion();
+            }}
+        });
     }
 
-    private void setupJTextField (JTextField textField, int width, int height) {
-        // define the textField's appearance.
-        textField.setBackground(new Color(46,49,53));
-        textField.setFont(configUI.fontText);
-        textField.setBorder(createLineBorder(new Color(80,80,80), 1));
-        textField.setForeground(Color.WHITE);
-        textField.updateUI();
-        textField.setPreferredSize(new Dimension(width, height));
+    private void initQuestionButtons(){
+        questionButtonPane = new ButtonPane();
+        questionButtonPane.addButtons(new String[] {"Add New", "Revert", "Save"});
+        ButtonControl addNewBtn = (ButtonControl) questionButtonPane.getComponents()[0];
+        ButtonControl revertBtn = (ButtonControl) questionButtonPane.getComponents()[1];
+        ButtonControl saveBtn = (ButtonControl) questionButtonPane.getComponents()[2];
+
+        // add ActionListener to the AddNewButton.
+        addNewBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String current_skill = skills[skillList.getSelectedIndex()];
+                questionsJSON.questions.get(current_skill).add("New Question with <SLOT1> and <SLOT2>");
+                try {
+                    JSONParser parser = new JSONParser(); // create a json parser
+                    // read the file and parse the data
+                    JSONObject obj = (JSONObject) parser.parse(new FileReader(templateActionsJSONFilePath));
+                    System.out.println(obj);
+                    // add to current actionsJSON.
+                    actionsJSON.actions.add(obj);
+                    actionsJSON.save();
+                    System.out.println(actionsJSON.actions);
+                }
+                catch (ParseException | IOException e) {
+                    throw new RuntimeException(e);
+                }
+                questionsList.setSelectedIndex(-1);
+                populateQuestionList(true);
+                populateSlotList();
+            }
+        });
+
+        // add ActionListener to the RevertButton.
+        revertBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                readQuestionsJSON();
+                populateQuestionList(true);
+                populateSlotList();
+            }
+        });
+
+        // add ActionListener to the Save Button.
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("Save Button Clicked");
+                ArrayList<String> slotNames = parseSlots(questionText.getText());
+                int numSlots = slotNames.size();
+
+
+                ArrayList<ArrayList<String>> slotValuesLists = new ArrayList<>();
+                ArrayList<ArrayList<String>> slotKeysLists = new ArrayList<>();
+                ArrayList<String> valuesList = new ArrayList<>();
+
+                for (Component component : slotListPane.getComponents()) { // For each row
+                    if (component instanceof SlotListControl) {
+
+                        if(numSlots < ((SlotListControl) component).names.size()){
+                            System.out.println("Case 1");
+                            // Case 1: remove slots
+                            for (int i = 0; i < ((SlotListControl) component).names.size() - numSlots; i++) {
+                                ((SlotListControl) component).names.remove(((SlotListControl) component).names.size() - 1);
+                                ((SlotListControl) component).values.remove(((SlotListControl) component).values.size() - 1);
+
+                            }
+                        }
+                        else {
+                            System.out.println("Case 2");
+                            System.out.println("numSlots = " + numSlots);
+                            System.out.println("names.size() = " + ((SlotListControl) component).names.size());
+                            // Case 2: add slots
+
+                            ArrayList<String> values = new ArrayList<>();
+                            for (JTextField slotValuesTextField : ((SlotListControl) component).slotValuesTextFields) {
+                                values.add(slotValuesTextField.getText());
+                            }
+
+                            for (int i = 0; i < ((SlotListControl) component).names.size(); i++) {
+                                ((SlotListControl) component).names.set(i, slotNames.get(i));
+                                ((SlotListControl) component).values.set(i, values.get(i));
+                            }
+
+
+
+                            if(numSlots > ((SlotListControl) component).names.size()){
+                                for (int i = 0; i < numSlots - ((SlotListControl) component).names.size(); i++) {
+                                    int index = ((SlotListControl) component).names.size();
+                                    ((SlotListControl) component).names.add(slotNames.get(index));
+                                    ((SlotListControl) component).values.add("value");
+                                }
+                            }
+
+                        }
+
+                        slotKeysLists.add(((SlotListControl) component).names); // Slot keys
+
+                        slotValuesLists.add(((SlotListControl) component).values); // Slot values
+
+                        valuesList.add(((SlotListControl) component).actionTextField.getText()); // value
+
+                        System.out.println(slotKeysLists.get(slotKeysLists.size() - 1));
+                        System.out.println(slotValuesLists.get(slotValuesLists.size() - 1));
+                    }
+                }
+
+                System.out.println(valuesList.get(valuesList.size() - 1));
+
+                // reverse_generate
+                JSONObject newObj = slotListPane.createJSONObject(slotKeysLists, slotValuesLists, valuesList);
+
+                //System.out.println(newObj);
+                actionsJSON.actions.set(questionsList.getSelectedIndex(), newObj);
+                actionsJSON.save();
+
+                populateSlotList();
+
+                saveQuestionsToJSON();
+            }
+        });
     }
 
-    private void setupJLabel (JLabel label, String text, int width, int height) {
-        // define the label's appearance.
-        label.setText(text);
-        label.setForeground(configUI.colorListFG);
-        label.setVerticalAlignment(JLabel.BOTTOM);
-        label.setPreferredSize(new Dimension(width, height));
+    private void initSlotListPane(){
+        // create the Slot List Pane and add the Slot List Controls.
+        slotListPane = new SlotListPane();
+        slotListPane.scrollPane.setPreferredSize(new Dimension(200, 450));
+
+        // set slot list pane a bit more user friendly.
+        slotListPane.scrollPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        slotListPane.setAlignmentY(Component.TOP_ALIGNMENT);
+        slotListPane.setBackground(configUI.colorPanelBG);
+        slotListPane.setOpaque(true);
+    }
+
+    private void initSlotListButtons(){
+        slotListButtonPane = new ButtonPane();
+        slotListButtonPane.addButtons(new String[] {"Add New", "Revert", "Save"});
+        ButtonControl addNewBtn = (ButtonControl) slotListButtonPane.getComponents()[0];
+        ButtonControl revertBtn = (ButtonControl) slotListButtonPane.getComponents()[1];
+        ButtonControl saveBtn = (ButtonControl) slotListButtonPane.getComponents()[2];
+
+        // add ActionListener to the AddNewButton.
+        addNewBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                slotListPane.addNewSlot();
+            }
+        });
+
+        // add ActionListener to the RevertButton.
+        revertBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                slotListPane.removeAll();
+                populateSlotList();
+            }
+        });
+
+        // add ActionListener to the Save Button.
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                saveActionsToJSON();
+            }
+        });
+    }
+
+    public ArrayList<String> parseSlots(String inputString) {
+        ArrayList<String> slotNames = new ArrayList<String>();
+        int slotCount = 0;
+        int index = 0;
+        while ((index = inputString.indexOf("<", index)) != -1) {
+            int endIndex = inputString.indexOf(">", index);
+            if (endIndex != -1) {
+                String slotName = inputString.substring(index + 1, endIndex);
+                slotNames.add(slotName);
+                slotCount++;
+                index = endIndex;
+            } else {
+                break;
+            }
+        }
+
+        return slotNames;
+    }
+
+    private void populateSlotList(){
+        int selectedIdx = questionsList.getSelectedIndex();
+        if(selectedIdx>=0){
+            slotListPane.generate(actionsJSON.actions.get(selectedIdx));
+        }
+        else{
+            // no selection, so remove all actions
+            slotListPane.removeAll();
+        }
+    }
+
+    private void readQuestionsJSON(){
+        // define the skills array and populate it from the questions.json
+        questionsJSON = new QuestionsJSON(questionsJSONFilePath);
+
+        // get the skills list from the jsonReader and cast it to String[]
+        skills = questionsJSON.skills.toArray(String[]::new);
+    }
+
+    private void populateQuestionList(Boolean refreshActions){
+        if(skillList.getSelectedIndex() >= 0 ) {
+            // get the currently selected skill.
+            String current_skill = skills[skillList.getSelectedIndex()];
+            // change the population of the questions list.
+            questionsList.setListItems(questionsJSON.questions.get(current_skill).toArray(String[]::new));
+
+            if(refreshActions){
+                // create the actions List from the selected skill.
+                actionsJSON = new ActionsJSON(String.format(actionsJSONFilePath, current_skill));
+            }
+        }
+    }
+
+    private void saveQuestion(){
+        questionsList.listModel.set(questionsList.getSelectedIndex(), questionText.getText());
+    }
+
+    private void saveQuestionsToJSON() {
+
+        if (skillList.getSelectedIndex() >= 0) {
+            // get the currently selected skill.
+            String current_skill = skills[skillList.getSelectedIndex()];
+
+            questionsList.listModel.size();
+            for (int i = 0; i < questionsList.listModel.size(); i++) {
+                String question = questionsList.listModel.get(i);
+
+                // reverse generate on the question.
+                // put that in actionsJSON.actions
+                // also put it in questionsJSON.questions
+                questionsJSON.questions.get(current_skill).set(i, question);
+
+                populateSlotList(); // refresh SlotList.
+                // save to file
+                questionsJSON.save();
+
+            }
+
+            questionsJSON.save();
+        }
+    }
+
+    private void saveActionsToJSON(){
+        System.out.println("Saving Actions");
+
+        ArrayList<ArrayList<String>> slotValuesLists = new ArrayList<>();
+        ArrayList<ArrayList<String>> slotKeysLists = new ArrayList<>();
+        ArrayList<String> valuesList = new ArrayList<>();
+
+
+        for (Component component : slotListPane.getComponents()) {
+            //System.out.println(component);
+            if (component instanceof SlotListControl) {
+                System.out.print(((SlotListControl) component).names);
+                System.out.print(" - ");
+                System.out.print(((SlotListControl) component).values);
+                System.out.print(" - ");
+                System.out.println(((SlotListControl) component).action);
+
+
+                //loop through value text fields (slotValuesTextFields) in slot list control
+                ArrayList<String> values = new ArrayList<>();
+                for (JTextField slotValuesTextField : ((SlotListControl) component).slotValuesTextFields) {
+                    values.add(slotValuesTextField.getText());
+                }
+
+                slotKeysLists.add(((SlotListControl) component).names); // Slot keys
+
+                slotValuesLists.add(values); // Slot values
+
+                valuesList.add(((SlotListControl) component).actionTextField.getText()); // value
+
+            }
+        }
+        // reverse_generate
+        JSONObject newObj = slotListPane.createJSONObject(slotKeysLists, slotValuesLists, valuesList);
+
+        // put it in actionsJSON.actions
+        int current_question = questionsList.getSelectedIndex();
+        actionsJSON.actions.set(current_question, newObj);
+
+        // save to file.
+        actionsJSON.save();
+
+
     }
 
     protected void paintComponent(Graphics g)
@@ -141,6 +557,130 @@ public class SkillEditorPanel extends JPanel{
         g.setColor( getBackground() );
         g.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
+    }
+}
+
+final class QuestionsJSON {
+
+    // define arrayList of strings to define the skills.
+    public ArrayList<String> skills = new ArrayList<>();
+
+    // define a HashMap, with as key the skill string, and as value an arrayList of questions.
+    public HashMap<String,ArrayList<String>> questions = new HashMap<String,ArrayList<String>>();
+    private String questionsFilePath;
+
+    public QuestionsJSON(String questionsFilePath){
+        this.questionsFilePath = questionsFilePath;
+        try {
+            JSONParser parser = new JSONParser(); // create a json parser
+            // read the file and parse the data
+            Object obj = parser.parse(new FileReader(questionsFilePath));
+            JSONObject jsonObject = (JSONObject) obj;
+            for (Object keyStr : jsonObject.keySet()) {
+                // for every found key in the question.json, add it to the arrayList.
+                skills.add((String)keyStr);
+                // create a new JSONObject to go another level deeper (to find the questions).
+                JSONObject newJSONObject = (JSONObject) jsonObject.get(keyStr);
+                // also define the questions array in which we will save the questions found.
+                ArrayList<String> qArray = new ArrayList<>();
+                //fill qArray with empty values, so we can add the questions at the right index.
+                for (int i = 0; i < newJSONObject.size(); i++) {
+                    qArray.add("");
+                }
+                // add the questions to the array at the right index.
+                for (Object keyStr2 : newJSONObject.keySet()) {
+                    // add the questions found.
+                    qArray.set(Integer.parseInt(keyStr2.toString())-1, (String) newJSONObject.get(keyStr2));
+                }
+                // put the hash map element as, current skill string & current questions array.
+                questions.put((String)keyStr, qArray);
+            }
+        }
+        catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        };
+    }
+
+    public void save(){
+        try (FileWriter file = new FileWriter(questionsFilePath)) {
+            JSONObject objToWrite = new JSONObject();
+
+            for (String skill : skills) {
+                JSONObject obj = new JSONObject();
+
+                int questIndex = 0;
+                for (String question : questions.get(skill)) {
+                    questIndex = questIndex + 1;
+                    obj.put(""+questIndex, question);
+                }
+                objToWrite.put(skill, obj);
+            }
+
+            file.write(objToWrite.toJSONString());
+            file.flush();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+final class ActionsJSON {
+
+    public ArrayList<JSONObject> actions = new ArrayList<>();
+    private String actionsJSONFilePath;
+    String templateActionsJSONFilePath = "./app/src/main/resources/skills/template-actions.json";
+
+    public ActionsJSON(String JSONFilePath){
+        actionsJSONFilePath = JSONFilePath;
+
+        // if the file is empty, copy the template file to it.
+        if (new File(JSONFilePath).length() == 0) {
+            try (FileWriter file = new FileWriter(actionsJSONFilePath)) {
+                JSONParser parser = new JSONParser();
+                JSONObject objTemplate = (JSONObject) parser.parse(new FileReader(templateActionsJSONFilePath));
+                JSONObject objToWrite = new JSONObject();
+                objToWrite.put("1", objTemplate);
+                file.write(objToWrite.toJSONString());
+
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        }
+
+
+        try {
+            JSONParser parser = new JSONParser(); // create a json parser
+            // read the file and parse the data
+            System.out.println(JSONFilePath);
+            JSONObject obj = (JSONObject) parser.parse(new FileReader(JSONFilePath));
+            for (Object keyStr : obj.keySet()) {
+                System.out.println(keyStr);
+                actions.add((JSONObject) obj.get(keyStr));
+            }
+        }
+        catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void save(){
+        try (FileWriter file = new FileWriter(actionsJSONFilePath)) {
+            JSONObject objToWrite = new JSONObject();
+
+            int i = 0;
+            for (JSONObject action : actions) {
+                i = i + 1;
+                objToWrite.put(""+i, action);
+            }
+
+            file.write(objToWrite.toJSONString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

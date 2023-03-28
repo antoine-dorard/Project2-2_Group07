@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class Frame extends JFrame {
 
-    final int winWidth = 850;
-    final int winHeight = 600;
+    final int winWidth = 1200;//850
+    final int winHeight = 730;//600
     JPanel mainPanel;
     SelectOptionsPanel selectOptionsPanel;
     ChatBotPanel chatBotPanel;
@@ -21,11 +21,16 @@ public class Frame extends JFrame {
     public Frame(App app){
         super("UM DACS Project 2-2 - Group 07 Chatbot");
 
-        this.setLayout(new BorderLayout(10,0));
+        this.setLayout(new BorderLayout(0,0));
+
+
+        // we should be able to focus on the frame itself.
+        this.setFocusable(true);
 
         // create the panel that contains the navigation buttons.
         selectOptionsPanel = new SelectOptionsPanel();
-        selectOptionsPanel.setPreferredSize(new Dimension(100, 480));
+        selectOptionsPanel.setPreferredSize(new Dimension(100, 200));//(100, 480));
+        selectOptionsPanel.setMaximumSize(new Dimension(40, 100));
         this.add(selectOptionsPanel, BorderLayout.LINE_START);
 
         // create your sub-panels.

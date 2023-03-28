@@ -14,7 +14,7 @@ public class ConfigUI {
     public final Color colorPanelBG = new Color(68, 68, 68);
     public final Color colorListBG = new Color(47, 49, 52);
     public final Color colorListFG = new Color(210, 210, 210);
-    public final Color colorListSelectionBG = new Color(68, 70, 74);
+    public final Color colorListSelectionBG = new Color(255, 255, 255, 25);
     public final Color colorListSelectionFG = new Color(255, 255, 255);
 
 }
