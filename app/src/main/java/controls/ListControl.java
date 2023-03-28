@@ -15,8 +15,6 @@ public class ListControl extends JList<String> {
         super();
         ConfigUI configUI = new ConfigUI();
 
-        //prefixStr = prefix;
-
         UIManager.put("List.focusCellHighlightBorder", BorderFactory.createEmptyBorder());
 
         // create a list model.
@@ -50,38 +48,5 @@ public class ListControl extends JList<String> {
         for (String item :  listItems) {listModel.addElement(item);}
     }
 
-    /*
-    private DefaultListModel<String> newModel(){
-        // define a list model, which will work as skill selector.
-        DefaultListModel<String> listModel = new DefaultListModel<>(){
-            @Override
-            public void addElement(String element) {
-                if (prefix.equals("##")){
-                    super.addElement(String.format("%02d ) ", super.getSize()+1) + element); // prefix is number.
-                }
-                else{
-                    super.addElement(prefix + element); // add prefix.
-                }
-            }
-        };
-        return listModel;
-    }
-
-    @Override
-    public String getSelectedValue() {
-        int beginIndex;
-        if (super.getSelectedValue()!=null) {
-            if (prefixStr.equals("##")) {
-                beginIndex = 5;
-            } // number prefix always has length 5.
-            else {
-                beginIndex = prefixStr.length();
-            } // get the length of the prefix.
-            return (super.getSelectedValue().substring(beginIndex)); // remove prefix.
-        }
-        else{
-            return null;
-        }
-    }*/
 }
 

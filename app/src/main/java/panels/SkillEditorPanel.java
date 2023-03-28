@@ -1,10 +1,6 @@
 package panels;
 
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import controls.*;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -12,8 +8,6 @@ import utils.ConfigUI;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,15 +15,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
-import static java.lang.String.format;
-import static java.lang.Thread.sleep;
-import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
 public class SkillEditorPanel extends JPanel{
@@ -146,8 +134,6 @@ public class SkillEditorPanel extends JPanel{
             public void valueChanged(ListSelectionEvent evt) {
                 readQuestionsJSON();
                 populateQuestionList(true);
-                //questionsList.setSelectedIndex(-1);
-                //populateSlotList();
                 slotListPane.removeAll();
             }
         });
@@ -224,15 +210,12 @@ public class SkillEditorPanel extends JPanel{
                 if (selected != null) {
 
                     int selectedIndex = questionsList.getSelectedIndex();
-                    int previousIndex = selectedIndex == e.getFirstIndex() ? e.getLastIndex() : e.getFirstIndex();
 
                     for (int i = 0; i < questionsList.listModel.size(); i++) {
                         if (i != selectedIndex) {
                             questionsList.listModel.set(i, questionsJSON.questions.get(skillList.getSelectedValue()).get(i));
                         }
                     }
-
-                    //questionsList.listModel.set(previousIndex, questionsJSON.questions.get(skillList.getSelectedValue()).get(previousIndex));
 
                     questionText.setText(selected);
                     questionText.setEnabled(true);
@@ -434,14 +417,12 @@ public class SkillEditorPanel extends JPanel{
 
     public ArrayList<String> parseSlots(String inputString) {
         ArrayList<String> slotNames = new ArrayList<String>();
-        int slotCount = 0;
         int index = 0;
         while ((index = inputString.indexOf("<", index)) != -1) {
             int endIndex = inputString.indexOf(">", index);
             if (endIndex != -1) {
                 String slotName = inputString.substring(index + 1, endIndex);
                 slotNames.add(slotName);
-                slotCount++;
                 index = endIndex;
             } else {
                 break;
@@ -527,7 +508,7 @@ public class SkillEditorPanel extends JPanel{
 
 
         for (Component component : slotListPane.getComponents()) {
-            //System.out.println(component);
+
             if (component instanceof SlotListControl) {
                 System.out.print(((SlotListControl) component).names);
                 System.out.print(" - ");

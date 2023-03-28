@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,17 +99,18 @@ public class SkillLoader {
                             output.append(words[i]).append("\n");
                         }
                     }
-
                 }
             }
 
+            System.out.println("Actions: " + this.getActions());
             // Adding the slots
-
-
-            this.getSlots().forEach((key, value) -> {
+            this.getActions().forEach((key, value) -> {
+                System.out.println(key);
                 try {
                     for (Object o : value.values()) {
-                        JSONArray slotsArray = (JSONArray) o;
+                        System.out.println(o);
+                        JSONObject subAction = (JSONObject) o;
+                        ArrayList<String> slotsArray = generate(subAction);
 
                         for (Object o1 : slotsArray) {
                             output.append((String) o1).append("\n");
@@ -124,6 +126,7 @@ public class SkillLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public JSONObject getQuestions() {
@@ -136,5 +139,38 @@ public class SkillLoader {
 
     public HashMap<String, JSONObject> getActions() {
         return actions;
+    }
+
+    public ArrayList<String> generate(JSONObject json){
+        // the following two lists contain the slots and keys respectively in the order they appear in the JSON until a
+        // value is reached. They are cleared after each value is reached, so actions must be taken to create the slot
+        // list on the UI when each value is reached.
+        ArrayList<String> keysList = new ArrayList<>();
+
+        traverse(json, keysList);
+        return keysList;
+    }
+
+    private void traverse(JSONObject obj, ArrayList<String> keysList) {
+        for (Object key : obj.keySet()) {
+            Object value = obj.get(key);
+            if (value instanceof JSONObject) {
+                String[] splitArray = ((String) key).split(" ");
+
+                if (!keysList.contains(splitArray[1])) {
+                    keysList.add(splitArray[1]);
+                }
+
+                traverse((JSONObject) value, keysList);
+
+            } else { // value is reached
+                if(!key.equals("default")) {
+                    String[] splitArray = ((String) key).split(" ");
+                    if (!keysList.contains(splitArray[1])) {
+                        keysList.add(splitArray[1]);
+                    }
+                }
+            }
+        }
     }
 }

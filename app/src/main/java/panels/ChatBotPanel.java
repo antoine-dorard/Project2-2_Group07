@@ -139,8 +139,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
     public void setChatText(String text, boolean isBot){
         if(isBot) {
-            chatLog = new JLabel(" Robot: ", botImageIcon, SwingConstants.LEFT);//botIcon.getIcon(), SwingConstants.LEFT);//minor changes by John in this line
-            thinkingBot(chatLog, text);// added by John
+            chatLog = new JLabel(" Robot: ", botImageIcon, SwingConstants.LEFT);
+            thinkingBot(chatLog, text);
         } else
             chatLog = new JLabel(" You: "+ text + "\n" , userIcon.getIcon(), SwingConstants.LEFT);
 

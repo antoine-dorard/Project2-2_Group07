@@ -14,8 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
 
-import static javax.swing.BorderFactory.createLineBorder;
-
 public class TreeControl extends JTree {
 
     ConfigUI configUI = new ConfigUI();

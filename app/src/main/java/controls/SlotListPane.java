@@ -1,15 +1,12 @@
 package controls;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import utils.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -91,97 +88,6 @@ public class SlotListPane extends JPanel {
         addSlot(names, values, "");
     }
 
-    private void createSlotList(JSONObject jsonObject, HashMap<String, ArrayList<String>> map){
-        for (Object keyStr : jsonObject.keySet()) {
-            String[] splitArray = ((String) keyStr).split(" ");
-            if(splitArray.length>=2){
-                if(map.containsKey(splitArray[0])){
-                    ArrayList<String> newAr = map.get(splitArray[0]);
-                    newAr.add(splitArray[1]);
-                    map.replace(splitArray[0], newAr);
-                }
-                else{
-                    ArrayList<String> ar = new ArrayList<String>();
-                    ar.add(splitArray[1]);
-                    map.put(splitArray[0], ar);
-                }
-            }
-            try {
-                JSONObject newJSONObject = (JSONObject) jsonObject.get(keyStr);
-                createSlotList(newJSONObject, map);
-            }
-            catch (Exception ignore){
-                String newValue = (String) jsonObject.get(keyStr);
-                if(map.containsKey("actions")){
-                    ArrayList<String> newAr = map.get("actions");
-                    newAr.add(newValue);
-                    map.replace("actions", newAr);
-                } else {
-                    ArrayList<String> ar = new ArrayList<String>();
-                    ar.add(newValue);
-                    map.put("actions", ar);
-                }
-            }
-        }
-    }
-
-    public void convertSlotListToTree(){
-
-    }
-
-    /**
-     * Test method. The code below is capable of parsing a JSON object of a certain question's corresponding
-     * action (answer) and generating a lists of slots and keys that describe the path to each value.
-     * From the populate() method above in the code, you can call the generate() method below to fill in the
-     * slot list on the UI (a better name for the generate() method may be found when implemented in the actual code).
-     * The main method and its content can be deleted when the code has been implemented.
-     * @param args
-     */
-    public static void main(String[] args) {
-//        String jsonString = "{\"DAY Monday\":{\"TIME 11\":\"TCS\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"DAY Tuesday\":{\"TIME 11\":\"ABC\",\"TIME 13\":\"MM\",\"TIME 16\":\"HCI\"},\"default\":\"You don't have any class at this time!\"}";
-//        JSONParser parser = new JSONParser();
-//        JSONObject json = null;
-//        try {
-//            json = (JSONObject) parser.parse(jsonString);
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-//        generate(json);
-
-        ArrayList<ArrayList<String>> slotsLists = new ArrayList<>();
-        ArrayList<ArrayList<String>> keysLists = new ArrayList<>();
-        ArrayList<Object> valuesList = new ArrayList<>();
-
-        // populate slotsLists, keysLists, and valuesList with the desired values
-        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
-        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "11")));
-        valuesList.add("TCS");
-
-        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
-        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "14")));
-        valuesList.add("MM");
-
-        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
-        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "16")));
-        valuesList.add("HCI");
-
-        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME", "MONTH")));
-        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "16", "April")));
-        valuesList.add("Hola");
-
-        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
-        keysLists.add(new ArrayList<>(Arrays.asList("Tuesday", "16")));
-        valuesList.add("ABB");
-
-        slotsLists.add(new ArrayList<>(Arrays.asList("DAY", "TIME")));
-        keysLists.add(new ArrayList<>(Arrays.asList("Monday", "18")));
-        valuesList.add("OOO");
-
-        //JSONObject obj = createJSONObject(slotsLists, keysLists, valuesList);
-
-        //System.out.println(obj);
-    }
-
     public JSONObject createJSONObject(final ArrayList<ArrayList<String>> slotKeysLists, final ArrayList<ArrayList<String>> slotValuesLists, final ArrayList<String> valuesList) {
         if (valuesList.size() != slotKeysLists.size()) {
             throw new IllegalArgumentException("The number of values does not match the number of slots/keys lists");
@@ -213,7 +119,13 @@ public class SlotListPane extends JPanel {
         return obj;
     }
 
-
+    /**
+     * The code below is capable of parsing a JSON object of a certain question's corresponding
+     * action (answer) and generating a lists of slots and keys that describe the path to each value.
+     * From the populate() method above in the code, you can call the generate() method below to fill in the
+     * slot list on the UI (a better name for the generate() method may be found when implemented in the actual code).
+     * @param json
+     */
     public void generate(JSONObject json){
         // the following two lists contain the slots and keys respectively in the order they appear in the JSON until a
         // value is reached. They are cleared after each value is reached, so actions must be taken to create the slot
@@ -245,8 +157,6 @@ public class SlotListPane extends JPanel {
                     slotsList.add(splitArray[0]);
                     keysList.add(splitArray[1]);
 
-                    addSlot(slotsList.toArray(new String[0]), keysList.toArray(new String[0]), (String) value);
-
                     // #########
                     // This is where you can do something with the slotsList,  keysList, defaultValue and value
                     // Instead of printing them out, you can use them to create the slot lists on the UI
@@ -266,8 +176,7 @@ public class SlotListPane extends JPanel {
                     // Monday  11    |  TCS
                     //
 
-                    //System.out.println(slotsList + "\n" + keysList + "\n" + value);
-                    //System.out.println();
+                    addSlot(slotsList.toArray(new String[0]), keysList.toArray(new String[0]), (String) value);
 
                     // #########
 
