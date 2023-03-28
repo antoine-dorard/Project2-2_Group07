@@ -1,0 +1,101 @@
+Probability,Original Question,Spelling Mistake,Corrected Phrase,Score,Time (ms)
+1,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuesday at 9:00","which lectures are there on tuesday at 9:00",100,155
+1,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,44
+1,"What is the weather like in Miami","What is the weather like in Miami","what is the weather like in miami",100,36
+1,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,37
+1,"Is it raining in New York","Is it raiving in New York","is it raining in new york",100,27
+1,"Is it snowing in Houston","Is it snowing in Houston","is it snowing in houston",100,33
+1,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuesday at 9:00","which lectures are there on tuesday at 9:00",100,47
+1,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,36
+1,"What is the weather like in Miami","What is the weatherplike in Mcami","what is the weather in miami",60,23
+1,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,20
+2,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuesday at 9:00","which lectures are there on tuesday at 9:00",100,21
+2,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,92
+2,"What is the weather like in Miami","What is the weaxhej lnke in Miami","what is the weather like in miami",100,47
+2,"What temperature is it in Los Angeles","What temperature is it in Los ungeles","what temperature is it in los angeles",100,27
+2,"Is it raining in New York","Is it raining in New York","is it raining in new york",100,14
+2,"Is it snowing in Houston","Is it snowing in Houston","is it snowing in houston",100,13
+2,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuesday at 9:00","which lectures are there on tuesday at 9:00",100,21
+2,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have wnth Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,34
+2,"What is the weather like in Miami","Wxat is the weather lgke in Miami","what is the weather like in miami",100,25
+2,"What temperature is it in Los Angeles","What temperature is itgin Los Angeles","what temperature is in los angeles",59,21
+3,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuosday at 9:00","which lectures are there on tuesday at 9:00",100,24
+3,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have witc Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,23
+3,"What is the weather like in Miami","What is the weatherclike in Minmi","what is the weather in mini",60,27
+3,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,27
+3,"Is it raining in New York","Is itkraibdng in New York","is training in new york",24,18
+3,"Is it snowing in Houston","Is it snowing in Houston","is it snowing in houston",100,15
+3,"Which lectures are there on Tuesday at 9:00","Which lectures adf there on Tuesday at 9:b0","which lectures adds there on tuesday at 9:00",39,21
+3,"What lecture do I have with Dr. Lee at 1:00","What lecture do I nave with Dr. Lee aq 1:t0","what lecture do i have with dr. lee a 1:00",88,23
+3,"What is the weather like in Miami","What is the weather like in Miami","what is the weather like in miami",100,22
+3,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,22
+4,"Which lectures are there on Tuesday at 9:00","Which ltctures are there mn Tuesiay at 9:00","which lectures are there in tuesday at 9:00",97,37
+4,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,27
+4,"What is the weather like in Miami","What is the weather like in Miami","what is the weather like in miami",100,21
+4,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,23
+4,"Is it raining in New York","Is it raining in NewuYork","is it raining in network",76,19
+4,"Is it snowing in Houston","Is it snowizg in Houston","is it snowing in houston",100,14
+4,"Which lectures are there on Tuesday at 9:00","Which lectures are teere on Tuesdry at 9:00","which lectures are there on tuesday at 9:00",100,21
+4,"What lecture do I have with Dr. Lee at 1:00","What lectdre do I have with Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,18
+4,"What is the weather like in Miami","Wiat is the wekther like in Miami","what is the weather like in miami",100,18
+4,"What temperature is it in Los Angeles","What temperature is jt in Los Angeles","what temperature is it in los angeles",100,21
+5,"Which lectures are there on Tuesday at 9:00","Whichslectures ari there on Tuesday at 9:00","pictures are there on tuesday at 9:00",6,30
+5,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dr. Lee at 1:00","what lecture do i have with dr. lee at 1:00",100,20
+5,"What is the weather like in Miami","What is ths weather like in Miami","what is the weather like in miami",100,21
+5,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,20
+5,"Is it raining in New York","Ikbit raining in New York","it raining in new york",12,14
+5,"Is it snowing in Houston","Is it snotingfincHouston","is it notification",25,26
+5,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuesdam at 9:00","which lectures are there on tuesday at 9:00",100,17
+5,"What lecture do I have with Dr. Lee at 1:00","What lecture oo I have with Dr. Lee at 1:00","what lecture of i have with dr. lee at 1:00",95,24
+5,"What is the weather like in Miami","What is the weather like in Miami","what is the weather like in miami",100,17
+5,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,24
+6,"Which lectures are there on Tuesday at 9:00","Which lectures are there on Tuesdqyuat 9:b0","which lectures are there on tuesday 9:00",83,31
+6,"What lecture do I have with Dr. Lee at 1:00","What lecture do I havd wioh Dr. Leo ak 1:00","what lecture do i have with dr. leo a 1:00",86,37
+6,"What is the weather like in Miami","What is the weathez like in Miami","what is the weather like in miami",100,18
+6,"What temperature is it in Los Angeles","What temperature is it in Lps Angeles","what temperature is it in less angeles",75,20
+6,"Is it raining in New York","Is it raining in New York","is it raining in new york",100,14
+6,"Is it snowing in Houston","Is it snowing in Houstoa","is it snowing in houston",100,14
+6,"Which lectures are there on Tuesday at 9:00","Which lectures are thwge wn Tuepday at 9u00","which lectures are the in tuesday at 9:00",51,19
+6,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dr. Lee aw y:00","what lecture do i have with dr. lee a :00",86,26
+6,"What is the weather like in Miami","What is thc weather lxke in Miami","what is the weather like in miami",100,19
+6,"What temperature is it in Los Angeles","What tempvcature is it in sos Angeles","what temperature is it in so angeles",72,18
+7,"Which lectures are there on Tuesday at 9:00","Which leltuies are there on luesdayuat 9:00","which lectures are there on tuesday 9:00",83,17
+7,"What lecture do I have with Dr. Lee at 1:00","What lecture do I have with Dc.cLee at 1:00","what lecture do i have with cycle at 1:00",65,19
+7,"What is the weather like in Miami","Whatbis the weatherllike in Miami","whats the weather in miami",15,19
+7,"What temperature is it in Los Angeles","What tempeqature is it in Los Angilrs","what temperature is it in los angeles",100,20
+7,"Is it raining in New York","Is ie naifing in qew pork","is ieee mailing in new pork",24,20
+7,"Is it snowing in Houston","Is tt snowing in Houston","is to snowing in houston",91,33
+7,"Which lectures are there on Tuesday at 9:00","Wbich lecturpg are there obdTuesday at 9:00","which lecture are there tuesday at 9:00",30,32
+7,"What lecture do I have with Dr. Lee at 1:00","Whas lecture do I have with Dr. Lee at 1:00","was lecture do i have with dr. lee at 1:00",6,41
+7,"What is the weather like in Miami","vhat is the weauherclike in Miati","that is the weather in miami",57,29
+7,"What temperature is it in Los Angeles","What temperftsre is it in Los Angeles","what temperature is it in los angeles",100,19
+8,"Which lectures are there on Tuesday at 9:00","Which lecteres are thcre mn Tuesdayiat 9:00","which lectures are there in tuesday 9:00",81,28
+8,"What lecture do I have with Dr. Lee at 1:00","Whau lecture do I hwve witq Dr. Lee ct 1:00","what lecture do i have with dr. lee it 1:00",97,41
+8,"What is the weather like in Miami","What is the ieather liqe gniMiahi","what is the weather like night",75,18
+8,"What temperature is it in Los Angeles","Whatutomperature is gt in Los Angexes","temperature is it in los angeles",0,40
+8,"Is it raining in New York","es it rainhng en New dork","is it raining in new work",96,25
+8,"Is it snowing in Houston","Is st snowing in Hfuston","is it snowing in houston",100,29
+8,"Which lectures are there on Tuesday at 9:00","Whico lectures are there on Tuesday at 9:00","which lectures are there on tuesday at 9:00",100,36
+8,"What lecture do I have with Dr. Lee at 1:00","What lmhtgre do I have with Dr. Lee at e:0k","what mature do i have with dr. lee at erik",13,23
+8,"What is the weather like in Miami","What is the weathertlike in Miami","what is the weather in miami",60,22
+8,"What temperature is it in Los Angeles","What temperature is pt in Lss Angeles","what temperature is it in is angeles",70,20
+9,"Which lectures are there on Tuesday at 9:00","Whichfoeituruspare mherj on Tuesgay at 9:00","architecture there on tuesday at 9:00",6,28
+9,"What lecture do I have with Dr. Lee at 1:00","What lectare domI havucwuth Dr. Leebat az00","what lecture doom south dr. ebay 0",39,25
+9,"What is the weather like in Miami","What is the weather like it biami","what is the weather like it miami",96,17
+9,"What temperature is it in Los Angeles","Whatooemperature is it ineLos pngeles","temperature is it news angeles",5,25
+9,"Is it raining in New York","Is it raining bnwNqw York","is it raining new york",56,16
+9,"Is it snowing in Houston","Issit snowinw hn Houston","visit snowing in houston",87,16
+9,"Which lectures are there on Tuesday at 9:00","Which lecturep arw sjere on Tuesday at 9:00","which lecture are there on tuesday at 9:00",32,19
+9,"What lecture do I have with Dr. Lee at 1:00","What jecture do I pave wish Dr. lee at 1c00","what lecture do i have wish dr. lee at 10",90,22
+9,"What is the weather like in Miami","Whay is the weather likz fn Miami","what is the weather like in miami",100,19
+9,"What temperature is it in Los Angeles","What temperature is it in Los Angeles","what temperature is it in los angeles",100,24
+10,"Which lectures are there on Tuesday at 9:00","Which lectures areithere on Tuesddy at 9:00","which lectures either on tuesday at 9:00",41,17
+10,"What lecture do I have with Dr. Lee at 1:00","lhat lesture oo I heve witc Dr. Lee at 1:00","that lecture of i have with dr. lee at 1:00",93,19
+10,"What is the weather like in Miami","Whatgis thepweather jike in Miamg","whats theater like in miami",15,20
+10,"What temperature is it in Los Angeles","What temperature is it in LotlAngells","what temperature is it in labels",72,20
+10,"Is it raining in New York","Is it raining in New York","is it raining in new york",100,15
+10,"Is it snowing in Houston","Is qg snoeing in touston","is egg snowing in houston",12,22
+10,"Which lectures are there on Tuesday at 9:00","Which lecxurescare there onfTuesdayoat 9:00","which lecture there tuesday 9:00",32,30
+10,"What lecture do I have with Dr. Lee at 1:00","Weatblrcture do I have with rr. Lee ax 1:00","feature do i have with dr. lee a 1:00",13,28
+10,"What is the weather like in Miami","What is the weather like in Moami","what is the weather like in miami",100,42
+10,"What temperature is it in Los Angeles","Whap temkerature is itbin Lks Anoeles","what temperature is in less angeles",62,41

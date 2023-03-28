@@ -3,7 +3,6 @@ package controls;
 import utils.ConfigUI;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ListControl extends JList<String> {
 

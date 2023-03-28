@@ -3,11 +3,6 @@ package backend;
 import backend.answer_generator.FullTextAG;
 import backend.spelling_checker.WordSuggester;
 import main.SkillLoader;
-import org.json.simple.JSONObject;
-
-import java.io.*;
-import java.net.URISyntaxException;
-import java.util.Iterator;
 
 public class FullTextIP implements InputProcessor{
 

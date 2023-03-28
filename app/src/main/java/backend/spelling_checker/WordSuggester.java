@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.*;
 
 public class WordSuggester {
@@ -43,7 +42,6 @@ public class WordSuggester {
             System.out.printf("%s\t%d\n", word, i);
 
             if (i < 3) {
-                //newlist.computeIfAbsent(word, k -> new ArrayList<>()).add(i);
                 newlist.computeIfAbsent(word, k -> new ArrayList<>()).add(i);
             }
         }
@@ -63,13 +61,5 @@ public class WordSuggester {
 
         System.out.println("sortedMap: " + sortedMap);
         return list.size() != 0 ? String.valueOf(list.get(0).getKey()) : input;
-    }
-
-    public static void main(String[] args) {
-        WordSuggester ws = new WordSuggester();
-        String input = "who";
-        String name = ws.inputMatches(input); //in this case I made a predefined input, but we need to implement this method
-                                //at the moment we split our input into an array of words
-        System.out.println("this is the print " + name);
     }
 }

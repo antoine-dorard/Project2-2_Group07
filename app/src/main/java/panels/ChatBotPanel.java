@@ -16,9 +16,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
     App app;
     JTextField textField;
     JButton button;
-    JLabel label;
-
-    JTextArea jt;
 
     boolean isThreadOver = true;
 
@@ -41,7 +38,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
     JScrollPane scrollPane = new JScrollPane(chatContainer, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-    //ImageIcon botImageIcon = new ImageIcon("app/src/imgs/chatbot_app_icon_blue.png");
     ImageIcon botImageIcon = new ImageIcon(getClass().getResource("/imgs/chatbot_app_icon_blue.png"));
     JLabel botIcon = new JLabel(botImageIcon);
     ImageIcon userImageIcon = new ImageIcon(getClass().getResource("/imgs/user_icon.png"));
@@ -134,7 +130,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
     public void conversationLogSetup(){
         chatContainer.setLayout(new BoxLayout(chatContainer, BoxLayout.Y_AXIS));
         setChatText("Hello I'm your chatBot, with what can I help you?", true);
-        setChatText("What is your name?", true);
 
         chatContainer.setOpaque(false);
         scrollPane.setOpaque(false);
@@ -203,7 +198,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
                 try {
                     Thread.sleep(500);
                 } catch(Exception e) {
-                    //... oh shit
+
                 }
             }
 
@@ -214,7 +209,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
                 try {
                     Thread.sleep(50);
                 } catch (Exception e) {
-                    //... oh dear
+
                 }
             }
             String current = target.getText();
@@ -229,10 +224,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // Main Execution
 
         // set the text of the label to the text of the field
-        //chatLog.setText(textField.getText());
         setChatText(textField.getText() + "\n", false);
 
-        //chatLog.append("me: " + textField.getText() + "\n");
 
         String input = textField.getText();
         String output = new FullTextIP(app.getSkillLoader()).processInput(input);

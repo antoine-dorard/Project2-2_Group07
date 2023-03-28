@@ -1,7 +1,6 @@
 package controls;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class ButtonPane extends JPanel {
 
