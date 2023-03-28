@@ -68,11 +68,4 @@ public class WordSuggester {
 
         System.out.println("sortedMap: " + sortedMap);
     }
-
-    public static void main(String[] args) {
-        WordSuggester ws = new WordSuggester();
-        String input = "What";
-        ws.inputMatches(input); //in this case I made a predefined input, but we need to implement this method
-                                //at the moment we split our input into an array of words
-    }
 }

@@ -11,7 +11,6 @@ public class Frame extends JFrame {
 
     final int winWidth = 850;
     final int winHeight = 600;
-    JPanel mainPanel;
     SelectOptionsPanel selectOptionsPanel;
     ChatBotPanel chatBotPanel;
     SkillEditorPanel skillEditorPanel;
