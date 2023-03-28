@@ -28,7 +28,7 @@ public class Frame extends JFrame {
         this.setFocusable(true);
 
         // create the panel that contains the navigation buttons.
-        selectOptionsPanel = new SelectOptionsPanel();
+        selectOptionsPanel = new SelectOptionsPanel(app);
         selectOptionsPanel.setPreferredSize(new Dimension(100, 200));//(100, 480));
         selectOptionsPanel.setMaximumSize(new Dimension(40, 100));
         this.add(selectOptionsPanel, BorderLayout.LINE_START);

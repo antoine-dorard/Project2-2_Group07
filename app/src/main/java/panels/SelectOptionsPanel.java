@@ -1,19 +1,24 @@
 package panels;
 
+import main.App;
+
 import java.util.ArrayList;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class  SelectOptionsPanel extends JPanel {
+    private App app;
 
     public JToggleButton chatBtn, skillsBtn;
     private JLabel label;
     private Font btnFont = new Font("Monospaced", Font.BOLD, 14);
     public ArrayList<JToggleButton> naviButtons = new ArrayList<JToggleButton>();
 
-    public SelectOptionsPanel(){
+    public SelectOptionsPanel(App app){
         super();
+        this.app = app;
+
         GridLayout layout = new GridLayout(3,1);
         layout.setVgap(50);
         this.setLayout(layout);
@@ -23,7 +28,8 @@ public class  SelectOptionsPanel extends JPanel {
         buttonSetup(chatBtn);
 
         chatBtn.addActionListener(e -> {
-            // TODO
+            System.out.println("Chat button pressed");
+            app.getSkillLoader().loadSkills();
         });
 
         skillsBtn = new JToggleButton("Skills", new ImageIcon(getClass().getResource("/imgs/skills_icon.png")));

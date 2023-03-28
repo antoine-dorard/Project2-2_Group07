@@ -12,7 +12,7 @@ public class App {
     public void init(){
         new Frame(this);
         skillLoader = new SkillLoader();
-        skillLoader.loadSkills(new String[]{"calendar", "weather"});
+        skillLoader.loadSkills();
         System.out.println(skillLoader.getQuestions().toString());
 
         // TODO: 0. bot answer computation in parallel threads

@@ -1,1 +1,12 @@
-{"calendar":{"1":"Which lectures are there on <DAY> at <TIME>","2":"What lecture do I have with <TEACHER> a <A> and <B>","3":"New Question with <SLOT1> and <SLOT2> "},"Skill":{"1":"New Question with <SLOT1> and <SLOT2>","2":"New Question with <SLOT1> and <SLOT2> <A>"},"weather":{"1":"what is the weather like in <CITY>","2":"what temperature is it in <CITY>","3":"is it raining in <CITY>","4":"is it snowing in <CITY>"}}
+{
+  "calendar": {
+    "1": "Which lectures are there on <DAY> at <TIME>",
+    "2": "What lecture do I have with <TEACHER> at <TIME>"
+  },
+  "weather": {
+    "1": "what is the weather like in <CITY>",
+    "2": "what temperature is it in <CITY>",
+    "3": "is it raining in <CITY>",
+    "4": "is it snowing in <CITY>"
+  }
+}

@@ -144,6 +144,7 @@ public class SkillEditorPanel extends JPanel{
         // add Action Listener for the JList "skillList".
         skillList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
+                readQuestionsJSON();
                 populateQuestionList(true);
                 //questionsList.setSelectedIndex(-1);
                 //populateSlotList();
@@ -159,7 +160,7 @@ public class SkillEditorPanel extends JPanel{
                 if(questionsJSON.skills.contains("Skill")){
                     int i = 0;
                     for(String skill: questionsJSON.skills){
-                        if(skill=="Skill"){
+                        if(skill.contains("Skill")){
                             i = i + 1;
                         }
                     }
@@ -187,6 +188,7 @@ public class SkillEditorPanel extends JPanel{
                     }
                 }
 
+                populateSlotList();
                 readQuestionsJSON();
 
                 System.out.println(actionsJSON.actions);
@@ -224,7 +226,13 @@ public class SkillEditorPanel extends JPanel{
                     int selectedIndex = questionsList.getSelectedIndex();
                     int previousIndex = selectedIndex == e.getFirstIndex() ? e.getLastIndex() : e.getFirstIndex();
 
-                    questionsList.listModel.set(previousIndex, questionsJSON.questions.get(skillList.getSelectedValue()).get(previousIndex));
+                    for (int i = 0; i < questionsList.listModel.size(); i++) {
+                        if (i != selectedIndex) {
+                            questionsList.listModel.set(i, questionsJSON.questions.get(skillList.getSelectedValue()).get(i));
+                        }
+                    }
+
+                    //questionsList.listModel.set(previousIndex, questionsJSON.questions.get(skillList.getSelectedValue()).get(previousIndex));
 
                     questionText.setText(selected);
                     questionText.setEnabled(true);
@@ -270,7 +278,7 @@ public class SkillEditorPanel extends JPanel{
         addNewBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String current_skill = skills[skillList.getSelectedIndex()];
+                String current_skill = skillList.getSelectedValue();
                 questionsJSON.questions.get(current_skill).add("New Question with <SLOT1> and <SLOT2>");
                 try {
                     JSONParser parser = new JSONParser(); // create a json parser
@@ -364,8 +372,6 @@ public class SkillEditorPanel extends JPanel{
                         System.out.println(slotValuesLists.get(slotValuesLists.size() - 1));
                     }
                 }
-
-                System.out.println(valuesList.get(valuesList.size() - 1));
 
                 // reverse_generate
                 JSONObject newObj = slotListPane.createJSONObject(slotKeysLists, slotValuesLists, valuesList);
@@ -466,8 +472,11 @@ public class SkillEditorPanel extends JPanel{
 
     private void populateQuestionList(Boolean refreshActions){
         if(skillList.getSelectedIndex() >= 0 ) {
+            //print current skill
+            System.out.println(skills[skillList.getSelectedIndex()]);
+
             // get the currently selected skill.
-            String current_skill = skills[skillList.getSelectedIndex()];
+            String current_skill = skillList.getSelectedValue();
             // change the population of the questions list.
             questionsList.setListItems(questionsJSON.questions.get(current_skill).toArray(String[]::new));
 
@@ -479,14 +488,16 @@ public class SkillEditorPanel extends JPanel{
     }
 
     private void saveQuestion(){
-        questionsList.listModel.set(questionsList.getSelectedIndex(), questionText.getText());
+        if(questionsList.getSelectedIndex() >= 0){
+            questionsList.listModel.set(questionsList.getSelectedIndex(), questionText.getText());
+        }
     }
 
     private void saveQuestionsToJSON() {
 
         if (skillList.getSelectedIndex() >= 0) {
             // get the currently selected skill.
-            String current_skill = skills[skillList.getSelectedIndex()];
+            String current_skill = skillList.getSelectedValue();
 
             questionsList.listModel.size();
             for (int i = 0; i < questionsList.listModel.size(); i++) {

@@ -26,8 +26,12 @@
   },
   "3": {
     "SLOT1 slot1": {
-      "SLOT2 slot2": "aaaa",
-      "SLOT2 kjsnfk": "abbb"
+      "SLOT2 slot2": {
+        "SLOT3 value": "aaaa"
+      },
+      "SLOT2 kjsnfk": {
+        "SLOT3 value": "abbb"
+      }
     }
   },
   "4": {

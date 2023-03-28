@@ -47,7 +47,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
     ImageIcon userImageIcon = new ImageIcon(getClass().getResource("/imgs/user_icon.png"));
     JLabel userIcon = new JLabel(userImageIcon);
     ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
-    ImageIcon sendBtn = new ImageIcon(getClass().getResource("/imgs/send_icon.png"));
     ImageIcon sendImageIcon = new ImageIcon(getClass().getResource("/imgs/send_icon.png"));
 
     GridBagConstraints c = new GridBagConstraints();
@@ -86,7 +85,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
         button.addActionListener(e -> {
             actionPerformed(e.getActionCommand());
         });
-        button.setIcon(sendBtn);
 
         conversationLogSetup();
 
@@ -131,11 +129,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
         textField.setFont(new Font("Monospaced", Font.BOLD, 14));
         textField.setForeground(new Color(255, 255, 255));
 
-    }
-
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background.getImage(), 170, 50, null);
     }
 
     public void conversationLogSetup(){
@@ -241,17 +234,9 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
         //chatLog.append("me: " + textField.getText() + "\n");
 
-        if(textField.getText().contains("Laurent")){
-            setChatText("That's a cool name"+"\n", true);
-        }
-        else if(textField.getText().contains("Antoine")){
-            setChatText("beurk what a name", true);
-        }
-        else{
-            String input = textField.getText();
-            String output = new FullTextIP(app.getSkillLoader()).processInput(input);
-            setChatText(output, true);
-        }
+        String input = textField.getText();
+        String output = new FullTextIP(app.getSkillLoader()).processInput(input);
+        setChatText(output, true);
 
         // set the text of field to blank
         textField.setText("");
