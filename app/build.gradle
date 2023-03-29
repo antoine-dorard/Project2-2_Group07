@@ -8,7 +8,8 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
+    id 'application',
+    id 'java'
 }
 
 repositories {
@@ -27,6 +28,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation files('lib/opencv-4.7.0.jar')
+
 
 }
 
