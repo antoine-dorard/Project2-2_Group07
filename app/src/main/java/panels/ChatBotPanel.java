@@ -4,10 +4,7 @@ package panels;
 import backend.CFG_InputProcessor;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -16,9 +13,6 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 public class ChatBotPanel extends JPanel implements Runnable {
     JTextField textField;
     JButton button;
-    JLabel label;
-
-    JTextArea jt;
 
     boolean isThreadOver = true;
 
@@ -30,7 +24,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
     JScrollPane scrollPane = new JScrollPane(chatContainer, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-    //ImageIcon botImageIcon = new ImageIcon("app/src/imgs/chatbot_app_icon_blue.png");
     ImageIcon botImageIcon = new ImageIcon(getClass().getResource("/imgs/chatbot_app_icon_blue.png"));
     JLabel botIcon = new JLabel(botImageIcon);
     ImageIcon userImageIcon = new ImageIcon(getClass().getResource("/imgs/user_icon.png"));
@@ -164,7 +157,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
                 try {
                     Thread.sleep(500);
                 } catch(Exception e) {
-                    //... oh shit
+
                 }
             }
 
@@ -175,7 +168,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
                 try {
                     Thread.sleep(50);
                 } catch (Exception e) {
-                    //... oh dear
+
                 }
             }
             String current = target.getText();
