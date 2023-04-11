@@ -1,8 +1,8 @@
 import cv2
 
 # Load the pre-trained face detection model
-model_file = 'app/bin/main/faceID/data/res10_300x300_ssd_iter_140000.caffemodel'
-config_file = 'app/bin/main/faceID/data/deploy.prototxt'
+model_file = 'app/src/main/java/faceID/data/res10_300x300_ssd_iter_140000.caffemodel'
+config_file = 'app/src/main/java/faceID/data/deploy.prototxt'
 net = cv2.dnn.readNetFromCaffe(config_file, model_file)
 
 # Open the video capture device (use 0 for built-in webcam)

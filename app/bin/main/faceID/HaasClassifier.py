@@ -2,7 +2,7 @@ import cv2
 
 # Load the pre-trained face detection classifier
 face_cascade = cv2.CascadeClassifier(
-    'app/bin/main/faceID/data/haarcascade_frontalface_default.xml')
+    'app/src/main/java/faceID/data/haarcascade_frontalface_default.xml')
 
 # Open the video capture device (0 for built-in webcam)
 cap = cv2.VideoCapture(0)
@@ -21,13 +21,8 @@ while True:
     # Draw a bounding box around each detected face and add text with confidence score
     for (x, y, w, h) in faces:
         # Calculate the percentage of the frame that the face takes up
-        face_area = w * h
-        frame_area = frame.shape[0] * frame.shape[1]
-        confidence = int((face_area / frame_area) * 100)
-
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        cv2.putText(frame, 'Confidence: ' + str(confidence) + '%',
-            (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+        
 
 
     # Show the output
