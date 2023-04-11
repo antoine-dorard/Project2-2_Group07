@@ -30,3 +30,7 @@ build
 
 # IDE files
 .idea/
+
+# others
+.history
+.DS_Store
