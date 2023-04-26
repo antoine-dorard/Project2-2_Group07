@@ -1,4 +1,8 @@
 package backend.cnf_converter;
 
-public class NonTerminal {
+public class NonTerminal extends GrammarVariable {
+    @Override
+    String getStringValue() {
+        return null;
+    }
 }

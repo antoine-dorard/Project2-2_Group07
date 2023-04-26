@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CNF {
 
-    ArrayList<RHS> cnf = new ArrayList<>();
+    ArrayList<GrammarVariable> cnf = new ArrayList<>();
 
     /**
      * Returns null if the terminal does not exist.
@@ -23,7 +23,7 @@ public class CNF {
     }
 
 
-    public RHS getRHS(Integer parent){
+    public GrammarVariable getRHS(Integer parent){
         return cnf.get(parent);
     }
 
