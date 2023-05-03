@@ -143,11 +143,11 @@ public class FaceDetection {
     public static void main(String[] args) throws IOException {
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
-        runPythonScript();
-
         // Create a server socket to listen for incoming connections
         ServerSocket serverSocket = new ServerSocket(8000);
         System.out.println("Listening for connections on port 8000");
+
+        runPythonScript();
 
         // Accept connections and read messages
         Socket clientSocket = serverSocket.accept();
