@@ -8,8 +8,15 @@ public class CNF {
     ArrayList<CNFRule> cnf = new ArrayList<>();
 
     /*
-    NonTerminal -> NonTerminal NonTerminal | NonTerminal NonTerminal
-    NonTerminal -> Terminal | Terminal | Terminal
+    -- A1 -> NonTerminal NonTerminal | NonTerminal NonTerminal
+    -- B1 -> Terminal | Terminal | Terminal
+
+    -- A1 : NonTerminal NonTerminal
+    -- A1 : NonTerminal NonTerminal
+    -- A1 : NonTerminal NonTerminal
+    -- B1 -> Terminal
+    -- B1 -> Terminal
+    -- B1 -> Terminal
      */
 
     /**

@@ -31,7 +31,7 @@ public class CNFRule {
         return pairs;
     }
 
-    public Terminal getTerminal(){
+    public ArrayList<Terminal> getTerminal(){
         return terminal;
     }
 

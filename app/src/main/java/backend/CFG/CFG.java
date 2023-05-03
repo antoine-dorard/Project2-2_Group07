@@ -130,4 +130,10 @@ public class CFG {
     // getters
     public ArrayList<Object> getCfgActions() { return cfgActions; }
     public HashMap<String, Object> getCfgRules(){ return cfgRulesHM; }
+
+    public static void main(String[] args) {
+        CFG cfg = new CFG();
+        System.out.println(cfg.cfgRulesHM);
+        System.out.println(cfg.cfgActions);
+    }
 }
