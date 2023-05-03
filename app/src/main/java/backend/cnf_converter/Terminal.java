@@ -5,21 +5,20 @@ import java.util.Arrays;
 
 /**
  * A Terminal is a Grammar Variable that represents a word or multiple words that don't contain a placeholder.
- * An instance of this class can also contain multiple terminals.
  */
 public class Terminal extends GrammarVariable {
 
     private final NonTerminal nonTerminalParent;
 
-    private ArrayList<String> terminals = new ArrayList<>();
+    private String terminal;
 
     public Terminal(NonTerminal parent){
         this.nonTerminalParent = parent;
     }
 
-    public Terminal(NonTerminal parent, String... terminals){
+    public Terminal(NonTerminal parent, String terminal){
         this.nonTerminalParent = parent;
-        setTerminals(terminals);
+        this.terminal = terminal;
     }
 
     @Override
@@ -27,17 +26,8 @@ public class Terminal extends GrammarVariable {
         return nonTerminalParent;
     }
 
-    public ArrayList<String> getTerminals() {
-        return terminals;
-    }
-
-    public void setTerminals(String... terminals) {
-        this.terminals = new ArrayList<>();
-        this.terminals.addAll(Arrays.asList(terminals));
-    }
-
-    public void addTerminal(String terminal){
-        terminals.add(terminal);
+    public String getTerminal() {
+        return terminal;
     }
 
     @Override
