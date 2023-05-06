@@ -3,13 +3,17 @@ package backend.cnf_converter;
 public class NonTerminal extends GrammarVariable {
 
 
-    @Override
-    public String toString() {
-        return super.toString();
+    private String nonTerminal;
+
+    public NonTerminal(){
+    }
+
+    public NonTerminal(String nonTerminal){
+        this.nonTerminal = nonTerminal;
     }
 
     @Override
-    public NonTerminal getParent() {
-        return null;
+    public String toString() {
+        return nonTerminal;
     }
 }
