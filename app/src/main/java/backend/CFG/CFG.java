@@ -1,5 +1,8 @@
 package backend.CFG;
 
+import backend.cnf_converter.GrammarVariable;
+import backend.cnf_converter.NonTerminal;
+import backend.cnf_converter.Terminal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,14 +15,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class CFG {
-    private HashMap<String, Object> cfgRulesHM = new HashMap<>();
-    private ArrayList<Object> cfgActions = new ArrayList<>();
+    private final HashMap<String, ArrayList<ArrayList<GrammarVariable>> > cfgRulesHM = new HashMap<>();
+    private final ArrayList<CFGAction> cfgActions = new ArrayList<>();
 
     public CFG(){
         readRules();
         readActions();
     }
 
+    /**
+     * Method that reads CFG rules from a json file and stores them in a Hashmap as combinations
+     * of terminals (T) and non-terminals (NT).
+     */
     public void readRules(){
         JSONParser parser = new JSONParser();
 
@@ -34,19 +41,19 @@ public class CFG {
             // while there are keys+values left to be added to the HM
             while (keys.hasNext()){
                 String key = (String) keys.next();
-                // if there are multiple elements in the value, create arraylist
+                ArrayList<ArrayList<GrammarVariable>> convertedRules = new ArrayList<>();
                 if (rules.get(key) instanceof JSONArray) {
                     JSONArray arr = (JSONArray) rules.get(key);
                     Iterator<String> values = arr.iterator();
-                    ArrayList<String> ruleList = new ArrayList<>();
-                    // while there are still values left in the array
+                    // while there are still values left in the array, convert them to term and nonTerm
                     while (values.hasNext())
-                        ruleList.add(values.next());
-                    cfgRulesHM.put(key, ruleList);
+                        convertedRules.add(splitRule(values.next()));
+                    cfgRulesHM.put(key, convertedRules);
                 }
-                // if there is only one element in the value, add directly to HM
-                else
-                    cfgRulesHM.put(key, rules.get(key));
+                else {
+                    convertedRules.add(splitRule((String) rules.get(key)));
+                    cfgRulesHM.put(key, convertedRules);
+                }
             }
 
             ruleReader.close();
@@ -55,6 +62,41 @@ public class CFG {
         }
     }
 
+    /**
+     * Method that splits a rule into (non-)terminals
+     * Assumes that non-terminals are surrounded by brackets (< >)
+     * @param rule rule string to be converted into terminals and non-terminals
+     * @return ArrayList of GrammarVariables representing the rule
+     */
+    public ArrayList<GrammarVariable> splitRule(String rule){
+        ArrayList<GrammarVariable> list = new ArrayList<>();
+        int beginIndex = 0;
+        for (int i = 0; i < rule.length(); i++) {
+            // this 'if' assumes that a terminal is always followed by a non-terminal
+            if (rule.charAt(i) == '<'){
+
+                if(i != beginIndex){
+                    list.add(new Terminal(rule.substring(beginIndex, i-1)));
+                    beginIndex = i;
+                    i--;
+                } else {
+                    while (rule.charAt(i) != '>')
+                        i++;
+                    // don't include brackets (< >)
+                    list.add(new NonTerminal(rule.substring(beginIndex+1, i)));
+                    beginIndex = i+1;
+                }
+            }
+            // this 'if' assumes that the rule ends with a terminal
+            else if (i==rule.length()-1 && rule.charAt(rule.length()-1)!='>'){
+                list.add(new Terminal(rule.substring(beginIndex)));
+            }
+        } return list;
+    }
+
+    /**
+     * Method that reads CFG actions from a json file and stores them in an ArrayList of CFGAction instances
+     */
     public void readActions(){
         JSONParser parser = new JSONParser();
 
@@ -77,8 +119,13 @@ public class CFG {
         }
     }
 
-    // based on the traverse method of phase 1...
-    // traverse per skill, and create CFGaction object for each action
+    // based on the traverse method of phase 1
+    /**
+     * Recursive method that traverses skills and creates CFGAction instances for each action
+     * @param obj a JSONObject for actions with slot-value pairs, or a String in the default case
+     * @param skillName the name of the skill that the action(s) belong to
+     * @param HM HashMap to store the slot-value pairs, used when recursion occurs
+     */
     public void traverse(Object obj, String skillName, HashMap<String, String> HM){
         String answer;
 
@@ -128,8 +175,15 @@ public class CFG {
     }
 
     // getters
-    public ArrayList<Object> getCfgActions() { return cfgActions; }
-    public HashMap<String, Object> getCfgRules(){ return cfgRulesHM; }
+    public ArrayList<CFGAction> getCfgActions() { return cfgActions; }
+
+    /**
+     * Accessor method for CFG rules
+     * @return HashMap with rules stored as combinations of terminals (T) and non-terminals (NT)
+     * e.g.             "LOCATION": ["Where is <ROOM>", "How do <PRO> get to <ROOM>"]
+     * is stored as     key: LOCATION -> value: [ [T(Where is), NT(ROOM)] , [T(How do), NT(PRO), T(get to), NT(ROOM)] ]
+     */
+    public HashMap<String, ArrayList<ArrayList<GrammarVariable>>> getCfgRules(){ return cfgRulesHM; }
 
     public static void main(String[] args) {
         CFG cfg = new CFG();
