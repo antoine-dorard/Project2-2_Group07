@@ -1,42 +1,46 @@
 package backend.cnf_converter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CNFRule {
-    NonTerminal LHS;
-
-    ArrayList<NonTerminal[]> pairs = new ArrayList<>();
-    ArrayList<Terminal> terminal;
+    private NonTerminal lhs;
+    private String CFGName;
+    private RHS rhs;
 
     boolean isTerminal = false;
 
-    public CNFRule(NonTerminal LHS, ArrayList<NonTerminal[]> pairs){
-        this.LHS = LHS;
-        this.pairs = pairs;
+    public CNFRule(NonTerminal LHS, RHS rhs){
+        this.lhs = LHS;
+        this.rhs = rhs;
     }
-
-    public CNFRule(NonTerminal LHS, Terminal... terminals){
-        this.LHS = LHS;
-        this.terminal.addAll(Arrays.asList(terminals));
-        System.out.println("Terminals: " + terminals);
-        isTerminal = true;
+    public CNFRule(NonTerminal LHS, RHS rhs, String CFGName){
+        this.lhs = LHS;
+        this.rhs = rhs;
+        this.CFGName = CFGName;
     }
 
     public NonTerminal getLHS(){
-        return LHS;
+        return lhs;
+    }
+
+    public RHS getRHS() {
+        return rhs;
     }
 
     public ArrayList<NonTerminal[]> getPairs(){
-        return pairs;
+        return rhs.getPairs();
     }
 
-    public ArrayList<Terminal> getTerminal(){
-        return terminal;
+    public ArrayList<Terminal> getTerminals(){
+        return rhs.getTerminals();
     }
 
     public boolean isTerminal(){
         return isTerminal;
     }
 
+    @Override
+    public String toString() {
+        return "RULE: " + lhs + " -> " + rhs + " (CFG: " + CFGName + ")";
+    }
 }

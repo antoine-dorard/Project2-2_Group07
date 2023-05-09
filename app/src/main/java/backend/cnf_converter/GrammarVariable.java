@@ -5,6 +5,4 @@ package backend.cnf_converter;
  * It is used to represent both the RHS and LHS of a rule.
  */
 public abstract class GrammarVariable {
-
-    public abstract NonTerminal getParent();
 }

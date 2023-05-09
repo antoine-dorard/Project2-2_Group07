@@ -19,4 +19,9 @@ public class CFGAction {
     }
     public HashMap<String, String> getSlotValuePair() { return slotValuePair; }
     public String getAnswer() { return answer; }
+
+    @Override
+    public String toString() {
+        return skill + " * " + slotValuePair + " : " + answer;
+    }
 }

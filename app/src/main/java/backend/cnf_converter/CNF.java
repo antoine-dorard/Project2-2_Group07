@@ -1,11 +1,13 @@
 package backend.cnf_converter;
 
-import java.util.ArrayList;
-import java.util.List;
+import backend.CFG.CFG;
+
+import java.util.*;
 
 public class CNF {
 
-    ArrayList<CNFRule> cnf = new ArrayList<>();
+    private CFG cfg;
+    private ArrayList<CNFRule> cnf = new ArrayList<>();
 
     /*
     -- A1 -> NonTerminal NonTerminal | NonTerminal NonTerminal
@@ -19,43 +21,101 @@ public class CNF {
     -- B1 -> Terminal
      */
 
-    /**
-     * Returns null if the terminal does not exist.
-     * Returns a list of possible parents otherwise
-     */
-    public List<Integer> getLHSs(Terminal terminal){
-        return null;
+    public CNF(CFG cfg) {
+        this.cfg = cfg;
     }
-    /**
-     * Returns null if the terminal does not exist.
-     * Returns a list of possible parents otherwise
-     */
-    public List<Integer> getLHSs(NonTerminal left, NonTerminal right){
+
+    public ArrayList<CNFRule> getCNFRules(){
         return null;
     }
 
+    public RHS getRHS(NonTerminal parent){
+        for (int i = 0; i < cnf.size(); i++) {
+            if (cnf.get(i).getLHS().equals(parent)) {
+                return cnf.get(i).getRHS();
+            }
+        }
+        return null;
+    }
 
-    public RHS getRHS(Integer parent){
-        //return cnf.get(parent).;
+    public NonTerminal findLHS(RHS rhs){
+        for (int i = 0; i < cnf.size(); i++) {
+            if (cnf.get(i).getRHS().equals(rhs)) {
+                return cnf.get(i).getLHS();
+            }
+        }
         return null;
     }
 
     public void generateCNF() {
         //TODO generate CNF
 
-        for(int i = 0; i < cnf.size(); i++){
-            cnf.get(i).getLHS();
+        // Step 1: Copy  all the CFG rules that only have terminals on the RHS to the CNF
+        for (Map.Entry<String, ArrayList<ArrayList<GrammarVariable>>> cfgRule: cfg.getCfgRules().entrySet()){
+            ArrayList<Terminal> currentTerminals = new ArrayList<>();
+            a:
+            for(int i = 0; i < cfgRule.getValue().size(); i++){
+                for(int j = 0; j < cfgRule.getValue().get(i).size(); j++){
+                    if(cfgRule.getValue().get(i).get(j) instanceof NonTerminal){
+                        break a;
+                    }
+                    currentTerminals.add((Terminal) cfgRule.getValue().get(i).get(0));
+                }
+            }
+            // If none of the RHS elements were NonTerminals, add it in the cnf:
+            cnf.add(new CNFRule(new NonTerminal(), new RHS(currentTerminals.toArray(new Terminal[0])), cfgRule.getKey()));
+
         }
+
+        // Step 2: transform all the Terminals to NonTerminals where the RHS contains more than 2 elements
+        for (Map.Entry<String, ArrayList<ArrayList<GrammarVariable>>> cfgRule: cfg.getCfgRules().entrySet()){
+
+            for(int i = 0; i < cfgRule.getValue().size(); i++){
+                if(cfgRule.getValue().get(i).size() > 1){
+                    for(int j = 0; j < cfgRule.getValue().get(i).size(); j++){
+                        if(cfgRule.getValue().get(i).get(j) instanceof Terminal){
+                            NonTerminal newNonTerminal = findLHS(new RHS((Terminal) cfgRule.getValue().get(i).get(j)));
+                            if(newNonTerminal == null){
+                                newNonTerminal = new NonTerminal();
+                                CNFRule newRule = new CNFRule(newNonTerminal, new RHS((Terminal) cfgRule.getValue().get(i).get(j)));
+                                cnf.add(newRule);
+                            }
+                            cfgRule.getValue().get(i).set(j, newNonTerminal);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Step 3: create pairs
+        for (Map.Entry<String, ArrayList<ArrayList<GrammarVariable>>> cfgRule: cfg.getCfgRules().entrySet()){
+
+            for(int i = 0; i < cfgRule.getValue().size(); i++){
+                if(cfgRule.getValue().get(i).size() > 2 ){
+
+                    int size = cfgRule.getValue().get(i).size();
+                    for(int j = 0; j < size - 2; j++){
+                        NonTerminal nonTerminal1 = (NonTerminal) cfgRule.getValue().get(i).get(0);
+                        NonTerminal nonTerminal2 = (NonTerminal) cfgRule.getValue().get(i).get(1);
+                        NonTerminal newNonTerminal = new NonTerminal();
+                        CNFRule newRule = new CNFRule(newNonTerminal, new RHS(nonTerminal1, nonTerminal2));
+                        cnf.add(newRule);
+                        cfgRule.getValue().get(i).remove(0);
+                        cfgRule.getValue().get(i).set(0, newNonTerminal);
+                    }
+                }
+            }
+        }
+
     }
 
 
     public static void main(String[] args) {
-        NonTerminal nonTerminal = new NonTerminal();
-        Terminal t1 = new Terminal(nonTerminal);
-        Terminal t2 = new Terminal(nonTerminal);
-        Terminal t3 = new Terminal(nonTerminal);
-        System.out.println(t1);
-        System.out.println("-----");
-        new CNFRule(nonTerminal, t1, t2, t3);
+        CNF cnf = new CNF(new CFG());
+        cnf.generateCNF();
+        for(int i = 0; i < cnf.cnf.size(); i++){
+            System.out.println(cnf.cnf.get(i));
+        }
+
     }
 }

@@ -14,6 +14,6 @@ public class NonTerminal extends GrammarVariable {
 
     @Override
     public String toString() {
-        return nonTerminal;
+        return nonTerminal != null ? nonTerminal : Integer.toHexString(this.hashCode());
     }
 }
