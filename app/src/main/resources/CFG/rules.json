@@ -7,5 +7,5 @@
   "LOCATION": ["Where is <ROOM>", "How do <PRO> get to <ROOM>"],
   "PRO" : ["I", "you", "he", "she"],
   "ROOM": ["DeepSpace", "SpaceBox"],
-  "DAY": ["Monday", "Tueday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+  "DAY": ["Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 }

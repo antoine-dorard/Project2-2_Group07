@@ -25,7 +25,7 @@ public class CFG {
 
     /**
      * Method that reads CFG rules from a json file and stores them in a Hashmap as combinations
-     * of terminals (T) and non-terminals (NT).
+     * of terminals and non-terminals.
      */
     public void readRules(){
         JSONParser parser = new JSONParser();
@@ -84,7 +84,7 @@ public class CFG {
                         i++;
                     // don't include brackets (< >)
                     list.add(new NonTerminal(rule.substring(beginIndex+1, i)));
-                    beginIndex = i+1;
+                    beginIndex = i+2;
                 }
             }
             // this 'if' assumes that the rule ends with a terminal
@@ -184,6 +184,17 @@ public class CFG {
      * is stored as     key: LOCATION -> value: [ [T(Where is), NT(ROOM)] , [T(How do), NT(PRO), T(get to), NT(ROOM)] ]
      */
     public HashMap<String, ArrayList<ArrayList<GrammarVariable>>> getCfgRules(){ return cfgRulesHM; }
+
+    //TODO: the way we add rules and actions might change depending on our skill editor
+    public void addRule(String ruleLHS, ArrayList<String> rules){
+        ArrayList<ArrayList<GrammarVariable>> ruleList = new ArrayList<>();
+        for (String rule : rules) ruleList.add(splitRule(rule));
+        cfgRulesHM.put(ruleLHS, ruleList);
+    }
+
+    public void addAction(String skillName, String answer, HashMap<String, String> slotValuePairs){
+        cfgActions.add(new CFGAction(skillName, slotValuePairs, answer));
+    }
 
     public static void main(String[] args) {
         CFG cfg = new CFG();
