@@ -1,0 +1,53 @@
+{
+  "slots":{
+    "DAY": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "TIME": ["9", "11", "13", "16"],
+    "TEACHER": ["Joel", "Enrique", "Tom"],
+    "RELATIVE CAUSE" : ["Where","Who","Which"]
+  },
+  "questions": {
+    "calendar_1": "Which lectures are there on <DAY> at <TIME>",
+    "calendar_2": "What lecture do I have with <TEACHER> at <TIME>",
+    "recipe_1": "2",
+    "pet": "cat"
+  },
+  "actions1": {
+    "DAY Monday": {
+      "TIME 11" : "TCS",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    },
+    "DAY Tuesday":{
+      "TIME 11" : "ABC",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    }
+  },
+  "actions2": {
+    "TEACHER Tom": {
+      "TIME 11" : "TCS",
+      "TIME 13" : "Joel",
+      "TIME 16" : "Enrique"
+    },
+    "DAY Tuesday":{
+      "TIME 11" : "ABC",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    }
+  },
+  "actions3": {
+    "DAY Monday": {
+      "TIME 11" : "TCS",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    },
+    "DAY Tuesday":{
+      "TIME 11" : "ABC",
+      "TIME 13" : "MM",
+      "TIME 16" : "HCI"
+    }
+  },
+  "answers": {
+    "you have <"
+  }
+}
