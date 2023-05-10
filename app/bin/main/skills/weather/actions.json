@@ -1,0 +1,30 @@
+{
+  "1": {
+    "CITY Maastricht": "It is raining today in Maastricht",
+    "CITY Amsterdam": "Don't forget your umbrella in Amsterdam",
+    "CITY Paris": "It is sunny in Paris",
+    "CITY Berlin": "It is sunny in Berlin",
+    "CITY Brussels": "It is sunny in Brussels"
+  },
+  "2": {
+    "CITY Maastricht": "It is 14°C today in Maastricht",
+    "CITY Amsterdam": "It is 11°C today in Amsterdam",
+    "CITY Paris": "It is 12°C today in Paris",
+    "CITY Berlin": "It is 12°C today in Berlin",
+    "CITY Brussels": "It is 9°C today in Brussels"
+  },
+  "3": {
+    "CITY Maastricht": "yes",
+    "CITY Amsterdam": "yes",
+    "CITY Paris": "no",
+    "CITY Berlin": "no",
+    "CITY Brussels": "no"
+  },
+  "4": {
+    "CITY Maastricht": "no",
+    "CITY Amsterdam": "no",
+    "CITY Paris": "no",
+    "CITY Berlin": "no",
+    "CITY Brussels": "no"
+  }
+}
