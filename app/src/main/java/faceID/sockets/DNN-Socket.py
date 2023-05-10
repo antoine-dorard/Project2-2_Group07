@@ -10,7 +10,7 @@ net = cv2.dnn.readNetFromCaffe(config_file, model_file)
 cap = cv2.VideoCapture(0)
 
 # Set the minimum confidence threshold for face detection
-threshold = 0.3
+threshold = 0.8
 
 # Set up a socket for communication with the Java program
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
