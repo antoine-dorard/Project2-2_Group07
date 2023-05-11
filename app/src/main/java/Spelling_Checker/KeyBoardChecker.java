@@ -8,109 +8,106 @@ import java.util.HashMap;
 public class KeyBoardChecker {
     private HashMap< Character , String > keyboardMap;
 
-    public String checkerkeys(String word, String suggestion1,String suggestion2){
+    public Integer checkerkeys(String word, String suggestion1){
+        int sug1_Score = 0;
+        if(word.length() == suggestion1.length()){
+            for (int i = 0; i < word.length(); i++) {
+                String keyrelated = keyboardMap.get(word.charAt(i));
+                if(!keyrelated.contains(suggestion1.charAt(i) + "" )) {
+                    sug1_Score++;
+                }
+            }
+        }
+        else{
+            sug1_Score=1;
+        }
+        return sug1_Score;
+
+    }
+    public void selectKeyboard(){
         // Check if the keyboard is qwerty
         int keyCode = KeyEvent.VK_A;
         String keyText = KeyEvent.getKeyText(keyCode);
-        System.out.println(keyText);
+        //System.out.println(keyText);
 
         InputContext context = InputContext.getInstance();
-        System.out.println(context.getLocale().toString());
+        //System.out.println(context.getLocale().toString());
         if(context.getLocale().toString().equals("fr_FR")){
             getAzertyKeyboard();
         }
-        else{
+        else{ //the keyboard is then as default qwerty
             getQwertyKeyboard();
         }
-        int sug1_Score = 0;
-        int sug2_Score = 0;
-        for (int i = 0; i < word.length(); i++) {
-            String keyrelated = keyboardMap.get(word.charAt(i));
-            if(keyrelated.contains(suggestion1.charAt(i) + "")) {
-                sug1_Score++;
-            } else if(keyrelated.contains(suggestion2.charAt(i) + "")) {
-                sug2_Score++;
-            }
-        }
-        if(sug1_Score>sug2_Score){
-            return suggestion1;
-        }
-        else if(sug1_Score<sug2_Score){
-            return suggestion2;
-        }
-        else{ //the words are as likely
-            return suggestion1;
-        }
-
     }
 
     public static void main(String[] args) throws AWTException {
         KeyBoardChecker main = new KeyBoardChecker();
+        main.selectKeyboard();
         //String relatedWord = main.checkerkeys("jome","home","dome");
         //String relatedWord = main.checkerkeys("dome","rope","hope");
-        String relatedWord = main.checkerkeys("xat","cat","bat");
-        System.out.println(relatedWord);
+        Integer value = main.checkerkeys("beam","ream");
+        System.out.println(value);
 
     }
     public void getQwertyKeyboard () {
         this.keyboardMap = new HashMap < >() ;
-        keyboardMap.put('a', "qwsz");
-        keyboardMap.put('b', "vghn");
-        keyboardMap.put('c', "xdfv") ;
-        keyboardMap.put('d', "serfcx");
-        keyboardMap.put('e', "w34rds");
-        keyboardMap.put('f', "drtgvc");
-        keyboardMap.put('g', "ftyhbv");
-        keyboardMap.put('h', "gyujnb");
-        keyboardMap.put('i', "u89okj");
-        keyboardMap.put('j', "huikmn");
-        keyboardMap.put('k', "jiol,m");
-        keyboardMap.put('l', "kop;.,");
-        keyboardMap.put('m', "njk,") ;
-        keyboardMap.put('n', "bhjm") ;
-        keyboardMap.put('o', "i90plk");
-        keyboardMap.put('p', "o0-[;l");
-        keyboardMap.put('q', "12 wa") ;
-        keyboardMap.put('r', "e45tfd");
-        keyboardMap.put('s', "awedxz");
-        keyboardMap.put('t', "r56ygf");
-        keyboardMap.put('u', "y78ijh");
-        keyboardMap.put('v', "cfgb");
-        keyboardMap.put('w', "q23esa");
-        keyboardMap.put('x', "zsdc") ;
-        keyboardMap.put('y', "t67uhg");
-        keyboardMap.put('z', "\\asx") ;
-        keyboardMap.put('-', "0p[=") ;
+        keyboardMap.put('a', "qwsza");
+        keyboardMap.put('b', "vghnb");
+        keyboardMap.put('c', "xdfvc") ;
+        keyboardMap.put('d', "serfcxd");
+        keyboardMap.put('e', "w34rdse");
+        keyboardMap.put('f', "drtgvcf");
+        keyboardMap.put('g', "ftyhbvg");
+        keyboardMap.put('h', "gyujnbh");
+        keyboardMap.put('i', "u89okji");
+        keyboardMap.put('j', "huikmnj");
+        keyboardMap.put('k', "jiol,mk");
+        keyboardMap.put('l', "kop;.,l");
+        keyboardMap.put('m', "njk,m") ;
+        keyboardMap.put('n', "bhjmn") ;
+        keyboardMap.put('o', "i90plko");
+        keyboardMap.put('p', "o0-[;lp");
+        keyboardMap.put('q', "12 waq") ;
+        keyboardMap.put('r', "e45tfdr");
+        keyboardMap.put('s', "awedxzs");
+        keyboardMap.put('t', "r56ygft");
+        keyboardMap.put('u', "y78ijhu");
+        keyboardMap.put('v', "cfgbv");
+        keyboardMap.put('w', "q23esaw");
+        keyboardMap.put('x', "zsdcx") ;
+        keyboardMap.put('y', "t67uhgy");
+        keyboardMap.put('z', "\\asxz") ;
+        keyboardMap.put('-', "0p[=-") ;
     }
     public void getAzertyKeyboard () {
         this.keyboardMap = new HashMap < >() ;
-        keyboardMap.put('a', "12zqs");
-        keyboardMap.put('b', "vgnh") ;
-        keyboardMap.put('c', "xdfv") ;
-        keyboardMap.put('d', "serfxc") ;
-        keyboardMap.put('e', "z34rds") ;
-        keyboardMap.put('f', "dcgtrv") ;
-        keyboardMap.put('g', "fvbtyh") ;
-        keyboardMap.put('h', "gbnuyj") ;
-        keyboardMap.put('i', "ujko_ç") ;
-        keyboardMap.put('j', "hn,kiu") ;
-        keyboardMap.put('k', "jiol;,") ;
-        keyboardMap.put('l', "kopm:;") ;
-        keyboardMap.put('m', "lp^ù!:") ;
-        keyboardMap.put('n', "bhj,") ;
-        keyboardMap.put('o', "i09plk") ;
-        keyboardMap.put('p', "oà)^ùml") ;
-        keyboardMap.put('q', "azsw<") ;
-        keyboardMap.put('r', "edft45") ;
-        keyboardMap.put('s', "wxczqde") ;
-        keyboardMap.put('t', "r56ygf") ;
-        keyboardMap.put('u', "y78ijh") ;
-        keyboardMap.put('v', "cfgb") ;
-        keyboardMap.put('w', "qsx<") ;
-        keyboardMap.put('x', "wscd") ;
-        keyboardMap.put('y', "tghu67") ;
-        keyboardMap.put('z', "qseda23") ;
-        keyboardMap.put('-', "57ty");
+        keyboardMap.put('a', "12zqsa");
+        keyboardMap.put('b', "vgnhb") ;
+        keyboardMap.put('c', "xdfvc") ;
+        keyboardMap.put('d', "serfxcd") ;
+        keyboardMap.put('e', "z34rdse") ;
+        keyboardMap.put('f', "dcgtrvf") ;
+        keyboardMap.put('g', "fvbtyhg") ;
+        keyboardMap.put('h', "gbnuyjh") ;
+        keyboardMap.put('i', "ujko_çi") ;
+        keyboardMap.put('j', "hn,kiuj") ;
+        keyboardMap.put('k', "jiol;,k") ;
+        keyboardMap.put('l', "kopm:;l") ;
+        keyboardMap.put('m', "lp^ù!:m") ;
+        keyboardMap.put('n', "bhj,n") ;
+        keyboardMap.put('o', "i09plko") ;
+        keyboardMap.put('p', "oà)^ùmlp") ;
+        keyboardMap.put('q', "azsw<q") ;
+        keyboardMap.put('r', "edft45r") ;
+        keyboardMap.put('s', "wxczqdes") ;
+        keyboardMap.put('t', "r56ygft") ;
+        keyboardMap.put('u', "y78ijhu") ;
+        keyboardMap.put('v', "cfgbv") ;
+        keyboardMap.put('w', "qsx<w") ;
+        keyboardMap.put('x', "wscdx") ;
+        keyboardMap.put('y', "tghu67y") ;
+        keyboardMap.put('z', "qseda23z") ;
+        keyboardMap.put('-', "57ty-");
     }
 }
 

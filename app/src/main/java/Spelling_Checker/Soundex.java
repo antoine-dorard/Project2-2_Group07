@@ -6,16 +6,20 @@ public class Soundex {
     public String getCode(String word){
         char [] wordArray = word.toUpperCase().toCharArray();
 
-        for (int i = 0 ;  i < wordArray.length ; i++){
-            switch (wordArray[i]){
+        char firstLetter = wordArray[0];
+
+        //RULE [ 2 ]
+        //Convert letters to numeric code
+        for (int i = 0; i < wordArray.length; i++) {
+            switch (wordArray[i]) {
                 case 'B':
                 case 'F':
                 case 'P':
-                case 'V':
-                case 'W':{
-                    wordArray[i] = '2';
-                    break ;
-                    }
+                case 'V': {
+                    wordArray[i] = '1';
+                    break;
+                }
+
                 case 'C':
                 case 'G':
                 case 'J':
@@ -24,56 +28,63 @@ public class Soundex {
                 case 'S':
                 case 'X':
                 case 'Z': {
-                    wordArray[i] = '3';
-                    break ;
-                    }
+                    wordArray[i] = '2';
+                    break;
+                }
+
                 case 'D':
-                case 'T':{
+                case 'T': {
+                    wordArray[i] = '3';
+                    break;
+                }
+
+                case 'L': {
                     wordArray[i] = '4';
                     break;
                 }
-                case 'L':{
+
+                case 'M':
+                case 'N': {
                     wordArray[i] = '5';
                     break;
                 }
-                case 'M':
-                case 'N':{
+
+                case 'R': {
                     wordArray[i] = '6';
                     break;
                 }
-                case 'R':{
-                    wordArray[i] = '7';
-                    break;
-                }
-                case 'O':
-                case 'A':{
-                    wordArray[i] = '8';
-                    break;
-                }
-                default:{
-                    wordArray[i] = '1';
-                    break;
-                }
 
+                default: {
+                    wordArray[i] = '0';
+                    break;
+                }
             }
         }
-        String output = wordArray[0] == 1? "" : "" + wordArray[0];
 
-        for (int i = 1; i < wordArray.length; i++) {
-            if(wordArray[i] != wordArray[i - 1] && wordArray[i] != '1')
+        //Remove duplicates
+        //RULE [ 1 ]
+        String output = "" + firstLetter;
+
+        //RULE [ 3 ]
+        for (int i = 1; i < wordArray.length; i++)
+            if (wordArray[i] != wordArray[i - 1] && wordArray[i] != '0')
                 output += wordArray[i];
-            
-        }
-        return output;
+
+        //RULE [ 4 ]
+        //Pad with 0's or truncate
+        output = output + "0000";
+        return output.substring(0, 4);
     }
 
     public static void main(String[] args) {
         Soundex test = new Soundex();
-        String value = test.getCode("kat");
+        String value = test.getCode("ram");
         System.out.println(value);
-        String value2 = test.getCode("cat");
+        String value2 = test.getCode("ream");
         System.out.println(value2);
-        String value3 = test.getCode("bat");
+        String value3 = test.getCode("real");
         System.out.println(value3);
+
+        //If code is the same return 1, if different return 0
     }
 }
