@@ -68,30 +68,36 @@ public class CFG {
      * @param rule rule string to be converted into terminals and non-terminals
      * @return ArrayList of GrammarVariables representing the rule
      */
-    public ArrayList<GrammarVariable> splitRule(String rule){
+    public ArrayList<GrammarVariable> splitRule(String rule) {
         ArrayList<GrammarVariable> list = new ArrayList<>();
         int beginIndex = 0;
         for (int i = 0; i < rule.length(); i++) {
-            // this 'if' assumes that a terminal is always followed by a non-terminal
             if (rule.charAt(i) == '<'){
-
                 if(i != beginIndex){
-                    list.add(new Terminal(rule.substring(beginIndex, i-1)));
+                    String[] terminalStrings = rule.substring(beginIndex, i-1).trim().split(" ");
+                    for (String term : terminalStrings) {
+                        if (!term.isEmpty()) {
+                            list.add(new Terminal(term));
+                        }
+                    }
                     beginIndex = i;
                     i--;
                 } else {
                     while (rule.charAt(i) != '>')
                         i++;
-                    // don't include brackets (< >)
                     list.add(new NonTerminal(rule.substring(beginIndex+1, i)));
                     beginIndex = i+2;
                 }
+            } else if (i==rule.length()-1 && rule.charAt(rule.length()-1)!='>'){
+                String[] terminalStrings = rule.substring(beginIndex).trim().split(" ");
+                for (String term : terminalStrings) {
+                    if (!term.isEmpty()) {
+                        list.add(new Terminal(term));
+                    }
+                }
             }
-            // this 'if' assumes that the rule ends with a terminal
-            else if (i==rule.length()-1 && rule.charAt(rule.length()-1)!='>'){
-                list.add(new Terminal(rule.substring(beginIndex)));
-            }
-        } return list;
+        }
+        return list;
     }
 
     /**

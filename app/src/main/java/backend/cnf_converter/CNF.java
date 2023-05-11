@@ -70,7 +70,7 @@ public class CNF {
 
 
             // If none of the RHS elements were NonTerminals, add it in the cnf:
-            if(!containsNonTerminal) cnf.add(new CNFRule(new NonTerminal(), new RHS(currentTerminals.toArray(new Terminal[0])), cfgRule.getKey()));
+            if(!containsNonTerminal) cnf.add(new CNFRule(new NonTerminal(cfgRule.getKey()), new RHS(currentTerminals.toArray(new Terminal[0])), cfgRule.getKey()));
 
         }
         System.out.println("After step 1: ");
@@ -114,6 +114,10 @@ public class CNF {
                         NonTerminal nonTerminal1 = (NonTerminal) cfgRule.getValue().get(i).get(0);
                         NonTerminal nonTerminal2 = (NonTerminal) cfgRule.getValue().get(i).get(1);
                         NonTerminal newNonTerminal = new NonTerminal();
+                        if(j == size - 2){
+                            newNonTerminal = new NonTerminal(cfgRule.getKey());
+                        }
+
                         CNFRule newRule = new CNFRule(newNonTerminal, new RHS(nonTerminal1, nonTerminal2));
                         cnf.add(newRule);
                         cfgRule.getValue().get(i).remove(0);
@@ -123,8 +127,10 @@ public class CNF {
                 else if(cfgRule.getValue().get(i).size() == 2){
                     NonTerminal nonTerminal1 = (NonTerminal) cfgRule.getValue().get(i).get(0);
                     NonTerminal nonTerminal2 = (NonTerminal) cfgRule.getValue().get(i).get(1);
-                    NonTerminal newNonTerminal = new NonTerminal();
-                    CNFRule newRule = new CNFRule(newNonTerminal, new RHS(nonTerminal1, nonTerminal2));
+                    //NonTerminal newNonTerminal = new NonTerminal();
+                    System.out.println("KEY:");
+                    System.out.println(cfgRule.getKey());
+                    CNFRule newRule = new CNFRule(new NonTerminal(cfgRule.getKey()), new RHS(nonTerminal1, nonTerminal2));
                     cnf.add(newRule);
                 }
             }
