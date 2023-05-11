@@ -1,15 +1,14 @@
 package main;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class SkillLoader {
 
@@ -52,6 +51,71 @@ public class SkillLoader {
             }
 
         } catch (IOException | ParseException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        writeWordsFromQuestions();
+    }
+
+
+    private void writeWordsFromQuestions(){
+
+        Iterator<String> skillIter = this.getQuestions().keySet().iterator();
+
+
+        try {
+            Writer clearWriter;
+            clearWriter = new FileWriter("app/src/main/java/backend/spelling_checker/words.txt");
+            clearWriter.write("");
+            clearWriter.close();
+
+            Writer output;
+            output = new BufferedWriter(new FileWriter("app/src/main/java/backend/spelling_checker/words.txt", true));
+
+            // Adding the actions
+            while(skillIter.hasNext()){
+                String skillKey = skillIter.next();
+                JSONObject skillObject = (JSONObject) this.getQuestions().get(skillKey);
+
+                // Looping through the questions
+                Iterator<String> questionIter = skillObject.keySet().iterator();
+                while(questionIter.hasNext()){
+                    String questionKey = questionIter.next();
+                    String question = ((String) skillObject.get(questionKey)).toUpperCase();
+
+                    String[] words = question.split("\\s+");
+
+                    for (int i = 0; i < words.length; i++) {
+                        if(!words[i].contains("<") && !words[i].contains(">")){
+                            System.out.println(words[i] + " added");
+                            output.append(words[i]).append("\n");
+                        }
+                    }
+
+                }
+            }
+
+            // Adding the slots
+
+
+            this.getSlots().forEach((key, value) -> {
+                System.out.println("Slots: " + value);
+                try {
+                    for (Object o : value.values()) {
+                        JSONArray slotsArray = (JSONArray) o;
+
+                        for (Object o1 : slotsArray) {
+                            output.append((String) o1).append("\n");
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            output.close();
+
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

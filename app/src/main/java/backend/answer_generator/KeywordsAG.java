@@ -1,4 +1,4 @@
-package backend;
+package backend.answer_generator;
 
 import main.SkillLoader;
 import org.json.simple.JSONArray;
@@ -7,9 +7,11 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-public class KeywordsIP implements InputProcessor {
+public class KeywordsAG implements AnswerGenerator{
 
     SkillLoader skillLoader;
     private String file = "/skills/TimeTableSkill.json";
@@ -18,17 +20,18 @@ public class KeywordsIP implements InputProcessor {
     private HashMap<String, String> placeHolders;
     private String output;
 
-    public KeywordsIP(SkillLoader skillLoader) {
+    public KeywordsAG(SkillLoader skillLoader) {
         this.skillLoader = skillLoader;
         placeHolders = new HashMap<>();
     }
 
 
-    public String processInput(String input) {
-        return processInputOnKeywords(input);
+    @Override
+    public String generateAnswer(String input) {
+        return generateOnKeywords(input);
     }
 
-    private String processInputOnKeywords(String input){
+    private String generateOnKeywords(String input){
         JSONParser parser = new JSONParser(); // create a json parser
         try{
             String[] words = input.split("\\s+"); //the array of the words from the user input
