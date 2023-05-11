@@ -21,7 +21,7 @@ public class RHS {
             terminal.add(terminal1);
         }
     }
-    public boolean isTerminal(RHS right){
+    public boolean isTerminal(){
         return isTerminal;
     }
 
