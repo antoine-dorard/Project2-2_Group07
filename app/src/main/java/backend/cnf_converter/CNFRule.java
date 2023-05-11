@@ -7,8 +7,6 @@ public class CNFRule {
     private String CFGName;
     private RHS rhs;
 
-    boolean isTerminal = false;
-
     public CNFRule(NonTerminal LHS, RHS rhs){
         this.lhs = LHS;
         this.rhs = rhs;
@@ -33,10 +31,6 @@ public class CNFRule {
 
     public ArrayList<Terminal> getTerminals(){
         return rhs.getTerminals();
-    }
-
-    public boolean isTerminal(){
-        return isTerminal;
     }
 
     @Override
