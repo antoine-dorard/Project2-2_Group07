@@ -49,6 +49,26 @@ public class CNF {
         return null;
     }
 
+    public ArrayList<NonTerminal> getNonTerminals(Terminal terminal){
+        ArrayList<NonTerminal> nonTerminals = new ArrayList<>();
+        for (int i = 0; i < cnf.size(); i++) {
+            if (cnf.get(i).getRHS().isTerminal() && cnf.get(i).getRHS().getTerminals().contains(terminal)) {
+                nonTerminals.add(cnf.get(i).getLHS());
+            }
+        }
+        return nonTerminals;
+    }
+
+    public ArrayList<CNFRule> getBinaryProductions(){
+        ArrayList<CNFRule> binaryProductions = new ArrayList<>();
+        for (int i = 0; i < cnf.size(); i++) {
+            if (!cnf.get(i).getRHS().isTerminal()) {
+                binaryProductions.add(cnf.get(i));
+            }
+        }
+        return binaryProductions;
+    }
+
     public void generateCNF() {
         //TODO generate CNF
 
