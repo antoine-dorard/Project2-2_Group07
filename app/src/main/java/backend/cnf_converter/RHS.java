@@ -72,7 +72,6 @@ public class RHS {
                     return false;
                 }
             }
-
             return true;
         }
     }
