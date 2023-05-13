@@ -1,4 +1,4 @@
-package Spelling_Checker;
+package backend.spelling_checker;
 
 import java.io.BufferedReader;
 import java.io.File;

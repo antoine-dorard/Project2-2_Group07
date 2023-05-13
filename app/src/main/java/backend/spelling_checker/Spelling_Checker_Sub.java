@@ -1,4 +1,4 @@
-package Spelling_Checker;
+package backend.spelling_checker;
 
 import spelling.Trie;
 
@@ -19,9 +19,21 @@ public class Spelling_Checker_Sub {
     private static Trie dictionary;
     private static String fileName;
 
-    public Spelling_Checker_Sub(String fileNameWordList) throws IOException {
+    public Spelling_Checker_Sub(String fileNameWordList){
         fileName = fileNameWordList;
-        loadDictionary();
+        try{
+            loadDictionary();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public Spelling_Checker_Sub(){
+        try{
+            fileName = "app/src/main/java/spelling/data/words.txt";
+            loadDictionary();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -43,7 +55,7 @@ public class Spelling_Checker_Sub {
      * It splits the text into words, finds the closest matching word in the
      * dictionary for each word, and returns the corrected text as a string.
      */
-    public static String correctSpelling(String question) {
+    public String correctSpelling(String question) {
         List<String> words = Arrays.asList(question.split("\\s+"));
         List<String> correctedWords = words.parallelStream()
                 .map(word -> findClosestWord(word))
@@ -59,7 +71,7 @@ public class Spelling_Checker_Sub {
      * the given word and each word in the dictionary,
      * and returns the closest matching word in the dictionary.
      */
-    private static String findClosestWord(String word) {
+    public String findClosestWord(String word) {
         Map<Integer, String> value_word = new HashMap<Integer, String>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {

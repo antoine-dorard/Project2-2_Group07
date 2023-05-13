@@ -1,4 +1,4 @@
-package Spelling_Checker;
+package backend.spelling_checker;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.im.InputContext;
@@ -13,7 +13,7 @@ public class KeyBoardChecker {
         if(word.length() == suggestion1.length()){
             for (int i = 0; i < word.length(); i++) {
                 String keyrelated = keyboardMap.get(word.charAt(i));
-                if(!keyrelated.contains(suggestion1.charAt(i) + "" )) {
+                if(keyrelated!= null && !keyrelated.contains(suggestion1.charAt(i) + "" )) {
                     sug1_Score++;
                 }
             }
