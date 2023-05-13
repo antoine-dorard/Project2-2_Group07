@@ -6,10 +6,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
-import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
 public class SkillEditorPanel extends JPanel{

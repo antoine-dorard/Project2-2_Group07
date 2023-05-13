@@ -30,16 +30,12 @@ public class LevenshteinDistance {
         }
         return costs[s2.length()];
     }
+
     public static void main(String[] args) {
-        LevenshteinDistance test = new LevenshteinDistance();
-        String name1 = "harry";
-        String name2 = "hallo";
-        int cost;
-        cost = test.computeDistance(name1,name2);
-        System.out.println(cost);
+        LevenshteinDistance compute = new LevenshteinDistance();
+        int value = compute.computeDistance("beam","ream");
+        System.out.println(value);
     }
-
-
 }
 
 

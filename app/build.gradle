@@ -23,8 +23,12 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
 
+    implementation 'org.apache.commons:commons-csv:1.8'
+
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation files('lib/opencv-4.7.0.jar')
+
 
 }
 
@@ -38,9 +42,4 @@ processResources {
 application {
     // Define the main class for the application.
     mainClass = 'main.App'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }
