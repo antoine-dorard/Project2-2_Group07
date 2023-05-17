@@ -25,8 +25,8 @@ public class CNFRule {
         return rhs;
     }
 
-    public ArrayList<NonTerminal[]> getPairs(){
-        return rhs.getPairs();
+    public NonTerminal[] getPair(){
+        return rhs.getPair();
     }
 
     public ArrayList<Terminal> getTerminals(){

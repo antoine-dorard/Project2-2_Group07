@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class RHS {
 
-    private ArrayList<NonTerminal[]> pairs = new ArrayList<>();
+    private NonTerminal[] pair;
     private ArrayList<Terminal> terminal;
 
     private boolean isTerminal = false;
 
     public RHS(NonTerminal left, NonTerminal right){
-        this.pairs.add(new NonTerminal[]{left, right});
+        this.pair = new NonTerminal[]{left, right};
     }
 
     public RHS(Terminal... terminals){
@@ -26,8 +26,8 @@ public class RHS {
     }
 
 
-    public ArrayList<NonTerminal[]> getPairs(){
-        return pairs;
+    public NonTerminal[] getPair(){
+        return pair;
     }
 
     public ArrayList<Terminal> getTerminals(){
@@ -60,17 +60,11 @@ public class RHS {
             return true;
         }
         else{
-            if(pairs.size() != rhs.pairs.size()){
+            if(pair[0] != rhs.pair[0]){
                 return false;
             }
-
-            for (int i = 0; i < pairs.size(); i++) {
-                if(pairs.get(i)[0] != rhs.pairs.get(i)[0]){
-                    return false;
-                }
-                if(pairs.get(i)[1] != rhs.pairs.get(i)[1]){
-                    return false;
-                }
+            if(pair[1] != rhs.pair[1]){
+                return false;
             }
             return true;
         }
@@ -78,23 +72,13 @@ public class RHS {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pairs, terminal, isTerminal);
+        return Objects.hash(pair, terminal, isTerminal);
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for(int i = 0; i < pairs.size(); i++){
-            sb.append(pairs.get(i)[0].toString());
-            sb.append(", ");
-            sb.append(pairs.get(i)[1].toString());
-            if(i != pairs.size() - 1){
-                sb.append(" | ");
-            }
-        }
-        sb.append("]");
-
-        return isTerminal ? terminal.toString() : sb.toString();
+        return isTerminal ?
+                terminal.toString() :
+                "(" + pair[0].toString() + ", " + pair[1].toString() + ")";
     }
 }

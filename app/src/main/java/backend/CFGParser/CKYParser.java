@@ -49,8 +49,8 @@ public class CKYParser {
                 for (int k = i; k < j; k++) {
                     for (CNFRule production : cnf.getBinaryProductions()) {
                         NonTerminal A = production.getLHS();
-                        NonTerminal B = production.getRHS().getPairs().get(0)[0];
-                        NonTerminal C = production.getRHS().getPairs().get(0)[1];
+                        NonTerminal B = production.getRHS().getPair()[0];
+                        NonTerminal C = production.getRHS().getPair()[1];
                         //System.out.println(j + " " + k);
                         if (contains(table[i][k], B) && contains(table[k + 1][j], C)) {
                             ijProductions.add(A);
