@@ -1,6 +1,6 @@
-package backend.cnf_converter;
+package backend.CFGParser;
 
-import backend.CFG.CFG;
+import backend.CFGParser.datastructures.*;
 
 import java.util.*;
 

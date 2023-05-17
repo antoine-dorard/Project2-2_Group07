@@ -1,4 +1,4 @@
-package backend.cnf_converter;
+package backend.CFGParser.datastructures;
 
 /**
  * A Grammar Variable is either a Terminal or a NonTerminal.

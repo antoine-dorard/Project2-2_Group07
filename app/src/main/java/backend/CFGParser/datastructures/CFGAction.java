@@ -1,4 +1,4 @@
-package backend.CFG;
+package backend.CFGParser.datastructures;
 
 import java.util.HashMap;
 

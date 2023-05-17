@@ -1,8 +1,9 @@
-package backend.CFG;
+package backend.CFGParser;
 
-import backend.cnf_converter.GrammarVariable;
-import backend.cnf_converter.NonTerminal;
-import backend.cnf_converter.Terminal;
+import backend.CFGParser.datastructures.CFGAction;
+import backend.CFGParser.datastructures.GrammarVariable;
+import backend.CFGParser.datastructures.NonTerminal;
+import backend.CFGParser.datastructures.Terminal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

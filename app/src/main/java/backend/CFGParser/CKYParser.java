@@ -1,13 +1,11 @@
-package backend.cky;
+package backend.CFGParser;
 
 import java.util.*;
 
-import backend.CFG.CFG;
-import backend.cnf_converter.CNF;
-import backend.cnf_converter.CNFRule;
-import backend.cnf_converter.GrammarVariable;
-import backend.cnf_converter.NonTerminal;
-import backend.cnf_converter.Terminal;
+import backend.CFGParser.datastructures.CNFRule;
+import backend.CFGParser.datastructures.GrammarVariable;
+import backend.CFGParser.datastructures.NonTerminal;
+import backend.CFGParser.datastructures.Terminal;
 
 
 

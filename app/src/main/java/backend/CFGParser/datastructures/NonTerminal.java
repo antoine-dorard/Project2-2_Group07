@@ -1,6 +1,4 @@
-package backend.cnf_converter;
-
-import java.util.Objects;
+package backend.CFGParser.datastructures;
 
 public class NonTerminal extends GrammarVariable {
 

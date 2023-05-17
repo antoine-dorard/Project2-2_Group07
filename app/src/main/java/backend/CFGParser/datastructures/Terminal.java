@@ -1,4 +1,4 @@
-package backend.cnf_converter;
+package backend.CFGParser.datastructures;
 
 import java.util.Objects;
 
