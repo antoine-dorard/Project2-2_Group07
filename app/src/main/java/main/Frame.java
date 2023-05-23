@@ -1,16 +1,19 @@
 package main;
 
+import controls.MyIconButton;
 import panels.ChatBotPanel;
 import panels.SelectOptionsPanel;
 import panels.SkillEditorPanel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class Frame extends JFrame {
 
-    final int winWidth = 850;
-    final int winHeight = 600;
+    final int winWidth = 1200;
+    final int winHeight = 730;
     JPanel mainPanel;
     SelectOptionsPanel selectOptionsPanel;
     ChatBotPanel chatBotPanel;
@@ -21,16 +24,16 @@ public class Frame extends JFrame {
     public Frame(App app){
         super("UM DACS Project 2-2 - Group 07 Chatbot");
 
-        this.setLayout(new BorderLayout(10,0));
+        this.setLayout(new BorderLayout(0,0));
 
         // create the panel that contains the navigation buttons.
         selectOptionsPanel = new SelectOptionsPanel();
-        selectOptionsPanel.setPreferredSize(new Dimension(100, 480));
+        selectOptionsPanel.setPreferredSize(new Dimension(86, 480));
         this.add(selectOptionsPanel, BorderLayout.LINE_START);
 
         // create your sub-panels.
         chatBotPanel = new ChatBotPanel(app);
-        skillEditorPanel = new SkillEditorPanel();
+        skillEditorPanel = new SkillEditorPanel(this);
 
         // create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
@@ -42,6 +45,8 @@ public class Frame extends JFrame {
 
         // default show the first panel.
         cL.show(cards, "ChatBotPanel");
+        // and set the button to selected.
+        selectOptionsPanel.naviButtons.get(0).setSelected(true);
 
         // add the cards to this Frame.
         this.add(cards);
@@ -55,15 +60,20 @@ public class Frame extends JFrame {
         this.setVisible(true);
 
         // define the navigation button Listeners.
-        for (JToggleButton btn :  selectOptionsPanel.naviButtons) {
+        for (MyIconButton btn :  selectOptionsPanel.naviButtons) {
             btn.addActionListener(e -> {
-                actionPerformed(e.getActionCommand());
+                actionPerformed(btn.getName());
+                for (MyIconButton iBtn : selectOptionsPanel.naviButtons) {
+                    // set everything unselected, except the currently selected button.
+                    iBtn.setSelected(iBtn.getName().equals(btn.getName()));
+                }
             });
         }
     }
 
     public void actionPerformed(String buttonName) // define your Listener action.
     {
+        System.out.println(buttonName);
         if (buttonName.equals("Chat")){
             cL.show(cards, "ChatBotPanel");
         }

@@ -1,51 +1,45 @@
 package panels;
 
+import controls.MyIconButton;
+import utils.*;
+import utils.UIFonts.*;
+import utils.UIColors.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class  SelectOptionsPanel extends JPanel {
 
-    public JToggleButton chatBtn, skillsBtn;
-    private JLabel label;
-    private Font btnFont = new Font("Monospaced", Font.BOLD, 14);
-    public ArrayList<JToggleButton> naviButtons = new ArrayList<JToggleButton>();
+    private final UIFonts fonts = new UIFonts();
+    private final UIColors colors = new UIColors();
+    public ArrayList<MyIconButton> naviButtons = new ArrayList<>();
+    private String imgFolder = "app\\src\\main\\resources\\imgs\\";
+
 
     public SelectOptionsPanel(){
         super();
-        GridLayout layout = new GridLayout(3,1);
-        layout.setVgap(50);
+        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
 
-        // define the navigation buttons, which select functionality, at left side of the screen
-        chatBtn = new JToggleButton("Chat", new ImageIcon(getClass().getResource("/imgs/chat_icon.png")));
-        buttonSetup(chatBtn);
-        skillsBtn = new JToggleButton("Skills", new ImageIcon(getClass().getResource("/imgs/skills_icon.png")));
-        buttonSetup(skillsBtn);
-
-        // add a label as a placeholder below the navigation buttons.
-        label = new JLabel(" ...More space...");
-        label.setForeground(Color.white);
-        this.add(label);
+        // initialize the navigation buttons
+        buttonSetup("Chat", "Chat");
+        buttonSetup("Skills", "Skill Editor");
 
         // set the background of this JPanel.
-        this.setBackground(new Color(59, 59, 59));
+        this.setBackground(colors.getColor(UIColor.BG_NAVIGATION));
     }
 
-    public void buttonSetup(JToggleButton btn){
-        // set the button settings & layout variables.
-        btn.setContentAreaFilled(false);
-        btn.setHorizontalTextPosition(JButton.CENTER);
-        btn.setVerticalTextPosition(JToggleButton.BOTTOM);
-        btn.setFont(btnFont);
-        btn.setForeground(Color.white);
+    public void buttonSetup(String name, String toolTipText){
+
+        MyIconButton button = new MyIconButton(name, toolTipText);
 
         // add the button to "naviButtons", which is an ArrayList of JToggleButtons.
-        naviButtons.add(btn);
+        naviButtons.add(button);
 
-        // also add it to the current JPanel.
-        this.add(btn);
+        // add button to the JPanel with a space of 15px between each button.
+        Component spacer = Box.createVerticalStrut(15);
+        this.add(spacer);
+        this.add(button);
     }
 
 }

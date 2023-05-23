@@ -2,20 +2,35 @@ package panels;
 
 
 import backend.FullTextIP;
+import controls.MyHeaderPane;
+import controls.MyIconButton;
+import controls.MyTextField;
 import main.App;
+import utils.*;
+import utils.UIColors.*;
+import utils.UIFonts.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class ChatBotPanel extends JPanel implements Runnable {
+
+    private final UIFonts fonts = new UIFonts();
+    private final UIColors colors = new UIColors();
+
     App app;
-    JTextField textField;
-    JButton button;
+    MyTextField textField;
+    MyIconButton button;
     JLabel label;
 
     JTextArea jt;
@@ -25,73 +40,96 @@ public class ChatBotPanel extends JPanel implements Runnable {
     // the actual text
     JLabel chatLog = new JLabel("");
 
+    Boolean wasBot = false;
+
     // the text + icon
     JPanel chatContainer = new JPanel();
-    JScrollPane scrollPane = new JScrollPane(chatContainer, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    JScrollPane scrollPane = new JScrollPane(chatContainer);//, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            //JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
     //ImageIcon botImageIcon = new ImageIcon("app/src/imgs/chatbot_app_icon_blue.png");
-    ImageIcon botImageIcon = new ImageIcon(getClass().getResource("/imgs/chatbot_app_icon_blue.png"));
+    ImageIcon botImageIcon = new ImageIcon(getClass().getResource("/imgs/chatbot_app_icon.png"));
     JLabel botIcon = new JLabel(botImageIcon);
     ImageIcon userImageIcon = new ImageIcon(getClass().getResource("/imgs/user_icon.png"));
     JLabel userIcon = new JLabel(userImageIcon);
-    ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon_transp.png"));
-    ImageIcon sendImageIcon = new ImageIcon(getClass().getResource("/imgs/send_icon.png"));
+    ImageIcon emptyImageIcon = new ImageIcon(getClass().getResource("/imgs/empty_icon.png"));
+    JLabel emptyIcon = new JLabel(emptyImageIcon);
+    ImageIcon background = new ImageIcon(getClass().getResource("/imgs/chatbot_icon.png"));
 
-    GridBagConstraints c = new GridBagConstraints();
-    Font textFont = new Font("Monospaced", Font.BOLD, 18);
+    //ImageIcon sendImageIcon = new ImageIcon(getClass().getResource("/imgs/send_icon.png"));
+    //GridBagConstraints c = new GridBagConstraints();
+    Font textFont = fonts.getFont(FontStyle.MEDIUM, 16);
+
 
     public ChatBotPanel(App app){
         super();
         this.app = app;
-        this.setLayout(new GridBagLayout());
+        //this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
 
-        textField = new JTextField();
+        textField = new MyTextField();
+        button = new MyIconButton("send", "Send Message");
+        // start disabled, because textField is empty.
+        button.setEnabled(false);
+
         textField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
+                button.setEnabled(!textField.getText().equals(""));
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    actionPerformed("send");
+                    // check if textField isn't empty.
+                    if(!textField.getText().equals("")){
+                        actionPerformed("send");
+                    }
                 }
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
-
             }
         });
 
-        button = new JButton("send", sendImageIcon);
 
         button.addActionListener(e -> {
             actionPerformed(e.getActionCommand());
         });
+        button.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                if (button.isSelected()) {
+                    actionPerformed("send");
+                }
+            }
+        });
+
+        MyHeaderPane northPane = new MyHeaderPane(
+                "Chat",
+                "Here you can chat with our ChatBot.",
+                true
+        );
+
+        BorderLayout southLayout = new BorderLayout();
+        JPanel southPane = new JPanel(southLayout);
+
+        southPane.add(textField, BorderLayout.CENTER);
+        southPane.add(button, BorderLayout.EAST);
+
+        southPane.setBackground(colors.getColor(UIColor.BG_CHAT_TEXT));
+        southPane.setBorder(new EmptyBorder(20,20,20,20));
+        southPane.setPreferredSize(new Dimension(2000, 80));
 
         conversationLogSetup();
 
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;   c.weighty = 1;
-        c.gridx = 0;     c.gridy = 0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        this.add(scrollPane, c);
+        scrollPane.setBackground(colors.getColor(UIColor.BG_PRIMARY));
+        scrollPane.setBorder(new EmptyBorder(20,20,20,20));
 
-        // user input field
-        c.gridy = 1;
-        c.weightx = 1;   c.weighty = 0.1;
-        c.gridwidth = GridBagConstraints.RELATIVE;
-        this.add(textField, c);
+        add(northPane, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(southPane, BorderLayout.SOUTH);
 
-        // send button
-        c.gridx = 5; c.gridy = 1;
-        c.weightx = 0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        this.add(button, c);
-
-        this.setBackground(new Color(68, 68, 68));
+        setBackground(colors.getColor(UIColor.BG_PRIMARY));
     }
 
 
@@ -110,7 +148,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background.getImage(), 170, 50, null);
+        g.drawImage(background.getImage(), 250, 100, null);
     }
 
     public void conversationLogSetup(){
@@ -125,19 +163,44 @@ public class ChatBotPanel extends JPanel implements Runnable {
     }
 
     public void setChatText(String text, boolean isBot){
-        if(isBot) {
-            chatLog = new JLabel(" Robot: ", botIcon.getIcon(), SwingConstants.LEFT); //minor changes by John in this line
-            thinkingBot(chatLog, text);// added by John
-        } else
-            chatLog = new JLabel(" You: "+ text + "\n" , userIcon.getIcon(), SwingConstants.LEFT);
 
-        if (chatLog.getPreferredSize().width > 440) //if text is wider than panel, need to wrap text
+        String btnText;
+        Icon btnIcon;
+        Color btnFg;
+
+        if(isBot) {
+            btnText = "";
+            // if previous message was also from bot, display empty icon.
+            if(wasBot){ btnIcon = emptyIcon.getIcon(); }
+            // otherwise display normal icon.
+            else { btnIcon = botIcon.getIcon(); }
+            btnFg = colors.getColor(UIColor.CHAT_FG_BOT);
+            wasBot = true;
+        }
+        else {
+            btnText = text + "\n";
+            // if previous message was also from user, display empty icon.
+            if(!wasBot){ btnIcon = emptyIcon.getIcon(); }
+            // otherwise display normal icon.
+            else { btnIcon = userIcon.getIcon(); }
+            btnFg = colors.getColor(UIColor.CHAT_FG_USER);
+            wasBot = false;
+        }
+
+        chatLog = new JLabel(btnText, btnIcon, SwingConstants.LEFT);
+        chatLog.setForeground(btnFg);
+        // imitate the bot 'thinking'.
+        if(isBot){thinkingBot(chatLog, text);};
+
+        //if text is wider than panel, need to wrap text
+        if (chatLog.getPreferredSize().width > 800) //440)
             chatLog.setText(wrapText(chatLog.getText()));
 
         chatLog.setOpaque(false);
         chatLog.setFont(textFont);
+        chatLog.setIconTextGap(10);
         chatLog.setBorder(createEmptyBorder(0,0,5,0));
-        chatLog.setForeground(Color.WHITE);
+
         chatContainer.add(chatLog);
         chatContainer.revalidate();
         try {
@@ -209,27 +272,29 @@ public class ChatBotPanel extends JPanel implements Runnable {
     public void run() {
         // Main Execution
 
+        // first get the text
+        String text = textField.getText();
+
+        // so we can set it to blank immediately.
+        textField.setText("");
+        button.setEnabled(false);
+
         // set the text of the label to the text of the field
-        setChatText(textField.getText() + "\n", false);
+        setChatText(text + "\n", false);
         
         //chatLog.append("me: " + textField.getText() + "\n");
 
-        if(textField.getText().contains("Laurent")){
+        if(text.contains("Laurent")){
             setChatText("That's a cool name"+"\n", true);
         }
-        else if(textField.getText().contains("Antoine")){
+        else if(text.contains("Antoine")){
             setChatText("beurk what a name", true);
         }
         else{
-            String input = textField.getText();
+            String input = text;
             String output = new FullTextIP(app.getSkillLoader()).processInput(input);
             setChatText(output, true);
         }
-
-        // set the text of field to blank
-        textField.setText("");
-
-
 
         try {
             Thread.sleep(500);
