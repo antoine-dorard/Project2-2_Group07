@@ -12,6 +12,14 @@
     "ROOM DeepSpace": "DeepSpace is the first room after the entrance",
     "default": "The room <ROOM> is in the first floor"
   },
-
+  "TEACHER": {
+    "TEACHER_NAME John": "John is a great teacher",
+    "TEACHER_NAME Leo": "Leo is a great teacher meh",
+    "default": "I don't know <TEACHER_NAME>"
+  },
+  "STUDENT": {
+    "STUDENT_NAME John": "John is a great student",
+    "default": "I don't know <STUDENT_NAME>"
+  },
   "default": "I have no idea"
 }
