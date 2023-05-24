@@ -1,4 +1,4 @@
-package faceID.sockets;
+package faceID.java_py_sockets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
