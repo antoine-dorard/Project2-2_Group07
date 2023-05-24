@@ -1,11 +1,16 @@
 package main;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
-import java.io.FileWriter;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,17 +55,47 @@ public class SkillData {
     }
 
     private void loadSkills(){
-        // TODO read only actions from the rules file
+        JSONParser parser = new JSONParser();
 
-        // initialize default values.
-        skills = new String[] {
-                "SCHEDULE",
-                "LOCATION"
-        };
-        // READ FROM FILE HERE!!
+        try {
+            File cfgRulesFile = new File(getClass().getResource("/CFG/rules.json").toURI());
+            Reader ruleReader = new FileReader(cfgRulesFile);
+            JSONObject rules = (JSONObject) parser.parse(ruleReader);
+
+
+            Iterator keys = rules.keySet().iterator();
+
+            while (keys.hasNext()){
+                String key = (String) keys.next();
+                if(key.equals("ACTION")) {
+                    skills = convertJsonArrToJavaArr((JSONArray) rules.get(key));
+                    break;
+                }
+            }
+
+            ruleReader.close();
+        } catch (URISyntaxException | IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Example skills:
+//        skills = new String[] {
+//                "SCHEDULE",
+//                "LOCATION"
+//        };
     }
 
-
+    private String[] convertJsonArrToJavaArr(JSONArray jsonArr){
+        String[] javaArr = new String[jsonArr.size()];
+        for(int i = 0; i < jsonArr.size(); i++){
+            String currentString = (String) jsonArr.get(i);
+            if(currentString.charAt(0) == '<' && currentString.charAt(currentString.length() - 1) == '>' ){
+                currentString = ((String) jsonArr.get(i)).substring(1, ((String) jsonArr.get(i)).length()-1);
+            }
+            javaArr[i] = currentString;
+        }
+        return javaArr;
+    }
     public void setRules(String[] keys, String[] values) {
         // clear whole rules HashMap.
         rules.clear();
@@ -75,34 +110,54 @@ public class SkillData {
 
     private void loadRules(){
 
-        // TODO Read from file here.
+        JSONParser parser = new JSONParser();
 
-        // initialize default values.
-        rules.put("S"       , new String[]{"<ACTION>"});
-        rules.put("ACTION"  , skillsToRuleSkills(skills));
-        rules.put("SCHEDULE", new String[]{
-                    "Which lectures are there <TIMEEXPRESSION>",
-                    "<TIMEEXPRESSION>, which lectures are there"
-        });
-        rules.put("TIMEEXPRESSION", new String[]{
-                "on <DAY> at <TIME>",
-                "at <TIME> at <DAY>"
-        });
-        rules.put("TIME", new String[]{"9", "12"});
-        rules.put("LOCATION", new String[]{
-                "Where is <ROOM>",
-                "How do <PRO> get to <ROOM>",
-                "Where is <ROOM> located"
-        });
-        rules.put("PRO", new String[]{"I","you","he","she"});
-        rules.put("ROOM", new String[]{"DeepSpace","SpaceBox"});
-        rules.put("DAY", new String[]{
-                "Monday","Tuesday","Wednesday","Thursday",
-                "Friday","Saturday","Sunday"
-        });
+        try {
+            File cfgRulesFile = new File(getClass().getResource("/CFG/rules.json").toURI());
+            Reader ruleReader = new FileReader(cfgRulesFile);
+            JSONObject rulesJson = (JSONObject) parser.parse(ruleReader);
 
-        // READ FROM FILE HERE!!
 
+            Iterator keys = rulesJson.keySet().iterator();
+
+            System.out.println("Reading from file:");
+            while (keys.hasNext()){
+                String key = (String) keys.next();
+                if(key.equals("ACTION")) {
+                    rules.put(key, skillsToRuleSkills(skills));
+                }
+                else{
+                    if (rulesJson.get(key) instanceof String){
+                        rules.put(key, new String[]{(String) rulesJson.get(key)});
+                    }
+                    else if(rulesJson.get(key) instanceof JSONArray){
+                        JSONArray jsonArr = (JSONArray) rulesJson.get(key);
+                        String[] javaArr = new String[jsonArr.size()];
+                        for(int i = 0; i < jsonArr.size(); i++){
+                            System.out.print(jsonArr.get(i));
+                            System.out.print(" | ");
+                            javaArr[i] = (String) jsonArr.get(i);
+                        }
+                        System.out.println();
+                        rules.put(key, javaArr);
+                    }
+                    else{
+                        System.out.println("ERROR: " + key + " is not a String or JSONArray");
+                    }
+                }
+            }
+
+            ruleReader.close();
+        } catch (URISyntaxException | IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Example rule!
+//        rules.put("LOCATION", new String[]{
+//                "Where is <ROOM>",
+//                "How do <PRO> get to <ROOM>",
+//                "Where is <ROOM> located"
+//        });
     }
 
     private void saveRules() {
@@ -121,7 +176,8 @@ public class SkillData {
          */
     }
 
-    private String[] skillsToRuleSkills(String[] skills) {
+    private String[]
+    skillsToRuleSkills(String[] skills) {
         String[] newSkills = new String[skills.length];
         for(int i = 0; i < skills.length; i++) {
             newSkills[i] = "<" + skills[i] + ">";
