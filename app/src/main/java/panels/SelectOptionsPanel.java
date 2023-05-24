@@ -1,9 +1,13 @@
 package panels;
 
 import controls.MyIconButton;
+import dialogs.LockedDialog;
 import utils.*;
 import utils.UIFonts.*;
 import utils.UIColors.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
