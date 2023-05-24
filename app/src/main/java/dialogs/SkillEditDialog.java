@@ -3,6 +3,7 @@ package dialogs;
 import controls.MyDialogButtonPane;
 import controls.MyHeaderPane;
 import controls.MyTextField;
+import controls.MyUppercaseDocumentFilter;
 import utils.*;
 import utils.UIColors.*;
 
@@ -99,7 +100,7 @@ public class SkillEditDialog extends JDialog {
         textField.setText(text);
 
         // define the DocumentFilter, so that it converts every input to an uppercase.
-        ((AbstractDocument) textField.getDocument()).setDocumentFilter(new UppercaseDocumentFilter());
+        ((AbstractDocument) textField.getDocument()).setDocumentFilter(new MyUppercaseDocumentFilter());
         textField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent keyEvent) {

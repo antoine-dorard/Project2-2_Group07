@@ -1,6 +1,7 @@
 package dialogs;
 
 import controls.*;
+import main.SkillData;
 import utils.UIColors;
 import utils.UIColors.UIColor;
 import utils.UIFonts;
@@ -21,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
 
 public class RulesEditDialog extends JDialog {
 
@@ -32,15 +34,23 @@ public class RulesEditDialog extends JDialog {
     private MyTable table;
     MyTextField textField;
     MyTextField ruleTextField;
-    MyButtonPane buttonPane;
+    MyDialogButtonPane buttonPane;
+    MyButtonPane southButtons;
     Boolean isUserInput;
     public Boolean savePressed = false;
     public String newText = "";
     public String newName = "";
+    String[] names;
+    String currentName;
+    String[] skillsArr;
 
 
-    public RulesEditDialog(JFrame owner, String text, String name){
+    public RulesEditDialog(JFrame owner, String text, String name, String[] tokens, String[] skills){
         super(owner, "Edit Skill", true);
+
+        names = tokens;
+        currentName = name;
+        skillsArr = skills;
 
         setSize(winWidth, winHeight);
         setResizable(false);
@@ -61,7 +71,7 @@ public class RulesEditDialog extends JDialog {
                 {"Cancel", UIColor.BTN_BG_RED, UIColor.BTN_BG_RED_PRESSED},
                 {"Save", UIColor.BTN_BG_COLORED, UIColor.BTN_BG_COLORED_PRESSED}
         };
-        MyDialogButtonPane buttonPane = new MyDialogButtonPane(buttons);
+        buttonPane = new MyDialogButtonPane(buttons);
         // add Action Listener for closing the dialog to the 'Cancel' button.
         setCloseAction(buttonPane.buttons.get(0));
         // add Action Listener for the saving of the text.
@@ -151,7 +161,7 @@ public class RulesEditDialog extends JDialog {
                     isUserInput = true;
                     // set editing tools enabled.
                     textField.setEnabled(true);
-                    buttonPane.setButtonsEnabled(new Boolean[] {true, true});
+                    southButtons.setButtonsEnabled(new Boolean[] {true, true});
                 }
                 else{
                     // set flag so action listener of textField knows that it's not a user typing.
@@ -160,7 +170,7 @@ public class RulesEditDialog extends JDialog {
                     isUserInput = true;
                     // set editing tools disabled.
                     textField.setEnabled(false);
-                    buttonPane.setButtonsEnabled(new Boolean[] {true, false});
+                    southButtons.setButtonsEnabled(new Boolean[] {true, false});
                 }
             }
         });
@@ -192,6 +202,24 @@ public class RulesEditDialog extends JDialog {
         // create a MyTextField for editing the rules.
         ruleTextField = createTextField();
         ruleTextField.setText(name);
+        // define the DocumentFilter, so that it converts every input to an uppercase.
+        ((AbstractDocument) ruleTextField.getDocument()).setDocumentFilter(new MyUppercaseDocumentFilter());
+        ruleTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                buttonPane.setButtonsEnabled(new Boolean[]{true, acceptName(ruleTextField.getText())});
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                buttonPane.setButtonsEnabled(new Boolean[]{true, acceptName(ruleTextField.getText())});
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                // does nothing.
+            }
+        });
 
         panel.add(label, BorderLayout.NORTH);
         panel.add(ruleTextField, BorderLayout.SOUTH);
@@ -208,11 +236,11 @@ public class RulesEditDialog extends JDialog {
                 {"New", UIColor.BTN_BG_COLORED, UIColor.BTN_BG_COLORED_PRESSED},
                 {"Delete", UIColor.BTN_BG_RED, UIColor.BTN_BG_RED_PRESSED}
         };
-        buttonPane = new MyButtonPane(buttons);
-        buttonPane.setButtonsEnabled(new Boolean[] {true, false});
+        southButtons = new MyButtonPane(buttons);
+        southButtons.setButtonsEnabled(new Boolean[] {true, false});
 
-        JButton newBtn = buttonPane.buttons.get(0);
-        JButton deleteBtn = buttonPane.buttons.get(1);
+        JButton newBtn = southButtons.buttons.get(0);
+        JButton deleteBtn = southButtons.buttons.get(1);
 
         newBtn.addActionListener(new ActionListener() {
             @Override
@@ -257,13 +285,46 @@ public class RulesEditDialog extends JDialog {
         });
 
         panel.add(textField, BorderLayout.NORTH);
-        panel.add(buttonPane, BorderLayout.SOUTH);
+        panel.add(southButtons, BorderLayout.SOUTH);
 
         return panel;
     }
 
     private void textUpdated(){
         String text = textField.getText();
+        // is not allowed to contain a skill, so for simplicity, just remove it!
+        for(String skill : skillsArr) {
+            if(text.contains(skill)) {
+                text = text.replaceAll(skill, "");
+            }
+        }
         table.setValueAt(text, table.getSelectedRow(), 0);
     }
+
+
+    private Boolean acceptName(String name) {
+        Boolean accept;
+        Boolean isSkill = false;
+        for (String skill: names) {
+            if (skill.equals(name)) {
+                // is a skill.
+                isSkill = true;
+                break;
+            }
+        }
+        if (isSkill) {
+            // already a skill, but is it this skill?
+            if(name.equals(currentName)) {
+                // is current skill, is okay.
+                accept = true;
+            } else {
+                // is another skill.
+                accept = false;
+            }
+        } else {
+            accept = true;
+        }
+        return accept;
+    }
+
 }

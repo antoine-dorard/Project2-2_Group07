@@ -134,7 +134,8 @@ public class EditorRulesPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
-                RulesEditDialog dialog = new RulesEditDialog(ownerFrame, "", "NEW");
+                RulesEditDialog dialog = new RulesEditDialog(
+                        ownerFrame, "", "NEW", getColumnAsArray(table, 0), skillData.skills);
 
                 if (dialog.savePressed){
                     // set the new value in the JTable.
@@ -153,7 +154,8 @@ public class EditorRulesPanel extends JPanel {
                 String name = (String) table.getValueAt(row, 0);
                 String text = (String) table.getValueAt(row, 1);
 
-                RulesEditDialog dialog = new RulesEditDialog(ownerFrame, text, name);
+                RulesEditDialog dialog = new RulesEditDialog(
+                        ownerFrame, text, name, getColumnAsArray(table, 0), skillData.skills);
 
                 if (dialog.savePressed){
                     // set the new value in the JTable.
