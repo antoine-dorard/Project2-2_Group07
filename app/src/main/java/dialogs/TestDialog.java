@@ -51,7 +51,7 @@ public class TestDialog extends JFrame {
             @Override
             public void run() {
                 TestDialog example = new TestDialog();
-                example.setVisible(true);
+                LockedDialog dialog = new LockedDialog(example, true);
             }
         });
     }
