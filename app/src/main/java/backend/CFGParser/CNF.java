@@ -93,8 +93,6 @@ public class CNF {
             if(!containsNonTerminal) cnf.add(new CNFRule(new NonTerminal(cfgRule.getKey()), new RHS(currentTerminals.toArray(new Terminal[0])), cfgRule.getKey()));
 
         }
-        System.out.println("After step 1: ");
-        this.printCNF();
 
         // Step 2: transform all the Terminals to NonTerminals where the RHS contains more than 2 elements
         for (Map.Entry<String, ArrayList<ArrayList<GrammarVariable>>> cfgRule: cfg.getCfgRules().entrySet()){
@@ -118,10 +116,6 @@ public class CNF {
                 }
             }
         }
-
-        System.out.println();
-        System.out.println("After step 2: ");
-        this.printCNF();
 
         // Step 3: create pairs
         for (Map.Entry<String, ArrayList<ArrayList<GrammarVariable>>> cfgRule: cfg.getCfgRules().entrySet()){
@@ -156,7 +150,7 @@ public class CNF {
             }
         }
         System.out.println();
-        System.out.println("After step 3: ");
+        System.out.println("## CNF ##");
         this.printCNF();
 
     }
