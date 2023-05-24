@@ -157,7 +157,7 @@ public class CFG {
                     defaults.put(skillName, (String) jsonObj.get(key));
                 }else{
                     String[] keySplit = ((String) key).split("\\s+");
-                    slotValuePair.put(keySplit[0], keySplit[1]);
+                    slotValuePair.put(keySplit[0], keySplit[1].toLowerCase()); // Lower case for consistency (all the terminals are put to lower case
                 }
 
                 // if there is a json object within a json object, recursive call
