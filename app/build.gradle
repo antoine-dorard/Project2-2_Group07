@@ -30,6 +30,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation files('lib/opencv-4.7.0.jar')
+
 
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 }
@@ -44,9 +46,4 @@ processResources {
 application {
     // Define the main class for the application.
     mainClass = 'main.App'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }

@@ -2,12 +2,13 @@ package backend;
 
 import backend.answer_generator.ContextFreeGrammarAG;
 import backend.answer_generator.FullTextAG;
+import backend.spelling_checker.Spelling_Checker_Sub;
 import backend.spelling_checker.WordSuggester;
 import main.SkillLoader;
 
 public class FullTextIP implements InputProcessor{
 
-    WordSuggester word_check = new WordSuggester();
+    Spelling_Checker_Sub word_check = new Spelling_Checker_Sub();
     SkillLoader skillLoader;
 
     public FullTextIP(SkillLoader skillLoader) {
@@ -28,7 +29,7 @@ public class FullTextIP implements InputProcessor{
         String[] words = input.split("\\s+");
         String[] transformedWords = new String[words.length];
         for (int i = 0; i < words.length; i++) {
-            transformedWords[i] = word_check.inputMatches(words[i]);
+            transformedWords[i] = word_check.findClosestWord(words[i]);
         }
 
         // Join the words back together

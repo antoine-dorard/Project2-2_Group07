@@ -4,29 +4,36 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class WordSuggester {
     File file;
 
+    {
+        try {
+            file = new File(getClass().getResource("/words.txt").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ArrayList<String> wordlist = new ArrayList<>();
+    LevenshteinDistance lDistance = new LevenshteinDistance();
 
     // Added error handling
-    public String inputMatches(String input) {
-        file = new File("app/src/main/java/backend/spelling_checker/words.txt");
-
-        ArrayList<String> wordlist = new ArrayList<>();
-        LevenshteinDistance lDistance = new LevenshteinDistance();
-
+    public void inputMatches(String input) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.length() > 0 && line.length() < 26) { //the parameters of the words.txt we want to compare with (in between 2 and 26)
+                if (line.length() > 2 && line.length() < 26) { //the parameters of the words.txt we want to compare with (in between 2 and 26)
                     wordlist.add(line);
                     System.out.println("this is the line " + line);
                 }
             }
         } catch (IOException e) {
             System.err.println("Error loading word document: " + e.getMessage());
+            return;
         }
         
         // The HashMap<String, Integer> newlist got replaced with Map<String, List<Integer>> newlist = new HashMap<>().
@@ -60,6 +67,5 @@ public class WordSuggester {
         }
 
         System.out.println("sortedMap: " + sortedMap);
-        return list.size() != 0 ? String.valueOf(list.get(0).getKey()) : input;
     }
 }

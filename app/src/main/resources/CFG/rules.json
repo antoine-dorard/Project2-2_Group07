@@ -1,7 +1,7 @@
 {
   "S": "<ACTION>",
   "ACTION": ["<LOCATION>", "<SCHEDULE>"],
-  "SCHEDULE" : ["Which lectures are there <TIMEEXPRESSION>", "<TIMEEXPRESSION> which lectu"],
+  "SCHEDULE" : ["Which lectures are there <TIMEEXPRESSION>", "<TIMEEXPRESSION> which lectures"],
   "TIMEEXPRESSION" : ["on <DAY> at <TIME>", "at <TIME> on <DAY>"],
   "AGEEEEE" : ["9", "10"],
   "TIME" : ["9", "12"],

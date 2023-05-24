@@ -18,7 +18,7 @@ class TrieNode {
  * insertion of words.
  * It has a root node, which is a TrieNode.
  */
-class Trie {
+public class Trie {
     private TrieNode root;
 
     // Constructor that initializes the root node.
