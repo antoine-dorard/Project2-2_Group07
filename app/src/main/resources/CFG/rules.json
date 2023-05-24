@@ -3,7 +3,7 @@
   "ACTION": ["<LOCATION>", "<SCHEDULE>", "<TEACHER>", "STUDENT"],
   "SCHEDULE" : ["Which lectures are there <TIMEEXPRESSION>", "<TIMEEXPRESSION> which lectures"],
   "TIMEEXPRESSION" : ["on <DAY> at <TIME>", "at <TIME> on <DAY>"],
-  "AGEEEEE" : ["9", "10", "12"],
+  "TEMPERATURE" : ["9", "10", "12"],
   "TIME" : ["9", "12"],
   "LOCATION": ["Where is <ROOM>", "How do <PRO> get to <ROOM>"],
   "PRO" : ["I", "you", "he", "she"],
