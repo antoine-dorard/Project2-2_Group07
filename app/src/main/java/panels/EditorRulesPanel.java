@@ -54,6 +54,7 @@ public class EditorRulesPanel extends JPanel {
 
     public void updateAll(SkillData data){
         skillData = data;
+        table.skillData = data;
 
         // get entry Set.
         Map.Entry<Integer, String>[] entry = skillData.rules.entrySet().toArray(new Map.Entry[0]);
@@ -96,21 +97,11 @@ public class EditorRulesPanel extends JPanel {
 
     private MyTablePane createTablePane(MyButtonPane buttonPane){
         // Create the data for the table
-        Object[][] data = {
-                {"S", "ACTION"},
-                {"ACTION", "SCHEDULE | LOCATION"},
-                {"SCHEDULE", "Which lectures are there TIMEEXPRESSION | TIMEEXPRESSION, which lectures are there"},
-                {"TIMEEXPRESSION", "on DAY at TIME | at TIME on DAY"},
-                {"TIME", "9 | 12"},
-                {"LOCATION", "Where is ROOM | How do PRO get to ROOM | Where is ROOM located"},
-                {"PRO", "I | you | he | she"},
-                {"ROOM", "DeepSpace | SpaceBox"},
-                {"DAY", "Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday"}
-        };
+        Object[][] data = {};
 
         // create the JTable with the DefaultTableModel.
         table = new MyTable(columnNames, data);
-        table.setActionListener(buttonPane);
+        table.setActionListener(buttonPane, true);
 
         table.columns.get(0).setMinWidth(200);
         table.columns.get(0).setMaxWidth(300);

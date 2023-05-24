@@ -1,4 +1,5 @@
 package controls;
+import main.SkillData;
 import utils.*;
 import utils.UIColors.*;
 import utils.UIFonts.*;
@@ -9,6 +10,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyTable extends JTable {
 
@@ -19,6 +21,9 @@ public class MyTable extends JTable {
     public DefaultTableCellRenderer dtcr;
     public JTableHeader header;
     public ArrayList<TableColumn> columns = new ArrayList<>();
+
+    public SkillData skillData;
+
 
 
     public MyTable(String[] columnNames, Object[][] data){
@@ -98,12 +103,34 @@ public class MyTable extends JTable {
 
     }
 
-    public void setActionListener(MyButtonPane buttonPane) {
+    public void setActionListener(MyButtonPane buttonPane, Boolean isRules) {
         getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
                 if (getSelectedRow() >= 0) {
-                    buttonPane.setButtonsEnabled(new Boolean[]{true, true, true});
+                    if (isRules) {
+                        String selected = (String) dtm.getValueAt(getSelectedRow(), 0);
+                        if (selected.equals("S") | selected.equals("ACTION")) {
+                            // if selected is 'S' or 'ACTIONS', don't allow the user to edit or delete.
+                            buttonPane.setButtonsEnabled(new Boolean[]{true, false, false});
+                        } else {
+                            Boolean isSkill = false;
+                            for(String skill : skillData.skills) {
+                                if (skill.equals(selected)) {
+                                    isSkill = true;
+                                    break;
+                                }
+                            }
+                            if (isSkill) {
+                                // if selected is on off the skills, don't allow the user to delete.
+                                buttonPane.setButtonsEnabled(new Boolean[]{true, true, false});
+                            } else {
+                                buttonPane.setButtonsEnabled(new Boolean[]{true, true, true});
+                            }
+                        }
+                    } else {
+                        buttonPane.setButtonsEnabled(new Boolean[]{true, true, true});
+                    }
                 }
                 else {
                     buttonPane.setButtonsEnabled(new Boolean[]{true, false, false});

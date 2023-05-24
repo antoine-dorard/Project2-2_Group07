@@ -208,7 +208,7 @@ public class EditorActionsPanel extends JPanel {
         table = new MyTable(columnNames, data);
 
         // set action listener for the JTable.
-        table.setActionListener(buttonPane);
+        table.setActionListener(buttonPane, false);
 
         // for every column, but the last one, set the MaxWidth.
         for(int i = 0; i <= table.columns.size() - 2 ; i++) {

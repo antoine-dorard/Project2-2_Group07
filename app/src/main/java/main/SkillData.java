@@ -1,10 +1,10 @@
 package main;
 
-import dialogs.TestDialog;
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
+import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
@@ -34,6 +34,19 @@ public class SkillData {
 
     public void setSkills(String[] newSkills) {
         skills = newSkills;
+        // update rules if 'ACTION' is a key.
+        if (rules.containsKey("ACTION")) {
+            rules.put("ACTION", skillsToRuleSkills(skills));
+            // check if we need to add new skills to actions.
+            for(String skill : skills) {
+                if (!actions.containsKey(skill)) {
+                    // add skill with empty String[][].
+                    actions.put(skill, new String[][]{});
+                }
+            }
+        }
+        // skills are saved in rules.json, so save them there.
+        saveRules();
     }
 
     private void loadSkills(){
@@ -55,14 +68,15 @@ public class SkillData {
         for(int i = 0; i < keys.length; i++){
             rules.put(keys[i], values[i].split(" \\| "));
         }
-
+        // save to file.
+        saveRules();
     }
 
     private void loadRules(){
 
         // initialize default values.
         rules.put("S"       , new String[]{"<ACTION>"});
-        rules.put("ACTION"  , skills);
+        rules.put("ACTION"  , skillsToRuleSkills(skills));
         rules.put("SCHEDULE", new String[]{
                     "Which lectures are there <TIMEEXPRESSION>",
                     "<TIMEEXPRESSION>, which lectures are there"
@@ -88,13 +102,39 @@ public class SkillData {
 
     }
 
+    private void saveRules() {
+        /*
+        JSONObject json = new JSONObject(rules);
+        System.out.println(json.toJSONString());
+
+        try {
+            FileWriter file = new FileWriter("C:\\Users\\VI-Tech\\Desktop\\res\\test.json");
+            file.write(json.toJSONString());
+            file.close();
+        } catch (Exception e) {
+            // nothing.
+        }
+         */
+    }
+
+    private String[] skillsToRuleSkills(String[] skills) {
+        String[] newSkills = new String[skills.length];
+        for(int i = 0; i < skills.length; i++) {
+            newSkills[i] = "<" + skills[i] + ">";
+        }
+        return newSkills;
+    }
 
     public void setDefaultAnswer(String value) {
         defaultAnswer = value;
+
+        // SAVE TO FILE HERE!
     }
 
     public void setActions(String skill, String[][] newActions) {
         actions.put(skill, newActions);
+
+        // SAVE TO FILE HERE!
     }
 
     private void loadActions() {

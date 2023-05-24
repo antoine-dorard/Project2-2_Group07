@@ -98,7 +98,7 @@ public class EditorSkillsPanel extends JPanel {
         table = new MyTable(columnNames, data);
 
         // set action listener for the JTable.
-        table.setActionListener(buttonPane);
+        table.setActionListener(buttonPane, false);
 
         // create the MyTablePane, which is a JScrollbar with the JTable as its component.
         return new MyTablePane(table);
