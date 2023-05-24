@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="df9dc">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="e36f7" class="javax.swing.JTable" binding="table1" default-binding="true">
+            <constraints/>
+            <properties>
+              <autoCreateRowSorter value="false"/>
+              <autoscrolls value="false"/>
+              <focusable value="true"/>
+              <gridColor color="-11394785"/>
+              <showHorizontalLines value="true"/>
+              <showVerticalLines value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="94f7e" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="0">
+        <constraints border-constraint="South"/>
+        <properties>
+          <alignmentX value="0.5"/>
+          <alignmentY value="0.5"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="384e6" class="javax.swing.JButton" binding="button1" default-binding="true">
+            <constraints/>
+            <properties>
+              <background color="-10446922"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <focusPainted value="false"/>
+              <hideActionText value="true"/>
+              <preferredSize width="100" height="30"/>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <hspacer id="6d577">
+            <constraints/>
+          </hspacer>
+          <component id="b2d2" class="javax.swing.JButton" binding="button2" default-binding="true">
+            <constraints/>
+            <properties>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <preferredSize width="100" height="30"/>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <hspacer id="75300">
+            <constraints/>
+          </hspacer>
+          <component id="11eac" class="javax.swing.JButton" binding="button3" default-binding="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="30"/>
+              <text value="Button"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

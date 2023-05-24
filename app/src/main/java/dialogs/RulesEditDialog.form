@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="469" height="394"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="5af03" class="javax.swing.JLabel">
+        <constraints border-constraint="North"/>
+        <properties>
+          <text value="Edit Rule"/>
+        </properties>
+      </component>
+      <grid id="f3189" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="dac05" class="javax.swing.JButton" binding="button2" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Cancel"/>
+            </properties>
+          </component>
+          <component id="c06e" class="javax.swing.JButton" binding="button1" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Save"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="54636" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="4b119" class="javax.swing.JTable" binding="table1" default-binding="true">
+            <constraints border-constraint="Center"/>
+            <properties/>
+          </component>
+          <component id="f78f7" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+            <constraints border-constraint="South"/>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
