@@ -10,16 +10,13 @@ public class App {
      * App starting point
      */
     public void init(){
-        new Frame(this);
+        // 1) Load grammar from file
         skillLoader = new SkillLoader();
-        //skillLoader.loadSkills(new String[]{"calendar", "weather"});
-        //System.out.println(skillLoader.getQuestions().toString());
         skillLoader.loadCFGandCNF();
-        System.out.println("#########################");
+        // 2) Initialize the skill data for the skill editor
 
-        // TODO: 0. bot answer computation in parallel threads
-        // TODO: 1. write discussion to json file (e.g. save name)
-        // TODO: 2. spelling checking (e.g. all caps, spelling mistakes checking)
+        // 3) Start GUI
+        new Frame(this);
 
     }
 
