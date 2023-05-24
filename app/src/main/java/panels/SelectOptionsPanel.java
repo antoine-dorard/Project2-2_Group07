@@ -29,7 +29,8 @@ public class  SelectOptionsPanel extends JPanel {
 
         chatBtn.addActionListener(e -> {
             System.out.println("Chat button pressed");
-            app.getSkillLoader().loadSkills();
+            //app.getSkillLoader().loadSkills(); PHASE 1 - COMMENTED OUT
+            app.getSkillLoader().loadCFGandCNF(); // PHASE 2 - UNCOMMENTED
         });
 
         skillsBtn = new JToggleButton("Skills", new ImageIcon(getClass().getResource("/imgs/skills_icon.png")));

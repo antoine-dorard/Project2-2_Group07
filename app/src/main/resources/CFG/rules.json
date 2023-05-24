@@ -1,0 +1,12 @@
+{
+  "S": "<ACTION>",
+  "ACTION": ["<LOCATION>", "<SCHEDULE>"],
+  "SCHEDULE" : ["Which lectures are there <TIMEEXPRESSION>", "<TIMEEXPRESSION> which lectu"],
+  "TIMEEXPRESSION" : ["on <DAY> at <TIME>", "at <TIME> on <DAY>"],
+  "AGEEEEE" : ["9", "10"],
+  "TIME" : ["9", "12"],
+  "LOCATION": ["Where is <ROOM>", "How do <PRO> get to <ROOM>"],
+  "PRO" : ["I", "you", "he", "she"],
+  "ROOM": ["DeepSpace", "SpaceBox"],
+  "DAY": ["Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+}

@@ -12,8 +12,10 @@ public class App {
     public void init(){
         new Frame(this);
         skillLoader = new SkillLoader();
-        skillLoader.loadSkills();
-        System.out.println(skillLoader.getQuestions().toString());
+        //skillLoader.loadSkills(new String[]{"calendar", "weather"});
+        //System.out.println(skillLoader.getQuestions().toString());
+        skillLoader.loadCFGandCNF();
+        System.out.println("#########################");
 
         // TODO: 0. bot answer computation in parallel threads
         // TODO: 1. write discussion to json file (e.g. save name)

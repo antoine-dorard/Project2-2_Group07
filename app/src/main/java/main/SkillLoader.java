@@ -1,13 +1,16 @@
 package main;
 
+import backend.CFGParser.CFG;
+import backend.CFGParser.CNF;
+import backend.CFGParser.datastructures.CNFRule;
+import backend.CFGParser.datastructures.Terminal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -19,13 +22,21 @@ public class SkillLoader {
     private HashMap<String, JSONObject> slots; // holds all the possible slots (placeholders) the user can provide
     private HashMap<String, JSONObject> actions; // holds all the possible outputs the bot can send back
 
-    private String resourcePath = "./app/src/main/resources/";
+    private CFG cfg;
+    private CNF cnf;
 
     public SkillLoader(){
 
     }
 
-    public void loadSkills() {
+    public void loadCFGandCNF(){
+        this.cfg = new CFG();
+        this.cnf = new CNF(cfg);
+        this.cnf.generateCNF();
+        writeWordsFromCFG();
+    }
+
+    public void loadSkills(String[] skills) {
         questions = new JSONObject();
         slots = new HashMap<>();
         actions = new HashMap<>();
@@ -34,38 +45,58 @@ public class SkillLoader {
 
             // Questions
             JSONParser parser = new JSONParser();
-            Reader questionsReader = new FileReader(resourcePath + "skills/questions.json");
+            Reader questionsReader = new FileReader(new File(getClass().getResource("/skills/questions.json").toURI()));
             questions = (JSONObject) parser.parse(questionsReader);
             questionsReader.close();
-
-            // (Getting the skills)
-            String[] skills = (String[]) questions.keySet().toArray(new String[0]);
-            System.out.println("Skills: " + Arrays.toString(skills));
 
             // Slots and Actions
             Reader slotsReader;
             Reader actionsReader;
             for (String skillName : skills){
                 parser = new JSONParser();
+                slotsReader = new FileReader(new File(getClass().getResource("/skills/" + skillName + "/slots.json").toURI()));
+                actionsReader = new FileReader(new File(getClass().getResource("/skills/" + skillName + "/actions.json").toURI()));
 
-//                if(new File(resourcePath + "/skills/" + skillName + "/slots.json") != null){
-//                    slotsReader = new FileReader(resourcePath + "/skills/" + skillName + "/slots.json");
-//                    slots.put(skillName, (JSONObject) parser.parse(slotsReader));
-//                    slotsReader.close();
-//                }
-
-                actionsReader = new FileReader(resourcePath + "/skills/" + skillName + "/actions.json");
+                slots.put(skillName, (JSONObject) parser.parse(slotsReader));
                 actions.put(skillName, (JSONObject) parser.parse(actionsReader));
+
+                slotsReader.close();
                 actionsReader.close();
             }
 
-        } catch (IOException | ParseException e) {
+        } catch (IOException | ParseException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
 
         writeWordsFromQuestions();
     }
 
+
+    private void writeWordsFromCFG(){
+        try {
+            Writer clearWriter;
+            clearWriter = new FileWriter("app/src/main/java/backend/spelling_checker/words.txt");
+            clearWriter.write("");
+            clearWriter.close();
+
+            Writer output;
+            output = new BufferedWriter(new FileWriter("app/src/main/java/backend/spelling_checker/words.txt", true));
+
+            for (CNFRule rule : this.cnf.getRules()){
+                if (rule.getRHS().isTerminal()){
+                    for (Terminal word : rule.getRHS().getTerminals()){
+                        output.append(word.toString()).append("\n");
+                    }
+                }
+            }
+
+            output.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        }
 
     private void writeWordsFromQuestions(){
 
@@ -96,21 +127,22 @@ public class SkillLoader {
 
                     for (int i = 0; i < words.length; i++) {
                         if(!words[i].contains("<") && !words[i].contains(">")){
+                            System.out.println(words[i] + " added");
                             output.append(words[i]).append("\n");
                         }
                     }
+
                 }
             }
 
-            System.out.println("Actions: " + this.getActions());
             // Adding the slots
-            this.getActions().forEach((key, value) -> {
-                System.out.println(key);
+
+
+            this.getSlots().forEach((key, value) -> {
+                System.out.println("Slots: " + value);
                 try {
                     for (Object o : value.values()) {
-                        System.out.println(o);
-                        JSONObject subAction = (JSONObject) o;
-                        ArrayList<String> slotsArray = generate(subAction);
+                        JSONArray slotsArray = (JSONArray) o;
 
                         for (Object o1 : slotsArray) {
                             output.append((String) o1).append("\n");
@@ -126,7 +158,14 @@ public class SkillLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public CFG getCfg() {
+        return cfg;
+    }
+
+    public CNF getCnf() {
+        return cnf;
     }
 
     public JSONObject getQuestions() {
@@ -139,38 +178,5 @@ public class SkillLoader {
 
     public HashMap<String, JSONObject> getActions() {
         return actions;
-    }
-
-    public ArrayList<String> generate(JSONObject json){
-        // the following two lists contain the slots and keys respectively in the order they appear in the JSON until a
-        // value is reached. They are cleared after each value is reached, so actions must be taken to create the slot
-        // list on the UI when each value is reached.
-        ArrayList<String> keysList = new ArrayList<>();
-
-        traverse(json, keysList);
-        return keysList;
-    }
-
-    private void traverse(JSONObject obj, ArrayList<String> keysList) {
-        for (Object key : obj.keySet()) {
-            Object value = obj.get(key);
-            if (value instanceof JSONObject) {
-                String[] splitArray = ((String) key).split(" ");
-
-                if (!keysList.contains(splitArray[1])) {
-                    keysList.add(splitArray[1]);
-                }
-
-                traverse((JSONObject) value, keysList);
-
-            } else { // value is reached
-                if(!key.equals("default")) {
-                    String[] splitArray = ((String) key).split(" ");
-                    if (!keysList.contains(splitArray[1])) {
-                        keysList.add(splitArray[1]);
-                    }
-                }
-            }
-        }
     }
 }
