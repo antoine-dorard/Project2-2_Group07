@@ -245,7 +245,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
             for (String dot : dots) {
                 target.setText(initial + dot);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(400);
                 } catch(Exception e) {
                     //... oh shit
                 }
@@ -256,7 +256,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
                 String current = target.getText();
                 target.setText(current + letter);
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(30);
                 } catch (Exception e) {
                     //... oh dear
                 }
