@@ -50,6 +50,7 @@ public class SkillData {
     }
 
     private void loadSkills(){
+        // TODO read only actions from the rules file
 
         // initialize default values.
         skills = new String[] {
@@ -73,6 +74,8 @@ public class SkillData {
     }
 
     private void loadRules(){
+
+        // TODO Read from file here.
 
         // initialize default values.
         rules.put("S"       , new String[]{"<ACTION>"});
@@ -103,6 +106,7 @@ public class SkillData {
     }
 
     private void saveRules() {
+        // TODO Save to rules.json here.
         /*
         JSONObject json = new JSONObject(rules);
         System.out.println(json.toJSONString());
@@ -126,18 +130,24 @@ public class SkillData {
     }
 
     public void setDefaultAnswer(String value) {
+        // TODO Write the general default.
         defaultAnswer = value;
 
         // SAVE TO FILE HERE!
     }
 
     public void setActions(String skill, String[][] newActions) {
+
+        // TODO Write the actions for this skill.
+
         actions.put(skill, newActions);
 
         // SAVE TO FILE HERE!
     }
 
     private void loadActions() {
+
+        // TODO Read from file here.
 
         // initialize default values.
         defaultAnswer = "I have no idea.";
@@ -173,18 +183,18 @@ public class SkillData {
     }
 
 
-    private String[] getActionIDs(String text){
+    private String[] getActionIDs(String skill){
 
         ArrayList<String> actionIDs = new ArrayList<>();
-        if(rules.containsKey(text)) {
-            String[] actions = rules.get(text);
+        if(rules.containsKey(skill)) {
+            String[] actions = rules.get(skill);
 
             for (String action : actions) {
                 // find IDs between '<' and '>'.
                 String[] foundIDs = findIDs(action);
                 // if this action has no IDs, end the loop.
                 if (foundIDs.length == 0) {
-                    actionIDs.add(text);
+                    actionIDs.add(skill);
                     break;
                 } else {
                     for (String foundID : foundIDs) {
