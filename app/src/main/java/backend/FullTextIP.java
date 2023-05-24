@@ -1,5 +1,6 @@
 package backend;
 
+import backend.answer_generator.ContextFreeGrammarAG;
 import backend.answer_generator.FullTextAG;
 import backend.spelling_checker.WordSuggester;
 import main.SkillLoader;
@@ -49,7 +50,8 @@ public class FullTextIP implements InputProcessor{
         System.out.println("Input after spelling check: " + input);
 
         // 2) Answer generation
-        String answer = new FullTextAG(skillLoader).generateAnswer(input);
+        //String answer = new FullTextAG(skillLoader).generateAnswer(input);
+        String answer = new ContextFreeGrammarAG(skillLoader).generateAnswer(input);
 
         return answer;
     }

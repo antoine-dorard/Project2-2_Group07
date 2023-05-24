@@ -18,10 +18,14 @@ import java.util.Iterator;
 public class CFG {
     private final HashMap<String, ArrayList<ArrayList<GrammarVariable>> > cfgRulesHM = new HashMap<>();
     private final ArrayList<CFGAction> cfgActions = new ArrayList<>();
+    private HashMap<String, String> defaults = new HashMap<>();
+
+    private String defaultAnswer;
 
     public CFG(){
         readRules();
         readActions();
+
     }
 
     /**
@@ -78,7 +82,7 @@ public class CFG {
                     String[] terminalStrings = rule.substring(beginIndex, i-1).trim().split(" ");
                     for (String term : terminalStrings) {
                         if (!term.isEmpty()) {
-                            list.add(new Terminal(term));
+                            list.add(new Terminal(term.toLowerCase()));
                         }
                     }
                     beginIndex = i;
@@ -93,7 +97,7 @@ public class CFG {
                 String[] terminalStrings = rule.substring(beginIndex).trim().split(" ");
                 for (String term : terminalStrings) {
                     if (!term.isEmpty()) {
-                        list.add(new Terminal(term));
+                        list.add(new Terminal(term.toLowerCase()));
                     }
                 }
             }
@@ -148,14 +152,12 @@ public class CFG {
                 if(!HM.isEmpty())
                     slotValuePair.putAll(HM);
 
-                String[] keySplit = ((String) key).split("\\s+");
-
-                try {
-                    // try splitting the keyword and its value
+                if(key.equals("default") ){
+                    //slotValuePair.put("default", null);
+                    defaults.put(skillName, (String) jsonObj.get(key));
+                }else{
+                    String[] keySplit = ((String) key).split("\\s+");
                     slotValuePair.put(keySplit[0], keySplit[1]);
-                } catch (IndexOutOfBoundsException e){
-                    // if 'default', there is no second index in the array (no slot-value)
-                    slotValuePair.put(keySplit[0], null);
                 }
 
                 // if there is a json object within a json object, recursive call
@@ -171,10 +173,7 @@ public class CFG {
             }
 
         } else if (obj instanceof String) { // this action has no slotValuePairs
-            answer = (String) obj;
-            CFGAction cfgAction = new CFGAction(skillName, HM, answer);
-            cfgActions.add(cfgAction);
-
+            defaultAnswer = (String) obj;
         } else {
             //System.out.println(obj.toString());
             //TODO maybe going to use it later
@@ -203,9 +202,20 @@ public class CFG {
         cfgActions.add(new CFGAction(skillName, slotValuePairs, answer));
     }
 
+    public HashMap<String, String> getDefaults() {
+        return defaults;
+    }
+
     public static void main(String[] args) {
-        CFG cfg = new CFG();
-        System.out.println(cfg.cfgRulesHM);
-        System.out.println(cfg.cfgActions);
+        //CFG cfg = new CFG();
+        //System.out.println(cfg.cfgRulesHM);
+        //System.out.println(cfg.cfgActions);
+
+        String test = "The room <ROOM> is in the first floor";
+        if(test.contains("<ROOM>")){
+            test = test.replace("<ROOM>", "DeepSpace");
+        }
+
+        System.out.println(test);
     }
 }

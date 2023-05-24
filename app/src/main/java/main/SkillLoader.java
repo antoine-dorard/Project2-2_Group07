@@ -1,5 +1,9 @@
 package main;
 
+import backend.CFGParser.CFG;
+import backend.CFGParser.CNF;
+import backend.CFGParser.datastructures.CNFRule;
+import backend.CFGParser.datastructures.Terminal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,8 +22,18 @@ public class SkillLoader {
     private HashMap<String, JSONObject> slots; // holds all the possible slots (placeholders) the user can provide
     private HashMap<String, JSONObject> actions; // holds all the possible outputs the bot can send back
 
+    private CFG cfg;
+    private CNF cnf;
+
     public SkillLoader(){
 
+    }
+
+    public void loadCFGandCNF(){
+        this.cfg = new CFG();
+        this.cnf = new CNF(cfg);
+        this.cnf.generateCNF();
+        writeWordsFromCFG();
     }
 
     public void loadSkills(String[] skills) {
@@ -57,6 +71,32 @@ public class SkillLoader {
         writeWordsFromQuestions();
     }
 
+
+    private void writeWordsFromCFG(){
+        try {
+            Writer clearWriter;
+            clearWriter = new FileWriter("app/src/main/java/backend/spelling_checker/words.txt");
+            clearWriter.write("");
+            clearWriter.close();
+
+            Writer output;
+            output = new BufferedWriter(new FileWriter("app/src/main/java/backend/spelling_checker/words.txt", true));
+
+            for (CNFRule rule : this.cnf.getRules()){
+                if (rule.getRHS().isTerminal()){
+                    for (Terminal word : rule.getRHS().getTerminals()){
+                        output.append(word.toString()).append("\n");
+                    }
+                }
+            }
+
+            output.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        }
 
     private void writeWordsFromQuestions(){
 
@@ -118,6 +158,14 @@ public class SkillLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public CFG getCfg() {
+        return cfg;
+    }
+
+    public CNF getCnf() {
+        return cnf;
     }
 
     public JSONObject getQuestions() {

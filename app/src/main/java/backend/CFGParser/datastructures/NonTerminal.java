@@ -12,6 +12,11 @@ public class NonTerminal extends GrammarVariable {
         this.nonTerminal = nonTerminal;
     }
 
+    public boolean isDummy(){
+        return nonTerminal == null;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

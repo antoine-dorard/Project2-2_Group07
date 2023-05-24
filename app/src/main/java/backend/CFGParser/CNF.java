@@ -161,6 +161,10 @@ public class CNF {
 
     }
 
+    public ArrayList<CNFRule> getRules() {
+        return cnf;
+    }
+
     private void printCNF(){
         for(int i = 0; i < cnf.size(); i++){
             System.out.println(cnf.get(i));

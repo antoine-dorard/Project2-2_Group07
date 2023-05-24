@@ -13,6 +13,8 @@ import backend.CFGParser.datastructures.Terminal;
 
 public class CKYParser {
     private CNF cnf;
+    private HashMap<NonTerminal, Terminal> placeholderValuePairs = new HashMap<>();
+    private NonTerminal[][][] ckyMatrix;
     public CKYParser(CNF cnf) {
        this.cnf = cnf;
 
@@ -22,28 +24,46 @@ public class CKYParser {
         cnf.generateCNF();
         CKYParser ckyParser = new CKYParser(cnf);
         Terminal[] words = new Terminal[]{
-            new Terminal("How"), 
-            new Terminal("do"), 
-            new Terminal("I"), 
-            new Terminal("get"), 
-            new Terminal("to"), 
-            new Terminal("DeepSpace")
+//                new Terminal("How"),
+//                new Terminal("do"),
+//                new Terminal("I"),
+//                new Terminal("get"),
+//                new Terminal("to"),
+//                new Terminal("DeepSpace")
+
+                new Terminal("Which"),
+                new Terminal("lectures"),
+                new Terminal("are"),
+                new Terminal("there"),
+                new Terminal("on"),
+                new Terminal("Monday"),
+                new Terminal("at"),
+                new Terminal("9")
         };
         GrammarVariable[][][] table = ckyParser.ckyParse(words);
         ckyParser.printTable(table);
         System.out.println(Arrays.toString(table[0][2]));
+        System.out.println(ckyParser.placeholderValuePairs);
+        System.out.println(Arrays.toString(ckyParser.getSkills()));
 
         // TODO
         // 1) match CFG NonTerminals to their value in the given sentence (e.g. "DeepSpace" -> "ROOM")
         // 2) find output action in the json
     }
 
-    public GrammarVariable[][][] ckyParse(Terminal[] words) {
+
+    public NonTerminal[][][] ckyParse(Terminal[] words) {
+        System.out.println(Arrays.toString(words));
         int n = words.length;
-        GrammarVariable[][][] table = new GrammarVariable[n][n][];
+        NonTerminal[][][] table = new NonTerminal[n][n][];
 
         for (int j = 0; j < n; j++) {
             table[j][j] = cnf.getNonTerminals(words[j]).toArray(new NonTerminal[0]);
+            if(table[j][j].length != 0 && !table[j][j][0].isDummy()) {
+                for (int index = 0; index < table[j][j].length; index++){
+                    placeholderValuePairs.put(table[j][j][index], words[j]);
+                }
+            }
             for (int i = j - 1; i >= 0; i--) {
                 List<NonTerminal> ijProductions = new ArrayList<>();
                 for (int k = i; k < j; k++) {
@@ -62,8 +82,16 @@ public class CKYParser {
                 
             }
         }
-
+        this.ckyMatrix = table;
         return table;
+    }
+
+    public String[] getSkills(){
+        String[] skills = new String[ckyMatrix[0][ckyMatrix.length - 1].length];
+        for (int i = 0; i < ckyMatrix[0][ckyMatrix.length - 1].length; i++){
+            skills[i] = ckyMatrix[0][ckyMatrix.length - 1][i].toString();
+        }
+        return skills;
     }
 
     private boolean contains(GrammarVariable[] array, NonTerminal target) {
@@ -75,6 +103,10 @@ public class CKYParser {
         return false;
     }
 
+
+    public void printTable(){
+        printTable(ckyMatrix);
+    }
     
 
     private void printTable(GrammarVariable[][][] table) {
@@ -93,6 +125,10 @@ public class CKYParser {
             }
             System.out.println();
         }
+    }
+
+    public HashMap<NonTerminal, Terminal> getPlaceholderValuePairs() {
+        return placeholderValuePairs;
     }
 }
 
