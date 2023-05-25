@@ -31,6 +31,7 @@ public class SkillLoader {
 
     public void loadCFGandCNF(){
         this.cfg = new CFG();
+        this.cfg.readCFG();
         this.cnf = new CNF(cfg);
         this.cnf.generateCNF();
         writeWordsFromCFG();

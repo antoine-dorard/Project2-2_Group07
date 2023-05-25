@@ -20,7 +20,7 @@ public class CKYParser {
 
     }
     public static void main(String[] args) {
-        CNF cnf = new CNF(new CFG());
+        CNF cnf = new CNF(new CFG().readCFG());
         cnf.generateCNF();
         CKYParser ckyParser = new CKYParser(cnf);
         Terminal[] words = new Terminal[]{

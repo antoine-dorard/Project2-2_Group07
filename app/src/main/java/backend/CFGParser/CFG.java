@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Class that reads the CFG rules and actions from a json file and stores them in a HashMap.
+ * Call readCFG() to read the rules and actions from the json file.
+ */
 public class CFG {
     private final HashMap<String, ArrayList<ArrayList<GrammarVariable>> > cfgRulesHM = new HashMap<>();
     private final ArrayList<CFGAction> cfgActions = new ArrayList<>();
@@ -25,7 +29,12 @@ public class CFG {
     public CFG(){
         readRules();
         readActions();
+    }
 
+    public CFG readCFG(){
+        readRules();
+        readActions();
+        return this;
     }
 
     /**

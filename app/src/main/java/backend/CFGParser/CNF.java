@@ -166,7 +166,7 @@ public class CNF {
     }
 
     public static void main(String[] args) {
-        CNF cnf = new CNF(new CFG());
+        CNF cnf = new CNF(new CFG().readCFG());
         cnf.generateCNF();
 
     }
