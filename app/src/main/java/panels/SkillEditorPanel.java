@@ -68,12 +68,15 @@ public class SkillEditorPanel extends JPanel{
 
     private void switchPanel(String name) {
         if (name.equals("Skills")){
+            skillData.loadSkills();
             skillsPanel.updateAll(skillData);
         }
         if (name.equals("Rules")){
+            skillData.loadRules();
             rulesPanel.updateAll(skillData);
         }
         if (name.equals("Actions")){
+            skillData.loadActions();
             actionsPanel.updateAll(skillData);
         }
         cardLayout.show(cardPanel, name);

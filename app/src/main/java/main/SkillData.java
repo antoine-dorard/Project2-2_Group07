@@ -8,10 +8,7 @@ import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,7 +51,7 @@ public class SkillData {
         saveRules();
     }
 
-    private void loadSkills(){
+    public void loadSkills(){
         JSONParser parser = new JSONParser();
 
         try {
@@ -108,7 +105,7 @@ public class SkillData {
         saveRules();
     }
 
-    private void loadRules(){
+    public void loadRules(){
 
         JSONParser parser = new JSONParser();
 
@@ -201,7 +198,7 @@ public class SkillData {
         // SAVE TO FILE HERE!
     }
 
-    private void loadActions() {
+    public void loadActions() {
 
         // TODO Read from file here.
 
