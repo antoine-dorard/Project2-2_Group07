@@ -53,7 +53,7 @@ public class CFG {
         JSONParser parser = new JSONParser();
 
         try {
-            File cfgRulesFile = new File(getClass().getResource("/CFG/rules.json").toURI());
+            File cfgRulesFile = new File(App.resourcesPath + "CFG/rules.json");
             Reader ruleReader = new FileReader(cfgRulesFile);
             JSONObject rules = (JSONObject) parser.parse(ruleReader);
 
@@ -79,7 +79,7 @@ public class CFG {
             }
 
             ruleReader.close();
-        } catch (URISyntaxException | IOException | ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
