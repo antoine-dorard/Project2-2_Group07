@@ -260,6 +260,7 @@ public class EditorActionsPanel extends JPanel {
                 if (dialog.savePressed){
                     // set the new value in the JTable.
                     table.dtm.addRow(dialog.answers);
+                    saveAll();
                 }
             }
         });

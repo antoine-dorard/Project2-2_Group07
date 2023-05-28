@@ -1,5 +1,7 @@
 package main;
 
+import backend.CFGParser.CFG;
+import backend.CFGParser.datastructures.CFGAction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -7,7 +9,6 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,10 +53,11 @@ public class SkillData {
     }
 
     public void loadSkills(){
+        System.out.println("Loading skills...");
         JSONParser parser = new JSONParser();
 
         try {
-            File cfgRulesFile = new File(getClass().getResource("/CFG/rules.json").toURI());
+            File cfgRulesFile = new File(App.resourcesPath + "CFG/rules.json");
             Reader ruleReader = new FileReader(cfgRulesFile);
             JSONObject rules = (JSONObject) parser.parse(ruleReader);
 
@@ -66,12 +68,13 @@ public class SkillData {
                 String key = (String) keys.next();
                 if(key.equals("ACTION")) {
                     skills = convertJsonArrToJavaArr((JSONArray) rules.get(key));
+                    System.out.println(Arrays.toString(skills));
                     break;
                 }
             }
 
             ruleReader.close();
-        } catch (URISyntaxException | IOException | ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -82,6 +85,7 @@ public class SkillData {
 //        };
     }
 
+    // "<LOCATION>", "<SCHEDULE>" -> String[]{"LOCATION", "SCHEDULE"}
     private String[] convertJsonArrToJavaArr(JSONArray jsonArr){
         String[] javaArr = new String[jsonArr.size()];
         for(int i = 0; i < jsonArr.size(); i++){
@@ -106,11 +110,12 @@ public class SkillData {
     }
 
     public void loadRules(){
+        loadSkills();
 
         JSONParser parser = new JSONParser();
 
         try {
-            File cfgRulesFile = new File(getClass().getResource("/CFG/rules.json").toURI());
+            File cfgRulesFile = new File(App.resourcesPath + "CFG/rules.json");
             Reader ruleReader = new FileReader(cfgRulesFile);
             JSONObject rulesJson = (JSONObject) parser.parse(ruleReader);
 
@@ -145,11 +150,11 @@ public class SkillData {
             }
 
             ruleReader.close();
-        } catch (URISyntaxException | IOException | ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
-        // Example rule!
+        // Example rule:
 //        rules.put("LOCATION", new String[]{
 //                "Where is <ROOM>",
 //                "How do <PRO> get to <ROOM>",
@@ -158,23 +163,30 @@ public class SkillData {
     }
 
     private void saveRules() {
-        // TODO Save to rules.json here.
-        /*
-        JSONObject json = new JSONObject(rules);
-        System.out.println(json.toJSONString());
+        JSONObject jsonObject = new JSONObject();
 
-        try {
-            FileWriter file = new FileWriter("C:\\Users\\VI-Tech\\Desktop\\res\\test.json");
-            file.write(json.toJSONString());
-            file.close();
-        } catch (Exception e) {
-            // nothing.
+        for (String key : rules.keySet()) {
+            String[] value = rules.get(key);
+            if (value.length == 1 && key.equals("S")) {
+                jsonObject.put(key, value[0]);
+            } else {
+                JSONArray jsonArray = new JSONArray();
+                for (String s : value) {
+                    jsonArray.add(s);
+                }
+                jsonObject.put(key, jsonArray);
+            }
         }
-         */
+
+        try (FileWriter file = new FileWriter(App.resourcesPath + "CFG/rules.json")) {
+            file.write(jsonObject.toString());
+            System.out.println("Successfully Saved Rules to File...");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private String[]
-    skillsToRuleSkills(String[] skills) {
+    private String[] skillsToRuleSkills(String[] skills) {
         String[] newSkills = new String[skills.length];
         for(int i = 0; i < skills.length; i++) {
             newSkills[i] = "<" + skills[i] + ">";
@@ -190,49 +202,113 @@ public class SkillData {
     }
 
     public void setActions(String skill, String[][] newActions) {
-
-        // TODO Write the actions for this skill.
+        System.out.println("Saving actions for " + skill);
 
         actions.put(skill, newActions);
 
-        // SAVE TO FILE HERE!
+        JSONParser parser = new JSONParser();
+
+        try {
+            File cfgActionsFile = new File(App.resourcesPath + "CFG/new_actions.json");
+            Reader actionReader = new FileReader(cfgActionsFile);
+
+            JSONObject jsonObject = (JSONObject) parser.parse(actionReader);
+            JSONObject objectToUpdate = (JSONObject) jsonObject.get(skill);
+            if(objectToUpdate == null){
+                objectToUpdate = new JSONObject();
+            }
+
+            JSONArray ids = new JSONArray();
+            JSONArray actions = new JSONArray();
+
+            // First update the ids:
+            ids.addAll(Arrays.asList(actionIDs.get(skill)));
+
+            // Then update the actions:
+            for (String[] action : newActions) {
+                JSONArray jsonAction = new JSONArray();
+
+                for (String s : action) {
+                    jsonAction.add(s);
+                }
+                actions.add(jsonAction);
+            }
+
+            // update the object:
+            objectToUpdate.put("ids", ids);
+            objectToUpdate.put("actions", actions);
+
+            // put the updated arrays into the main object back:
+            jsonObject.put(skill, objectToUpdate);
+
+            try (FileWriter file = new FileWriter(App.resourcesPath + "CFG/new_actions.json")) {
+                file.write(jsonObject.toString());
+                System.out.println("Successfully Saved Actions to File...");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void loadActions() {
+        loadSkills();
 
         // TODO Read from file here.
+        CFG cfg = new CFG(false);
+        //cfg.readActions();
+        cfg.newReadActions();
+        ArrayList<CFGAction> cfgActions = cfg.getCfgActions();
+
+        for (String skill : skills) {
+            actionIDs.put(skill, getActionIDs(skill));
+
+            ArrayList<String[]> tempAction = new ArrayList<>();
+            // adding each action of the current skill
+            // e.g. tempAction[0] = {"Saturday", "*", "There are no lectures on Saturday"}
+            for (CFGAction cfgAction : cfgActions) {
+                if (cfgAction.getSkill().equals(skill)) {
+
+                    if(cfgAction.getSlotValuePair().containsKey("default")){
+                        String[] starList = new String[actionIDs.get(skill).length + 1];
+                        Arrays.fill(starList, "*");
+                        starList[starList.length - 1] = cfgAction.getAnswer();
+                        tempAction.add(starList);
+                    }else {
+                        String[] tempActionArr = new String[actionIDs.get(skill).length + 1]; // + 1 for the answer at the end
+                        int i = 0;
+                        for (String placeholderName : actionIDs.get(skill)) {
+                            if(!cfgAction.getSlotValuePair().containsKey(placeholderName) || cfgAction.getSlotValuePair().get(placeholderName) == null) {
+                                tempActionArr[i] = "*";
+                            } else {
+                                tempActionArr[i] = cfgAction.getSlotValuePair().get(placeholderName);
+                            }
+                            i++;
+                        }
+                        tempActionArr[i] = cfgAction.getAnswer();
+                        tempAction.add(tempActionArr);
+                    }
+                }
+            }
+
+            actions.put(skill, tempAction.toArray(new String[tempAction.size()][]) );
+
+        }
 
         // initialize default values.
         defaultAnswer = "I have no idea.";
 
-        // loop through skills.
-        for(String skill : skills) {
-
-            String[] actIds = getActionIDs(skill);
-            //System.out.println("RESULT : <" + skill + "> " + Arrays.toString(actIds));
-            actionIDs.put(skill, actIds);
-
-            if(skill.equals("SCHEDULE")) {
-                String[][] acts = new String[][]{
-                        {"Saturday", "*", "There are no lectures on Saturday"},
-                        {"Sunday", "*", "There are no lectures on Sunday"}
-                };
-                actions.put(skill, acts);
-            } else {
-                if(skill.equals("LOCATION")) {
-                    String[][] acts = new String[][]{
-                            {"DeepSpace", "*", "Somewhere upstairs"},
-                            {"SpaceBox", "*", "Somewhere downstairs"}
-                    };
-                    actions.put(skill, acts);
-                } else {
-                    actions.put(skill, new String[][]{});
-                }
-            }
-        }
-
-
-        // READ FROM FILE HERE!!
+        // Example actions (for one specific skill):
+//        String[] actIds = getActionIDs(skill);
+//        actionIDs.put(skill, actIds);
+//
+//        String[][] acts = new String[][]{
+//                {"DeepSpace", "*", "Somewhere upstairs"},
+//                {"SpaceBox", "*", "Somewhere downstairs"}
+//        };
+//        actions.put(skill, acts);
     }
 
 
