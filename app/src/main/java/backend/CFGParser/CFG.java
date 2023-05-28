@@ -4,6 +4,7 @@ import backend.CFGParser.datastructures.CFGAction;
 import backend.CFGParser.datastructures.GrammarVariable;
 import backend.CFGParser.datastructures.NonTerminal;
 import backend.CFGParser.datastructures.Terminal;
+import main.App;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,12 +29,19 @@ public class CFG {
 
     public CFG(){
         readRules();
-        readActions();
+        newReadActions();
+    }
+
+    public CFG(boolean read){
+        if (read) {
+            readRules();
+            newReadActions();
+        }
     }
 
     public CFG readCFG(){
         readRules();
-        readActions();
+        newReadActions();
         return this;
     }
 
@@ -114,9 +122,44 @@ public class CFG {
         return list;
     }
 
+    public void newReadActions(){
+        JSONParser parser = new JSONParser();
+
+        try {
+            File cfgActionsFile = new File(App.resourcesPath + "CFG/new_actions.json");
+            Reader actionReader = new FileReader(cfgActionsFile);
+
+            JSONObject jsonObject = (JSONObject) parser.parse(actionReader);
+
+            jsonObject.keySet().forEach(skillKey -> {
+                JSONObject skillObject = (JSONObject) jsonObject.get(skillKey);
+                JSONArray ids = (JSONArray) skillObject.get("ids");
+                JSONArray actions = (JSONArray) skillObject.get("actions");
+
+                actions.forEach(action -> {
+                    JSONArray actionArray = (JSONArray) action;
+                    HashMap<String, String> slotValuePair = new HashMap<>();
+                    for (int i = 0; i < ids.size(); i++) {
+                        String value = (String) actionArray.get(i);
+                        if (!"*".equals(value)) {
+                            slotValuePair.put((String) ids.get(i), value);
+                        }
+                    }
+                    String answer = (String) actionArray.get(actionArray.size() - 1);
+                    cfgActions.add(new CFGAction((String) skillKey, slotValuePair, answer));
+                });
+            });
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Method that reads CFG actions from a json file and stores them in an ArrayList of CFGAction instances
+     * @deprecated use readNewActions instead
      */
+    @Deprecated
     public void readActions(){
         JSONParser parser = new JSONParser();
 
@@ -162,7 +205,7 @@ public class CFG {
                     slotValuePair.putAll(HM);
 
                 if(key.equals("default") ){
-                    //slotValuePair.put("default", null);
+                    slotValuePair.put("default", null);
                     defaults.put(skillName, (String) jsonObj.get(key));
                 }else{
                     String[] keySplit = ((String) key).split("\\s+");

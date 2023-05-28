@@ -1,0 +1,103 @@
+{
+  "LOCATION": {
+    "ids": [
+      "ROOM",
+      "PRO"
+    ],
+    "actions": [
+      [
+        "DeepSpace",
+        "*",
+        "DeepSpace is the first room after the entrance"
+      ],
+      [
+        "*",
+        "*",
+        "The room <ROOM> is in the first floor"
+      ],
+      [
+        "DeepSpace",
+        "I",
+        "New Answerzz"
+      ]
+    ]
+  },
+  "STUDENT": {
+    "ids": [
+      "STUDENT_NAME"
+    ],
+    "actions": [
+      [
+        "John",
+        "John is a great student"
+      ],
+      [
+        "*",
+        "I don't know <STUDENT_NAME>"
+      ]
+    ]
+  },
+  "TEST": {
+    "ids": [
+      "T1"
+    ],
+    "actions": [
+      [
+        "t2",
+        "New Answer"
+      ]
+    ]
+  },
+  "SCHEDULE": {
+    "ids": [
+      "DAY",
+      "TIME"
+    ],
+    "actions": [
+      [
+        "Saturday",
+        "*",
+        "There are no lectures on Saturday"
+      ],
+      [
+        "Monday",
+        "9",
+        "We start the week with math"
+      ],
+      [
+        "Monday",
+        "12",
+        "On Monday noon we have Theoretical Computer S"
+      ],
+      [
+        "*",
+        "9",
+        "We start at 9"
+      ],
+      [
+        "*",
+        "*",
+        ""
+      ]
+    ]
+  },
+  "TEACHER": {
+    "ids": [
+      "TEACHER_NAME"
+    ],
+    "actions": [
+      [
+        "John",
+        "John is a great teacher"
+      ],
+      [
+        "Leo",
+        "Leo is a great teacher meh"
+      ],
+      [
+        "*",
+        "I don't know <TEACHER_NAME>"
+      ]
+    ]
+  }
+}
