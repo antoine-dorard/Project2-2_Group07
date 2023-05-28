@@ -6,6 +6,8 @@ package main;
 public class App {
 
     SkillLoader skillLoader;
+    public static String appPath = "app/src/main/java/";
+    public static String resourcesPath = "app/src/main/resources/";
     /**
      * App starting point
      */
