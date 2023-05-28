@@ -20,9 +20,11 @@ public class Frame extends JFrame {
     SkillEditorPanel skillEditorPanel;
     CardLayout cL;
     JPanel cards;
+    App app;
 
     public Frame(App app){
         super("UM DACS Project 2-2 - Group 07 Chatbot");
+        this.app = app;
 
         this.setLayout(new BorderLayout(0,0));
 
@@ -73,8 +75,9 @@ public class Frame extends JFrame {
 
     public void actionPerformed(String buttonName) // define your Listener action.
     {
-        System.out.println(buttonName);
+        System.out.println("clicked on: "+buttonName);
         if (buttonName.equals("Chat")){
+            app.skillLoader.loadCFGandCNF(); // update the skills after changes made in the skill editor.
             cL.show(cards, "ChatBotPanel");
         }
         else if (buttonName.equals("Skills")){
