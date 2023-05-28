@@ -103,7 +103,7 @@ public class FaceDetection {
                         }
 
                         // Run the Python script
-                        String scriptPath = "app/src/main/java/faceID/sockets/DNN-Socket.py";
+                        String scriptPath = "app/src/main/java/faceID/java_py_sockets/DNN-Socket.py";
                         Process process = Runtime.getRuntime().exec(new String[] { pythonCommand, scriptPath });
 
                         BufferedReader stdoutReader = new BufferedReader(
