@@ -34,24 +34,49 @@ public class FaceChecker {
             Socket clientSocket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
+            int faceCounter = 0;
+
+            System.out.println("\n\n\n\n\n\n\n\n\n");
             String message;
             while ((message = in.readLine()) != null) {
                 if (message.equals("True")) {
-                    System.out.println("Face detected !");
-                    break;
-                }
-            }
+                    faceCounter++;
 
-            Thread.sleep(1000);
+                    if(faceCounter > 50){
+                        System.out.println("Face detected !");
+                        break;
+                    }
+                }else if(message.equals("False")){
+                    faceCounter = 0;
+                }
+
+                printProgress(faceCounter, 50);
+            }
 
             in.close();
             clientSocket.close();
             serverSocket.close();
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return true;
+    }
+
+    private void printProgress(int current, int total) {
+        StringBuilder progress = new StringBuilder("[");
+        int percentage = (current * 100) / total;
+        for(int i = 0; i < 100; i++){
+            if(i < percentage){
+                progress.append("=");
+            }else if(i == percentage){
+                progress.append(">");
+            }else{
+                progress.append(" ");
+            }
+        }
+        progress.append("] " + percentage + "%");
+        System.out.print("\r" + progress.toString());
     }
 }
