@@ -154,7 +154,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
     public void conversationLogSetup(){
         chatContainer.setLayout(new BoxLayout(chatContainer, BoxLayout.Y_AXIS));
         setChatText("Hello I'm your chatBot, with what can I help you?", true);
-        setChatText("What is your name?", true);
+        //setChatText("What is your name?", true);
 
         chatContainer.setOpaque(false);
         scrollPane.setOpaque(false);
