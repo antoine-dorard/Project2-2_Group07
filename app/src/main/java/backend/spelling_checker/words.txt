@@ -20,6 +20,8 @@ thursday
 friday
 saturday
 sunday
+dsdsd
+new
 where
 is
 how
@@ -31,5 +33,7 @@ which
 lectures
 are
 there
-on
 at
+on
+new
+rule

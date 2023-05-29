@@ -31,6 +31,6 @@ build
 # IDE files
 .idea/
 
-# History files
-.history/
+# others
+.history
 .DS_Store
