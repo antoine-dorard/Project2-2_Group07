@@ -10,6 +10,7 @@ public class App {
     SkillLoader skillLoader;
     public static String appPath = "app/src/main/java/";
     public static String resourcesPath = "app/src/main/resources/";
+    private static final boolean CHECK_FACE = false;
     /**
      * App starting point
      */
@@ -19,9 +20,14 @@ public class App {
         skillLoader.loadCFGandCNF();
 
         // 2) Start Face checker
-        FaceChecker faceChecker = new FaceChecker();
+        if(CHECK_FACE){
+            FaceChecker faceChecker = new FaceChecker();
 
-        if(faceChecker.checkFace()){
+            if(faceChecker.checkFace()){
+                // 3) Start GUI
+                new Frame(this);
+            }
+        }else{
             // 3) Start GUI
             new Frame(this);
         }
