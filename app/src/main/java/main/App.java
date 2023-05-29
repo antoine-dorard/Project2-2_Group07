@@ -3,6 +3,8 @@
  */
 package main;
 
+import faceID.FaceChecker;
+
 public class App {
 
     SkillLoader skillLoader;
@@ -15,11 +17,14 @@ public class App {
         // 1) Load grammar from file
         skillLoader = new SkillLoader();
         skillLoader.loadCFGandCNF();
-        // 2) Initialize the skill data for the skill editor
 
-        // 3) Start GUI
-        new Frame(this);
+        // 2) Start Face checker
+        FaceChecker faceChecker = new FaceChecker();
 
+        if(faceChecker.checkFace()){
+            // 3) Start GUI
+            new Frame(this);
+        }
     }
 
     public SkillLoader getSkillLoader() {

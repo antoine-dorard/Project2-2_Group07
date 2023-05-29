@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class FaceDetection {
 
-    public static boolean requestUserPermission() {
+    public boolean requestUserPermission() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("The required Python packages are not installed.");
@@ -21,7 +21,7 @@ public class FaceDetection {
         return response.equals("yes") || response.equals("y") || response.isEmpty();
     }
 
-    public static void ensurePipInstalled(String pythonCommand) {
+    public void ensurePipInstalled(String pythonCommand) {
         try {
             String pipCommand = pythonCommand.equals("python") ? "pip" : "pip3";
             ProcessBuilder pb = new ProcessBuilder(pythonCommand, "-m", "ensurepip", "--default-pip");
@@ -50,7 +50,7 @@ public class FaceDetection {
         }
     }
 
-    public static void runPythonScript() {
+    public void runPythonScript() {
         Runnable pythonScriptRunner = new Runnable() {
             @Override
             public void run() {
@@ -147,7 +147,7 @@ public class FaceDetection {
         ServerSocket serverSocket = new ServerSocket(8000);
         System.out.println("Listening for connections on port 8000");
 
-        runPythonScript();
+        new FaceDetection().runPythonScript();
 
         // Accept connections and read messages
         Socket clientSocket = serverSocket.accept();
