@@ -10,7 +10,7 @@ public class App {
     SkillLoader skillLoader;
     public static String appPath = "app/src/main/java/";
     public static String resourcesPath = "app/src/main/resources/";
-    private static final boolean CHECK_FACE = false;
+    private static final boolean CHECK_FACE = true;
     /**
      * App starting point
      */
