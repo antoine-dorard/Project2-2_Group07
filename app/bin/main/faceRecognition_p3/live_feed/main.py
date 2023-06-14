@@ -1,11 +1,19 @@
 import cv2
 import numpy as np
 from face_rec import FaceRec
+import logging
 
-# Load the pre-trained face detection model
-model_file = 'app/src/main/java/faceID/data/res10_300x300_ssd_iter_140000.caffemodel'
-config_file = 'app/src/main/java/faceID/data/deploy.prototxt'
-net = cv2.dnn.readNetFromCaffe(config_file, model_file)
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
+
+try:
+    # Load the pre-trained face detection model
+    model_file = 'app/src/main/java/faceID/data/res10_300x300_ssd_iter_140000.caffemodel'
+    config_file = 'app/src/main/java/faceID/data/deploy.prototxt'
+    net = cv2.dnn.readNetFromCaffe(config_file, model_file)
+except Exception as e:
+    logging.error(f"Error loading model: {e}")
+    exit(1)
 
 # Set the minimum confidence threshold for face detection
 threshold = 0.8
@@ -21,11 +29,23 @@ sfr.load_encoding_images("app/src/main/java/faceRecognition_p3/images")
 # Load Camera
 cap = cv2.VideoCapture(0)
 
+if not cap.isOpened():
+    logging.error("Unable to open camera")
+    exit(1)
+
 while True:
     ret, frame = cap.read()
+    
+    if not ret:
+        logging.error("Error reading frame")
+        continue
 
     # Prepare the input blob for the DNN
-    blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300), (104.0, 177.0, 123.0))
+    try:
+        blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300), (104.0, 177.0, 123.0))
+    except Exception as e:
+        logging.error(f"Error preparing blob: {e}")
+        continue
 
     # Set the input for the DNN and perform a forward pass
     net.setInput(blob)
