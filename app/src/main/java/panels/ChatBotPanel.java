@@ -2,6 +2,7 @@ package panels;
 
 
 import backend.FullTextIP;
+import backend.autocompletion.AutoCompletionKeyAdapter;
 import controls.MyHeaderPane;
 import controls.MyIconButton;
 import controls.MyTextField;
@@ -15,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
@@ -72,7 +74,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // start disabled, because textField is empty.
         button.setEnabled(false);
 
-        textField.addKeyListener(new KeyListener() {
+        // key listener for sending
+        textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 button.setEnabled(!textField.getText().equals(""));
@@ -91,6 +94,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
             }
         });
 
+        // key listener for auto-completion
+        textField.addKeyListener(new AutoCompletionKeyAdapter(textField));
 
         button.addActionListener(e -> {
             actionPerformed(e.getActionCommand());

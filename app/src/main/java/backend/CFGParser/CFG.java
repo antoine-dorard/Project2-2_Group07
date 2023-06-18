@@ -243,21 +243,6 @@ public class CFG {
      */
     public HashMap<String, ArrayList<ArrayList<GrammarVariable>>> getCfgRules(){ return cfgRulesHM; }
 
-    //TODO: the way we add rules and actions might change depending on our skill editor
-    public void addRule(String ruleLHS, ArrayList<String> rules){
-        ArrayList<ArrayList<GrammarVariable>> ruleList = new ArrayList<>();
-        for (String rule : rules) ruleList.add(splitRule(rule));
-        cfgRulesHM.put(ruleLHS, ruleList);
-    }
-
-    public void addAction(String skillName, String answer, HashMap<String, String> slotValuePairs){
-        cfgActions.add(new CFGAction(skillName, slotValuePairs, answer));
-    }
-
-    public HashMap<String, String> getDefaults() {
-        return defaults;
-    }
-
     public static void main(String[] args) {
         //CFG cfg = new CFG();
         //System.out.println(cfg.cfgRulesHM);
