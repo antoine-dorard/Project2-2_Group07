@@ -37,6 +37,9 @@ public class ChatBotPanel extends JPanel implements Runnable {
 
     JTextArea jt;
 
+    MyIconButton warning;
+    List suggestions;
+
     boolean isThreadOver = true;
 
     // the actual text
@@ -74,6 +77,13 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // start disabled, because textField is empty.
         button.setEnabled(false);
 
+        warning = new MyIconButton("warning", "This question might not be recognized");
+        warning.setSelected(false);
+
+        // key listener for auto-completion
+        AutoCompletionKeyAdapter autoCompletionKeyAdapter = new AutoCompletionKeyAdapter(textField, warning);
+        textField.addKeyListener(autoCompletionKeyAdapter);
+
         // key listener for sending
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -94,9 +104,6 @@ public class ChatBotPanel extends JPanel implements Runnable {
             }
         });
 
-        // key listener for auto-completion
-        textField.addKeyListener(new AutoCompletionKeyAdapter(textField));
-
         button.addActionListener(e -> {
             actionPerformed(e.getActionCommand());
         });
@@ -115,15 +122,23 @@ public class ChatBotPanel extends JPanel implements Runnable {
                 true
         );
 
+        JPanel southTextFieldPane = new JPanel(new BorderLayout());
+        southTextFieldPane.setOpaque(true);
+        southTextFieldPane.add(textField, BorderLayout.CENTER);
+
+        JPanel southIconPane = new JPanel(new BorderLayout());
+        southIconPane.setOpaque(false);
+        southIconPane.add(warning, BorderLayout.WEST);
+        southIconPane.add(button, BorderLayout.EAST);
+
         BorderLayout southLayout = new BorderLayout();
         JPanel southPane = new JPanel(southLayout);
-
-        southPane.add(textField, BorderLayout.CENTER);
-        southPane.add(button, BorderLayout.EAST);
+        southPane.add(southTextFieldPane, BorderLayout.CENTER);
+        southPane.add(southIconPane, BorderLayout.EAST);
 
         southPane.setBackground(colors.getColor(UIColor.BG_CHAT_TEXT));
-        southPane.setBorder(new EmptyBorder(20,20,20,20));
-        southPane.setPreferredSize(new Dimension(2000, 80));
+        southPane.setBorder(new EmptyBorder(40,20,20,20));
+        southPane.setPreferredSize(new Dimension(2000, 100));
 
         conversationLogSetup();
 

@@ -6,8 +6,9 @@ public class AutoCompletion {
     final int MAXNGRAMSIZE = 3;
     int NGramSize = MAXNGRAMSIZE;
 
-    List<String> suggestions;
-    List<String> secondSuggestions;
+    private List<String> suggestions = new ArrayList<>();
+    private List<String> secondSuggestions = new ArrayList<>();
+    private List<String> finalSuggestions = new ArrayList<>();;
 
     final int MAXSUGGESTIONS = 3;
 
@@ -106,16 +107,20 @@ public class AutoCompletion {
      * @param subSentence subsentence of which the next word will be predicted
      */
     public void nextProbableWord(String subSentence){
-        String[] words = subSentence.split(" "); // tokenize
+
+        // reset
+        suggestions.clear();
+        secondSuggestions.clear();
+        finalSuggestions.clear();
+
+        subSentence = subSentence.toLowerCase(Locale.ROOT); // lowercase
+        String[] words = subSentence.split("\\s+"); // tokenize
 
         // Determine the appropriate n-gram size
         NGramSize = Math.min(MAXNGRAMSIZE, words.length);
 
         // Extract the subsequence from the last n-gram
         String subsequence = String.join(" ", Arrays.copyOfRange(words, words.length - NGramSize, words.length));
-
-        suggestions = new ArrayList<>();
-        secondSuggestions = new ArrayList<>();
 
         List<String> nGrams = nGramModel.generateNGrams(subsequence, NGramSize);
 
@@ -127,7 +132,7 @@ public class AutoCompletion {
 
                 for (int i = 0; i < questionNgrams.size() - 1; i++) {
                     if(questionNgrams.get(i).equals(nGram)){
-                        String nextWord = questionNgrams.get(i+1).split(" ")[NGramSize-1];
+                        String nextWord = questionNgrams.get(i+1).split("\\s+")[NGramSize-1];
                         int freq = nextWordFreq.getOrDefault(nextWord, 0);
                         nextWordFreq.put(nextWord, freq + 1);
                     }
@@ -172,5 +177,21 @@ public class AutoCompletion {
         } else if (suggestions.size()+secondSuggestions.size() > MAXSUGGESTIONS){
             secondSuggestions = secondSuggestions.subList(0, MAXSUGGESTIONS-suggestions.size());
         }
+        finalSuggestions.addAll(suggestions);
+        finalSuggestions.addAll(secondSuggestions);
+    }
+
+
+    // accessors
+    public List<String> getSuggestions() {
+        return suggestions;
+    }
+
+    public List<String> getSecondSuggestions() {
+        return secondSuggestions;
+    }
+
+    public List<String> getFinalSuggestions() {
+        return finalSuggestions;
     }
 }

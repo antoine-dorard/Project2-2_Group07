@@ -54,6 +54,7 @@ public class MyIconButton extends JToggleButton {
         tip.setBackground(colors.getColor(UIColor.BG_NAVIGATION));
         tip.setForeground(colors.getColor(UIColor.FG_NAVIGATION));
         tip.setFont(fonts.getFont(FontStyle.MEDIUM, 16));
+        ToolTipManager.sharedInstance().setInitialDelay(0);
         return tip;
     }
 

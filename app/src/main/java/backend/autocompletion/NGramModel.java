@@ -1,9 +1,6 @@
 package backend.autocompletion;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NGramModel {
 
@@ -15,6 +12,7 @@ public class NGramModel {
 
     public List<String> generateNGrams(String question, int nGramSize){
         question = question.replaceAll("\\p{Punct}", ""); // deleting chars that are not letters
+        question = question.toLowerCase(Locale.ROOT);
         List<String> nGrams = new ArrayList<>();
         String[] words = question.split("\\s+"); // tokenization
 
