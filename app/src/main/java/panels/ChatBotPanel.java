@@ -77,7 +77,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         // start disabled, because textField is empty.
         button.setEnabled(false);
 
-        warning = new MyIconButton("warning", "This question might not be recognized");
+        warning = new MyIconButton("warning", "");
         warning.setSelected(false);
 
         // key listener for auto-completion

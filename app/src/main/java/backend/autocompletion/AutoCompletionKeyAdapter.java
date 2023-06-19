@@ -20,7 +20,8 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
         this.autoCompletion = new AutoCompletion();
         this.textField = textField;
         this.warning = button;
-        warning.setEnabled(true);
+        warning.setEnabled(false);
+
         suggestionsPopupSetUp();
     }
 
@@ -28,6 +29,7 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
         suggestionsPopup = new JPopupMenu();
         suggestionsPopup.setLayout(new BoxLayout(suggestionsPopup, BoxLayout.X_AXIS));
         suggestionsPopup.setBorder(BorderFactory.createEmptyBorder()); // remove border
+        suggestionsPopup.setOpaque(false);
     }
 
     @Override
@@ -42,8 +44,6 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
         else {
             hideSuggestions();
         }
-        System.out.println(autoCompletion.getFinalSuggestions().isEmpty());
-        warning.setEnabled(autoCompletion.getFinalSuggestions().isEmpty());
     }
 
     @Override
@@ -77,6 +77,8 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
 
         if (suggestionsPopup.getComponentCount() > 0) { // if there is (more than) one suggestion, show it
             suggestionsPopup.show(textField, 0, -25);
+            warning.setSelected(false);
+            warning.setToolTipText("");
         }
 
         suggestionsPopup.setVisible(true);
@@ -84,6 +86,8 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
 
     private void hideSuggestions() {
         suggestionsPopup.setVisible(false);
+        warning.setSelected(true);
+        warning.setToolTipText("The question is incomplete and/or might not be recognized");
     }
 
     private void printSuggestions() {
