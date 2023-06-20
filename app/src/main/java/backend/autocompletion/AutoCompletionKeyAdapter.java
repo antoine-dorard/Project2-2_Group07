@@ -15,7 +15,6 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
     String subsentence;
     MyIconButton warning;
     JPopupMenu suggestionsPopup;
-    Boolean hasStartWord;
 
     public AutoCompletionKeyAdapter(JTextField textField, MyIconButton button){
         this.autoCompletion = new AutoCompletion();
@@ -37,10 +36,14 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
     public void keyTyped(KeyEvent e) {
         subsentence = textField.getText();
         if (e.getKeyChar() == ' '){
-            autoCompletion.nextProbableWord(subsentence);
-            //printSuggestions();
-            showSuggestions();
-            textField.requestFocus(); // ensures that the user can type immediately after not selecting a suggestion
+            if(checkStartWord(subsentence)) {
+                autoCompletion.nextProbableWord(subsentence);
+                //printSuggestions();
+                showSuggestions();
+                textField.requestFocus(); // ensures that the user can type immediately after not selecting a suggestion
+            }
+            else
+                hideSuggestions();
         }
         else {
             hideSuggestions();
@@ -67,6 +70,17 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
             }
 
         }
+    }
+
+    /**
+     * Method that checks whether input starts with a known starting word, since we do not
+     * want to start suggesting words if input does not correspond to predefined questions
+     * @param subSentence to be checked whether first word is a starting word
+     * @return true if imputs starts with a recognized start word, false otherwise
+     */
+    public boolean checkStartWord(String subSentence){
+        String[] words = subSentence.split("\\s+"); // tokenize
+        return autoCompletion.getStartWords().contains(words[0]);
     }
 
     private void showSuggestions() {
@@ -105,19 +119,16 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
         warning.setToolTipText("The question is incomplete and/or might not be recognized");
     }
 
-    private void printSuggestions() {
-        System.out.println("--- Suggestions (Only generates max 3 suggestions in total) ---");
-        System.out.println("- Most probable next word:");
-        for (String suggestion : autoCompletion.getSuggestions()) {
-            System.out.println(suggestion);
-        }
-        System.out.println("- Second most probable next word:");
-        for (String suggestion : autoCompletion.getSecondSuggestions()) {
-            System.out.println(suggestion);
-        }
-    }
 
-    public AutoCompletion getAutoCompletion() {
-        return autoCompletion;
-    }
+//    private void printSuggestions() {
+//        System.out.println("--- Suggestions (Only generates max 3 suggestions in total) ---");
+//        System.out.println("- Most probable next word:");
+//        for (String suggestion : autoCompletion.getSuggestions()) {
+//            System.out.println(suggestion);
+//        }
+//        System.out.println("- Second most probable next word:");
+//        for (String suggestion : autoCompletion.getSecondSuggestions()) {
+//            System.out.println(suggestion);
+//        }
+//    }
 }
