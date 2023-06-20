@@ -15,6 +15,7 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
     String subsentence;
     MyIconButton warning;
     JPopupMenu suggestionsPopup;
+    Boolean hasStartWord;
 
     public AutoCompletionKeyAdapter(JTextField textField, MyIconButton button){
         this.autoCompletion = new AutoCompletion();
@@ -52,6 +53,20 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        // if user uses deletes, and last char in the input field is a space, show suggestions again (if there are any)
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+            try {
+                if (subsentence.charAt(subsentence.length()-1) == ' '){
+                    autoCompletion.nextProbableWord(subsentence);
+                    showSuggestions();
+                    textField.requestFocus();
+                }
+            } catch (StringIndexOutOfBoundsException exception){
+                // this if for when input field becomes blank again after deleting some input
+                // nothing happens
+            }
+
+        }
     }
 
     private void showSuggestions() {
