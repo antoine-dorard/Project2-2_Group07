@@ -1,20 +1,24 @@
 package backend.autocompletion;
 
 import controls.MyIconButton;
+import org.checkerframework.checker.units.qual.K;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.util.List;
 
-public class AutoCompletionKeyAdapter extends KeyAdapter {
+public class AutoCompletionKeyAdapter implements KeyListener {
     AutoCompletion autoCompletion;
     JTextField textField;
     String subsentence;
     MyIconButton warning;
+
     JPopupMenu suggestionsPopup;
+    int selectedSuggestionIndex;
+    JMenuItem selectedSuggestion;
 
     public AutoCompletionKeyAdapter(JTextField textField, MyIconButton button){
         this.autoCompletion = new AutoCompletion();
@@ -23,6 +27,8 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
         warning.setEnabled(false);
 
         suggestionsPopupSetUp();
+
+        selectedSuggestionIndex = -1; // nothing is selected yet with tab keys
     }
 
     private void suggestionsPopupSetUp(){
@@ -30,28 +36,54 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
         suggestionsPopup.setLayout(new BoxLayout(suggestionsPopup, BoxLayout.X_AXIS));
         suggestionsPopup.setBorder(BorderFactory.createEmptyBorder()); // remove border
         suggestionsPopup.setOpaque(false);
+
+        suggestionsPopup.addKeyListener(new KeyAdapter() {
+            // listener when one of the suggestions in the popUp is already selected
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) { // selecting suggestions with tab key
+                    e.consume(); // consume the event to prevent it from being handled by other components
+                    selectNextSuggestion();
+                }
+            }
+        });
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        System.out.println(e.getKeyChar());
         subsentence = textField.getText();
         if (e.getKeyChar() == ' '){
-            if(checkStartWord(subsentence)) {
+            if (checkStartWord(subsentence)) {
                 autoCompletion.nextProbableWord(subsentence);
                 //printSuggestions();
                 showSuggestions();
                 textField.requestFocus(); // ensures that the user can type immediately after not selecting a suggestion
             }
-            else
-                hideSuggestions();
+        }
+        else if (e.getKeyChar() == '\t') { // pressing tab selects next suggestion
+            System.out.println("TAB pressed");
+            if (suggestionsPopup.isVisible()) {
+                e.consume(); // Consume the event to prevent it from being handled by other components
+                selectNextSuggestion();
+            }
+        }
+        // when enter is pressed, check if a suggestion is selected
+        else if (e.getKeyChar() == '\n') {
+            if (selectedSuggestionIndex > -1) {
+                e.consume();
+                addSuggestionToTextfield();
+            }
         }
         else {
             hideSuggestions();
+            setWarning();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+
     }
 
     @Override
@@ -68,8 +100,32 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
                 // this if for when input field becomes blank again after deleting some input
                 // nothing happens
             }
-
         }
+    }
+
+    private void selectNextSuggestion() {
+        List<String> suggestions = autoCompletion.getFinalSuggestions();
+        // if tab is pressed but there are no suggestions, just return
+        if (suggestions.size() == 0){
+            return;
+        }
+
+        // deselecting previous selection (reset everything)
+        if (selectedSuggestionIndex > -1) {
+            selectedSuggestion = (JMenuItem) suggestionsPopup.getComponent(selectedSuggestionIndex);
+            selectedSuggestion.setSelected(false);
+            selectedSuggestion.setBorder(BorderFactory.createEmptyBorder());
+        }
+
+        // increment by 1 and allow for looping through suggestions by doing modulus
+        selectedSuggestionIndex = (selectedSuggestionIndex + 1) % suggestions.size();
+        selectedSuggestion = (JMenuItem) suggestionsPopup.getComponent(selectedSuggestionIndex); // update
+        selectedSuggestion.setSelected(true);
+        selectedSuggestion.setBorder(BorderFactory.createLineBorder(Color.white));
+
+
+        //suggestionsPopup.requestFocus(); // set focus so you can continuously loop through suggestions
+
     }
 
     /**
@@ -93,10 +149,8 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // retrieve info of object that triggered actionEvent, in this case the MenuItem
-                    JMenuItem menuItem = (JMenuItem) e.getSource();
-                    String selectedSuggestion = menuItem.getText();
-                    textField.setText(textField.getText() + selectedSuggestion); // update textfield
-                    suggestionsPopup.setVisible(false); // hide current suggestions
+                    selectedSuggestion = (JMenuItem) e.getSource();
+                    addSuggestionToTextfield();
                 }
             });
             suggestionsPopup.add(suggestionItem);
@@ -108,17 +162,30 @@ public class AutoCompletionKeyAdapter extends KeyAdapter {
             suggestionsPopup.show(textField, 0, -25);
             warning.setSelected(false);
             warning.setToolTipText("");
+            selectedSuggestionIndex = -1;
         }
 
         suggestionsPopup.setVisible(true);
     }
 
     private void hideSuggestions() {
+        selectedSuggestionIndex = -1;
         suggestionsPopup.setVisible(false);
+    }
+
+    private void setWarning(){
         warning.setSelected(true);
         warning.setToolTipText("The question is incomplete and/or might not be recognized");
     }
 
+    private void addSuggestionToTextfield(){
+        textField.setText(textField.getText() + selectedSuggestion.getText()); // update textfield
+        hideSuggestions(); // hide suggestions, but don't set warning because textfield includes valid subsentence
+    }
+
+    public boolean isSuggestionSelected() {
+        return selectedSuggestionIndex > -1;
+    }
 
 //    private void printSuggestions() {
 //        System.out.println("--- Suggestions (Only generates max 3 suggestions in total) ---");

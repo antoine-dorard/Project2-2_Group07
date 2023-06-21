@@ -18,9 +18,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -93,8 +90,8 @@ public class ChatBotPanel extends JPanel implements Runnable {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    // check if textField isn't empty.
-                    if(!textField.getText().equals("")){
+                    // check if no suggestion is selected and textField isn't empty.
+                    if(!autoCompletionKeyAdapter.isSuggestionSelected() && !textField.getText().equals("")){
                         actionPerformed("send");
                     }
                 }
@@ -150,8 +147,27 @@ public class ChatBotPanel extends JPanel implements Runnable {
         add(southPane, BorderLayout.SOUTH);
 
         setBackground(colors.getColor(UIColor.BG_PRIMARY));
+
+        disableFocusTraversalKeys(this);
     }
 
+    /**
+     * Disables functionality of TAB key to traverse though all components.
+     * Necessary to be able to switch through suggestions with TAB.
+     * @param container all components within this container are disabled
+     */
+    private void disableFocusTraversalKeys(Container container) {
+        container.setFocusTraversalKeysEnabled(false);
+
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            if (component instanceof Container) {
+                disableFocusTraversalKeys((Container) component);
+            } else {
+                component.setFocusTraversalKeysEnabled(false);
+            }
+        }
+    }
 
     public void actionPerformed(String buttonName)
     {
