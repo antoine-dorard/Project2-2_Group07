@@ -3,7 +3,6 @@ import face_recognition
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, RadioButtons
-from scipy import stats
 
 def draw_landmarks(image, landmarks, size, color):
     for _, points in landmarks.items():
@@ -49,13 +48,13 @@ draw_landmarks(img, landmarks1, dot_size, color)
 draw_landmarks(img2, landmarks2, dot_size, color)
 
 # Calculate basic statistics for the images
-mean1 = np.mean(img)
-std_dev1 = np.std(img)
-median1 = np.median(img)
+mean1 = np.mean(img)# type: ignore
+std_dev1 = np.std(img)# type: ignore
+median1 = np.median(img)# type: ignore
 
-mean2 = np.mean(img2)
-std_dev2 = np.std(img2)
-median2 = np.median(img2)
+mean2 = np.mean(img2) # type: ignore
+std_dev2 = np.std(img2)# type: ignore
+median2 = np.median(img2)# type: ignore
 
 stats_text = f'Img1 - Mean: {mean1:.2f}, Std: {std_dev1:.2f}, Median: {median1:.2f}\n' \
              f'Img2 - Mean: {mean2:.2f}, Std: {std_dev2:.2f}, Median: {median2:.2f}'
@@ -71,11 +70,11 @@ ax[0].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 ax[1].imshow(cv2.cvtColor(img2, cv2.COLOR_BGR2RGB))
 
 # Add a slider for adjusting the dot size
-slider_ax = plt.axes([0.25, 0.01, 0.50, 0.03])
+slider_ax = plt.axes([0.25, 0.01, 0.50, 0.03])# type: ignore
 slider = Slider(slider_ax, 'Dot size', 1, 10, valinit=1, valstep=1)
 
 # Add radio buttons for color change
-color_ax = plt.axes([0.025, 0.5, 0.15, 0.15])
+color_ax = plt.axes([0.025, 0.5, 0.15, 0.15])# type: ignore
 radio = RadioButtons(color_ax, ('white', 'red', 'green', 'blue'))
 
 def update(val):
