@@ -107,7 +107,9 @@ public class AutoCompletion {
             "Which countries are part of the European Union? [E]"
     );
 
-
+    /**
+     * Class that is responsible for training n grams to predict the next word of a subsentence
+     */
     public AutoCompletion(){
         nGramModel = new NGramModel();
         setStartWords();
@@ -191,8 +193,7 @@ public class AutoCompletion {
     }
 
     /**
-     * Method that shortens suggestions list, such that not all
-     * suggestions will be displayed.
+     * Method that shortens suggestions list, such that not all suggestions will be displayed.
      */
     public void limitMaxSuggestions(){
         if (suggestions.size() > MAXSUGGESTIONS){
@@ -205,8 +206,7 @@ public class AutoCompletion {
     }
 
     /**
-     * Method that goes through all questions and gets the
-     * starting words of the question. No duplicates.
+     * Method that goes through all questions and gets the starting words of the question. No duplicates.
      */
     public void setStartWords(){
         for (String question : questions) {

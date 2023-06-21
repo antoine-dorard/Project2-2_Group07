@@ -1,11 +1,8 @@
 package backend.autocompletion;
 
 import controls.MyIconButton;
-import org.checkerframework.checker.units.qual.K;
 
 import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -20,6 +17,11 @@ public class AutoCompletionKeyAdapter implements KeyListener {
     int selectedSuggestionIndex;
     JMenuItem selectedSuggestion;
 
+    /**
+     * Class that is responsible for showing suggestions based on the input of a textfield,
+     * @param textField the input (a subsentence) is read from this textfield
+     * @param button warning icon that is visible when subsentence is not recognized
+     */
     public AutoCompletionKeyAdapter(JTextField textField, MyIconButton button){
         this.autoCompletion = new AutoCompletion();
         this.textField = textField;
@@ -51,7 +53,6 @@ public class AutoCompletionKeyAdapter implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyChar());
         subsentence = textField.getText();
         if (e.getKeyChar() == ' '){
             if (checkStartWord(subsentence)) {
@@ -62,7 +63,6 @@ public class AutoCompletionKeyAdapter implements KeyListener {
             }
         }
         else if (e.getKeyChar() == '\t') { // pressing tab selects next suggestion
-            System.out.println("TAB pressed");
             if (suggestionsPopup.isVisible()) {
                 e.consume(); // Consume the event to prevent it from being handled by other components
                 selectNextSuggestion();
@@ -123,16 +123,13 @@ public class AutoCompletionKeyAdapter implements KeyListener {
         selectedSuggestion.setSelected(true);
         selectedSuggestion.setBorder(BorderFactory.createLineBorder(Color.white));
 
-
-        //suggestionsPopup.requestFocus(); // set focus so you can continuously loop through suggestions
-
     }
 
     /**
      * Method that checks whether input starts with a known starting word, since we do not
      * want to start suggesting words if input does not correspond to predefined questions
      * @param subSentence to be checked whether first word is a starting word
-     * @return true if imputs starts with a recognized start word, false otherwise
+     * @return true if input starts with a recognized start word, false otherwise
      */
     public boolean checkStartWord(String subSentence){
         String[] words = subSentence.split("\\s+"); // tokenize
