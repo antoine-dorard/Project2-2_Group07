@@ -1,4 +1,4 @@
-package backend.zeromq;
+package connection.zeromq;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

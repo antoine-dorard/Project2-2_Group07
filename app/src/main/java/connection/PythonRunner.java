@@ -1,8 +1,7 @@
-package backend.python;
+package connection;
 
-import backend.zeromq.ZMQMessage;
-import backend.zeromq.ZMQMessenger;
-import backend.zeromq.ZMQReq;
+import connection.zeromq.ZMQMessage;
+import connection.zeromq.ZMQMessenger;
 
 import java.io.BufferedReader;
 import java.io.IOException;

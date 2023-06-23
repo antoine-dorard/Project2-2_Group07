@@ -1,4 +1,4 @@
-package backend.zeromq;
+package connection.zeromq;
 
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;

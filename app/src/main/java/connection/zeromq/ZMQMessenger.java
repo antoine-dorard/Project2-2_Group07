@@ -1,7 +1,6 @@
-package backend.zeromq;
+package connection.zeromq;
 
 import org.json.simple.parser.ParseException;
-import org.zeromq.ZMQ;
 
 public class ZMQMessenger {
 

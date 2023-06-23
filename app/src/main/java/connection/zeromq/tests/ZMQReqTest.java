@@ -1,4 +1,4 @@
-package backend.zeromq;
+package connection.zeromq.tests;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -8,7 +8,7 @@ import org.zeromq.ZContext;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class ZMQTestServer
+public class ZMQReqTest
 {
 
     public static void main(String[] args) throws Exception

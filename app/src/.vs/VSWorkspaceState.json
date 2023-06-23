@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\main",
+    "\\main\\java",
+    "\\main\\java\\connection",
+    "\\main\\java\\connection\\zeromq",
+    "\\main\\java\\connection\\zeromq\\tests",
+    "\\main\\python"
+  ],
+  "SelectedNode": "\\main\\java\\connection\\ZMQPub.py",
+  "PreviewInSolutionExplorer": false
+}
