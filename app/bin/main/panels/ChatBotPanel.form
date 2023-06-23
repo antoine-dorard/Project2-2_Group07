@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="4d65a" layout-manager="BorderLayout" hgap="0" vgap="20">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="c601a" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <minimumSize width="49" height="30"/>
+              <preferredSize width="49" height="30"/>
+            </properties>
+          </component>
+          <component id="13c79" class="javax.swing.JButton" binding="button1" default-binding="true">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="c7bad" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <grid id="1b87e" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="e76da" class="javax.swing.JLabel">
+            <constraints border-constraint="North"/>
+            <properties>
+              <text value="Chat"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
