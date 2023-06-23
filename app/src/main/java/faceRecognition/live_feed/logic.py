@@ -2,14 +2,16 @@ import cv2
 import numpy as np
 from face_rec import FaceRec
 import logging
+import socket
+import sys
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
 
 try:
     # Load the pre-trained face detection model
-    model_file = 'app/src/main/java/faceID/data/res10_300x300_ssd_iter_140000.caffemodel'
-    config_file = 'app/src/main/java/faceID/data/deploy.prototxt'
+    model_file = 'app/src/main/java/faceRecognition_p3/data/res10_300x300_ssd_iter_140000.caffemodel'
+    config_file = 'app/src/main/java/faceRecognition_p3/data/deploy.prototxt'
     net = cv2.dnn.readNetFromCaffe(config_file, model_file)
 except Exception as e:
     logging.error(f"Error loading model: {e}")
@@ -32,6 +34,17 @@ cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     logging.error("Unable to open camera")
     exit(1)
+
+def send_message_to_java(message: str):
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_address = ('localhost', 8000)
+        sock.connect(server_address)
+        sock.sendall(message.encode('utf-8'))
+    except socket.error as e:
+        print(f"Socket error: {e}")
+    finally:
+        sock.close()
 
 while True:
     ret, frame = cap.read()
@@ -73,6 +86,7 @@ while True:
                 if name != "Stranger" and name not in face_id:
                     face_id[name] = current_max_id
                     current_max_id += 1
+                    send_message_to_java(f"Face detected: {name}")
 
                 # Draw rectangle and label
                 label = f"{name}_{face_id.get(name, '')}: {score * 100:.2f}%"
