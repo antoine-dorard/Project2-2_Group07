@@ -1,16 +1,27 @@
 package connection.zeromq;
 
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
+import java.util.HashMap;
 
 public class ZMQMessenger {
 
     public ZMQReq zmqReq;
 
-    public ZMQMessenger() {
+    public ZMQMessenger(String port) {
 
         // Construct the REQ ZeroMQ Server.
-        zmqReq = new ZMQReq();
+        zmqReq = new ZMQReq(port);
 
+    }
+
+    public void open(){
+        zmqReq.open();
+    }
+
+    public void close(){
+        zmqReq.close();
     }
 
     public ZMQMessage sendMessage(ZMQMessage zmqMessage, Boolean waitForReply) throws Exception {
@@ -43,4 +54,21 @@ public class ZMQMessenger {
 
         return zmqReply;
     }
+
+    public static void main(String[] args) throws Exception {
+
+        ZMQMessenger zmqMessenger = new ZMQMessenger("5555");
+        zmqMessenger.open();
+
+        while (!Thread.currentThread().isInterrupted()) {
+
+            ZMQMessage message = new ZMQMessage("tapas_fine_tuned", "data");
+            System.out.println("Sending message : " + message.convertToJSONString());
+
+            ZMQMessage reply = zmqMessenger.sendMessage(message, true);
+
+            System.out.println(reply.convertToJSONString());
+        }
+    }
+
 }

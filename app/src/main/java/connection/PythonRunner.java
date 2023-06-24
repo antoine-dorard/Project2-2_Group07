@@ -10,16 +10,18 @@ import java.io.InputStreamReader;
 
 public class PythonRunner {
 
-    public void runPythonScript() {
+    public void runPythonScript(String scriptPath) {
         Runnable pythonScriptRunner = new Runnable() {
             @Override
             public void run() {
                 String pythonCommand = "python";
 
                 // Run the Python script
-                String scriptPath = "app/src/main/java/backend/python/pythonExecute.py";
+                //String scriptPath = "app/src/main/python/main.py";
                 try {
+                    System.out.println("Executing : " + pythonCommand + scriptPath);
                     Process process = Runtime.getRuntime().exec(new String[]{pythonCommand, scriptPath});
+                    System.out.println("Done Executing" + pythonCommand + scriptPath);
 
                     BufferedReader stdoutReader = new BufferedReader(
                             new InputStreamReader(process.getInputStream()));
@@ -45,27 +47,17 @@ public class PythonRunner {
     public static void main(String[] args) throws Exception {
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
-        new PythonRunner().runPythonScript();
+        new PythonRunner().runPythonScript("app/src/main/python/main.py");
 
-        ZMQMessenger zmqMessenger = new ZMQMessenger();
+        PythonConnector pythonConn = new PythonConnector();
+        pythonConn.open();
 
-        for(int i = 0; i < 20; i++) {
-
-            // Sending message.
-            System.out.println("Sending message...");
-
-            // Construct sending message.
-            ZMQMessage message = new ZMQMessage("double", "2");
-
-            // Send a response and wait for reply.
-            ZMQMessage reply = zmqMessenger.sendMessage(message, true);
-
-            // Print reply.
-            System.out.println(reply.convertToJSONString());
+        for(int i = 0; i < 10; i++){
+            pythonConn.askTAPAS("Question from Java?");
         }
 
-        System.out.println("send stop");
-        ZMQMessage stopMsg = new ZMQMessage("Stop", "");
-        zmqMessenger.sendMessage(stopMsg, false);
+        String shutdownOK = pythonConn.askShutdown();
+
+        System.out.println(shutdownOK);
     }
 }
