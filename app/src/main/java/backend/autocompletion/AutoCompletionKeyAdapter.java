@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import java.util.Locale;
 
 public class AutoCompletionKeyAdapter implements KeyListener {
     AutoCompletion autoCompletion;
@@ -133,7 +134,7 @@ public class AutoCompletionKeyAdapter implements KeyListener {
      */
     public boolean checkStartWord(String subSentence){
         String[] words = subSentence.split("\\s+"); // tokenize
-        return autoCompletion.getStartWords().contains(words[0]);
+        return autoCompletion.getStartWords().contains(words[0].toLowerCase(Locale.ROOT));
     }
 
     private void showSuggestions() {

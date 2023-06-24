@@ -212,7 +212,7 @@ public class AutoCompletion {
         for (String question : questions) {
             String[] words = question.split("\\s+"); // tokenize
             if (!startWords.contains(words[0])){
-                startWords.add(words[0]); // add start word if it doesn't exist already
+                startWords.add(words[0].toLowerCase(Locale.ROOT)); // add start word if it doesn't exist already
             }
         }
     }
