@@ -78,7 +78,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         warning.setSelected(false);
 
         // key listener for auto-completion
-        AutoCompletionKeyAdapter autoCompletionKeyAdapter = new AutoCompletionKeyAdapter(textField, warning);
+        AutoCompletionKeyAdapter autoCompletionKeyAdapter = new AutoCompletionKeyAdapter(textField, warning, app.getSkillLoader());
         textField.addKeyListener(autoCompletionKeyAdapter);
 
         // key listener for sending

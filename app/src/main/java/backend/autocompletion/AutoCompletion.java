@@ -1,4 +1,6 @@
 package backend.autocompletion;
+import main.SkillLoader;
+
 import java.util.*;
 public class AutoCompletion {
     NGramModel nGramModel;
@@ -8,6 +10,8 @@ public class AutoCompletion {
     private List<String> suggestions = new ArrayList<>();
     private List<String> secondSuggestions = new ArrayList<>();
     private final List<String> finalSuggestions = new ArrayList<>();
+
+    private SkillLoader skillLoader;
 
     final int MAXSUGGESTIONS = 3;
 
@@ -110,7 +114,8 @@ public class AutoCompletion {
     /**
      * Class that is responsible for training n grams to predict the next word of a subsentence
      */
-    public AutoCompletion(){
+    public AutoCompletion(SkillLoader skillLoader){
+        this.skillLoader = skillLoader;
         nGramModel = new NGramModel();
         setStartWords();
         this.train(questions);

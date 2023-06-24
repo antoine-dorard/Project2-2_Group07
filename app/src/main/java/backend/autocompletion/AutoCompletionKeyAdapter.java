@@ -1,6 +1,7 @@
 package backend.autocompletion;
 
 import controls.MyIconButton;
+import main.SkillLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +24,8 @@ public class AutoCompletionKeyAdapter implements KeyListener {
      * @param textField the input (a subsentence) is read from this textfield
      * @param button warning icon that is visible when subsentence is not recognized
      */
-    public AutoCompletionKeyAdapter(JTextField textField, MyIconButton button){
-        this.autoCompletion = new AutoCompletion();
+    public AutoCompletionKeyAdapter(JTextField textField, MyIconButton button, SkillLoader skillLoader){
+        this.autoCompletion = new AutoCompletion(skillLoader);
         this.textField = textField;
         this.warning = button;
         warning.setEnabled(false);
