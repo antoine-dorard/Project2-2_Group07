@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Class that reads the CFG rules and actions from a json file and stores them in a HashMap.
@@ -243,16 +244,118 @@ public class CFG {
      */
     public HashMap<String, ArrayList<ArrayList<GrammarVariable>>> getCfgRules(){ return cfgRulesHM; }
 
-    public static void main(String[] args) {
-        //CFG cfg = new CFG();
-        //System.out.println(cfg.cfgRulesHM);
-        //System.out.println(cfg.cfgActions);
+    //TODO: the way we add rules and actions might change depending on our skill editor
+    public void addRule(String ruleLHS, ArrayList<String> rules){
+        ArrayList<ArrayList<GrammarVariable>> ruleList = new ArrayList<>();
+        for (String rule : rules) ruleList.add(splitRule(rule));
+        cfgRulesHM.put(ruleLHS, ruleList);
+    }
 
-        String test = "The room <ROOM> is in the first floor";
+    public void addAction(String skillName, String answer, HashMap<String, String> slotValuePairs){
+        cfgActions.add(new CFGAction(skillName, slotValuePairs, answer));
+    }
+
+    public HashMap<String, String> getDefaults() {
+        return defaults;
+    }
+
+    private static JSONObject languageJson;
+
+    public static void main(String[] args) {
+        CFG cfg = new CFG();
+        System.out.println(cfg.cfgRulesHM);
+        System.out.println(cfg.cfgActions);
+
+
+        /*String test = "The room <ROOM> is in the first floor";
         if(test.contains("<ROOM>")){
             test = test.replace("<ROOM>", "DeepSpace");
         }
 
-        System.out.println(test);
+        System.out.println(test);*/
+        JSONParser parser = new JSONParser();
+        try {
+            File cfgRulesFile = new File(App.resourcesPath + "CFG/rules.json");
+            Reader ruleReader = new FileReader(cfgRulesFile);
+            JSONObject rules = (JSONObject) parser.parse(ruleReader);
+
+            languageJson = new JSONObject(rules);
+            List<String> questions = generateQuestions(languageJson);
+            for (String question : questions) {
+                System.out.println(question);
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static List<String> generateQuestions(JSONObject json) {
+        List<String> questions = new ArrayList<>();
+        JSONArray actions = (JSONArray) json.get("ACTION");
+
+        for (Object key : json.keySet()) {
+            if(key.equals("S")){
+
+            }
+            else if(actions.contains("<"+key+">")){
+                System.out.println(key);
+                JSONArray phrases = (JSONArray) json.get(key);
+
+                for (int i = 0; i < phrases.size(); i++) {
+                    String phrase = (String) phrases.get(i);
+                    if (phrase.contains("<")) {
+                        List<String> generatedPhrases = generatePhrases(phrase);
+                        questions.addAll(generatedPhrases);
+                    } else {
+                        questions.add(phrase);
+                    }
+                }
+            }
+        }
+
+        return questions;
+    }
+
+    private static List<String> generatePhrases(String phrase) {
+        List<String> generatedPhrases = new ArrayList<>();
+
+        if (!phrase.contains("<")) {
+            generatedPhrases.add(phrase);
+            return generatedPhrases;
+        }
+
+        List<String> keys = getKeysFromPhrase(phrase);
+
+        if (keys.isEmpty()) {
+            generatedPhrases.add(phrase);
+            return generatedPhrases;
+        }
+
+        String key = keys.get(0);
+        JSONArray values = (JSONArray) languageJson.get(key);
+
+        for (int i = 0; i < values.size(); i++) {
+            String value = (String) values.get(i);
+            String newPhrase = phrase.replace("<" + key + ">", value);
+            List<String> recursivePhrases = generatePhrases(newPhrase);
+            generatedPhrases.addAll(recursivePhrases);
+        }
+
+        return generatedPhrases;
+    }
+
+    private static List<String> getKeysFromPhrase(String phrase) {
+        List<String> keys = new ArrayList<>();
+        int startIndex = phrase.indexOf("<");
+        int endIndex = phrase.indexOf(">");
+
+        while (startIndex != -1 && endIndex != -1) {
+            String key = phrase.substring(startIndex + 1, endIndex);
+            keys.add(key);
+            startIndex = phrase.indexOf("<", endIndex);
+            endIndex = phrase.indexOf(">", startIndex);
+        }
+
+        return keys;
     }
 }
