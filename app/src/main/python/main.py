@@ -13,6 +13,7 @@ replier = ZeroMQRep(port = "5555", debug = True)
 replier.open()
 replier.start()
 
+# Add your new module here:
 tft = TapasFineTuned(replier, debug = True)
 tft.start()
 
