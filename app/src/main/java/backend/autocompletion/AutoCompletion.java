@@ -116,6 +116,7 @@ public class AutoCompletion {
      */
     public AutoCompletion(SkillLoader skillLoader){
         this.skillLoader = skillLoader;
+        this.questions = skillLoader.getQuestionsFromCFGWithEndToken();
         nGramModel = new NGramModel();
         setStartWords();
         this.train(questions);

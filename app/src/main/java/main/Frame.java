@@ -78,6 +78,7 @@ public class Frame extends JFrame {
         System.out.println("clicked on: "+buttonName);
         if (buttonName.equals("Chat")){
             app.skillLoader.loadCFGandCNF(); // update the skills after changes made in the skill editor.
+            chatBotPanel.startAutoCompletion();
             cL.show(cards, "ChatBotPanel");
         }
         else if (buttonName.equals("Skills")){

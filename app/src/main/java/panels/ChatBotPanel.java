@@ -62,6 +62,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
     //GridBagConstraints c = new GridBagConstraints();
     Font textFont = fonts.getFont(FontStyle.MEDIUM, 16);
 
+    AutoCompletionKeyAdapter autoCompletionKeyAdapter;
 
     public ChatBotPanel(App app){
         super();
@@ -78,8 +79,7 @@ public class ChatBotPanel extends JPanel implements Runnable {
         warning.setSelected(false);
 
         // key listener for auto-completion
-        AutoCompletionKeyAdapter autoCompletionKeyAdapter = new AutoCompletionKeyAdapter(textField, warning, app.getSkillLoader());
-        textField.addKeyListener(autoCompletionKeyAdapter);
+        startAutoCompletion();
 
         // key listener for sending
         textField.addKeyListener(new KeyAdapter() {
@@ -149,6 +149,11 @@ public class ChatBotPanel extends JPanel implements Runnable {
         setBackground(colors.getColor(UIColor.BG_PRIMARY));
 
         disableFocusTraversalKeys(this);
+    }
+
+    public void startAutoCompletion(){
+        this.autoCompletionKeyAdapter = new AutoCompletionKeyAdapter(textField, warning, app.getSkillLoader());
+        textField.addKeyListener(autoCompletionKeyAdapter);
     }
 
     /**
