@@ -11,8 +11,10 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class SkillLoader {
 
@@ -24,6 +26,8 @@ public class SkillLoader {
 
     private CFG cfg;
     private CNF cnf;
+    private List<String> questionsFromCFG;
+    private List<String> questionsFromCFGWithEndToken;
 
     public SkillLoader(){
 
@@ -34,6 +38,7 @@ public class SkillLoader {
         this.cfg.readCFG();
         this.cnf = new CNF(cfg);
         this.cnf.generateCNF();
+        this.generateQuestionsFromCFG();
         writeWordsFromCFG();
     }
 
@@ -161,6 +166,99 @@ public class SkillLoader {
         }
     }
 
+    // Generating questions from CFG
+    private JSONObject languageJson;
+    private void generateQuestionsFromCFG(){
+        JSONParser parser = new JSONParser();
+        try {
+            File cfgRulesFile = new File(App.resourcesPath + "CFG/rules.json");
+            Reader ruleReader = new FileReader(cfgRulesFile);
+            JSONObject rules = (JSONObject) parser.parse(ruleReader);
+
+            languageJson = new JSONObject(rules);
+            this.questionsFromCFG = generateQuestions(languageJson);
+            this.questionsFromCFGWithEndToken = new ArrayList<>(questionsFromCFG);
+            for(int i = 0; i < questionsFromCFGWithEndToken.size(); i++){
+                questionsFromCFGWithEndToken.set(i, questionsFromCFGWithEndToken.get(i) + " [E]");
+            }
+
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private List<String> generateQuestions(JSONObject json) {
+        List<String> questions = new ArrayList<>();
+        JSONArray actions = (JSONArray) json.get("ACTION");
+
+        for (Object key : json.keySet()) {
+            if(key.equals("S")){
+
+            }
+            else if(actions.contains("<"+key+">")){
+                System.out.println(key);
+                JSONArray phrases = (JSONArray) json.get(key);
+
+                for (int i = 0; i < phrases.size(); i++) {
+                    String phrase = (String) phrases.get(i);
+                    if (phrase.contains("<")) {
+                        List<String> generatedPhrases = generatePhrases(phrase);
+                        questions.addAll(generatedPhrases);
+                    } else {
+                        questions.add(phrase);
+                    }
+                }
+            }
+        }
+
+        return questions;
+    }
+
+    private List<String> generatePhrases(String phrase) {
+        List<String> generatedPhrases = new ArrayList<>();
+
+        if (!phrase.contains("<")) {
+            generatedPhrases.add(phrase);
+            return generatedPhrases;
+        }
+
+        List<String> keys = getKeysFromPhrase(phrase);
+
+        if (keys.isEmpty()) {
+            generatedPhrases.add(phrase);
+            return generatedPhrases;
+        }
+
+        String key = keys.get(0);
+        JSONArray values = (JSONArray) languageJson.get(key);
+
+        for (int i = 0; i < values.size(); i++) {
+            String value = (String) values.get(i);
+            String newPhrase = phrase.replace("<" + key + ">", value);
+            List<String> recursivePhrases = generatePhrases(newPhrase);
+            generatedPhrases.addAll(recursivePhrases);
+        }
+
+        return generatedPhrases;
+    }
+
+    private List<String> getKeysFromPhrase(String phrase) {
+        List<String> keys = new ArrayList<>();
+        int startIndex = phrase.indexOf("<");
+        int endIndex = phrase.indexOf(">");
+
+        while (startIndex != -1 && endIndex != -1) {
+            String key = phrase.substring(startIndex + 1, endIndex);
+            keys.add(key);
+            startIndex = phrase.indexOf("<", endIndex);
+            endIndex = phrase.indexOf(">", startIndex);
+        }
+
+        return keys;
+    }
+
     public CFG getCfg() {
         return cfg;
     }
@@ -179,5 +277,17 @@ public class SkillLoader {
 
     public HashMap<String, JSONObject> getActions() {
         return actions;
+    }
+
+    public List<String> getQuestionsFromCFG() {
+        return questionsFromCFG;
+    }
+
+    public List<String> getQuestionsFromCFGWithEndToken(){
+        return questionsFromCFGWithEndToken;
+    }
+
+    public JSONObject getLanguageJson() {
+        return languageJson;
     }
 }

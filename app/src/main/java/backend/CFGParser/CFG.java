@@ -259,103 +259,11 @@ public class CFG {
         return defaults;
     }
 
-    private static JSONObject languageJson;
-
     public static void main(String[] args) {
         CFG cfg = new CFG();
         System.out.println(cfg.cfgRulesHM);
         System.out.println(cfg.cfgActions);
-
-
-        /*String test = "The room <ROOM> is in the first floor";
-        if(test.contains("<ROOM>")){
-            test = test.replace("<ROOM>", "DeepSpace");
-        }
-
-        System.out.println(test);*/
-        JSONParser parser = new JSONParser();
-        try {
-            File cfgRulesFile = new File(App.resourcesPath + "CFG/rules.json");
-            Reader ruleReader = new FileReader(cfgRulesFile);
-            JSONObject rules = (JSONObject) parser.parse(ruleReader);
-
-            languageJson = new JSONObject(rules);
-            List<String> questions = generateQuestions(languageJson);
-            for (String question : questions) {
-                System.out.println(question);
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
     }
 
-    private static List<String> generateQuestions(JSONObject json) {
-        List<String> questions = new ArrayList<>();
-        JSONArray actions = (JSONArray) json.get("ACTION");
 
-        for (Object key : json.keySet()) {
-            if(key.equals("S")){
-
-            }
-            else if(actions.contains("<"+key+">")){
-                System.out.println(key);
-                JSONArray phrases = (JSONArray) json.get(key);
-
-                for (int i = 0; i < phrases.size(); i++) {
-                    String phrase = (String) phrases.get(i);
-                    if (phrase.contains("<")) {
-                        List<String> generatedPhrases = generatePhrases(phrase);
-                        questions.addAll(generatedPhrases);
-                    } else {
-                        questions.add(phrase);
-                    }
-                }
-            }
-        }
-
-        return questions;
-    }
-
-    private static List<String> generatePhrases(String phrase) {
-        List<String> generatedPhrases = new ArrayList<>();
-
-        if (!phrase.contains("<")) {
-            generatedPhrases.add(phrase);
-            return generatedPhrases;
-        }
-
-        List<String> keys = getKeysFromPhrase(phrase);
-
-        if (keys.isEmpty()) {
-            generatedPhrases.add(phrase);
-            return generatedPhrases;
-        }
-
-        String key = keys.get(0);
-        JSONArray values = (JSONArray) languageJson.get(key);
-
-        for (int i = 0; i < values.size(); i++) {
-            String value = (String) values.get(i);
-            String newPhrase = phrase.replace("<" + key + ">", value);
-            List<String> recursivePhrases = generatePhrases(newPhrase);
-            generatedPhrases.addAll(recursivePhrases);
-        }
-
-        return generatedPhrases;
-    }
-
-    private static List<String> getKeysFromPhrase(String phrase) {
-        List<String> keys = new ArrayList<>();
-        int startIndex = phrase.indexOf("<");
-        int endIndex = phrase.indexOf(">");
-
-        while (startIndex != -1 && endIndex != -1) {
-            String key = phrase.substring(startIndex + 1, endIndex);
-            keys.add(key);
-            startIndex = phrase.indexOf("<", endIndex);
-            endIndex = phrase.indexOf(">", startIndex);
-        }
-
-        return keys;
-    }
 }
