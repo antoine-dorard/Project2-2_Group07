@@ -10,6 +10,12 @@ public class NGramModel {
         nGramFreq = new HashMap<>();
     }
 
+    /**
+     * Method that generates all n-grams of a sentence, according to a certain n-gram size
+     * @param question the sentence of which the n-grams will be generated
+     * @param nGramSize size of n-gram
+     * @return list of all n-grams of the sentence
+     */
     public List<String> generateNGrams(String question, int nGramSize){
         question = question.replaceAll("\\p{Punct}", ""); // deleting chars that are not letters
         question = question.toLowerCase(Locale.ROOT);
