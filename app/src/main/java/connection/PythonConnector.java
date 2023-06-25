@@ -36,6 +36,15 @@ public class PythonConnector {
         return reply.getDataAsString();
     }
 
+    public String askCosineSimilarity() throws Exception {
+
+        ZMQMessage message = new ZMQMessage("simple_cosine_similarity", "");
+
+        ZMQMessage reply = zmqMessenger.sendMessage(message, true);
+
+        return reply.getDataAsString();
+    }
+
 
 
     public static void main(String[] args) throws Exception {

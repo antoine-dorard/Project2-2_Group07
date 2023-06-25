@@ -2,20 +2,23 @@
 import time
 import json
 
-from project22 import ZeroMQPublisher, ZeroMQRep, FaceRecognition, TapasFineTuned
+from project22 import ZeroMQPublisher, ZeroMQRep, FaceRecognition, TapasFineTuned, CosineSimilarity
 
 print("Python started...")
 
 #publisher = ZeroMQPublisher(port = "5556", debug = True)
 #publisher.open()
 
-replier = ZeroMQRep(port = "5555", debug = True)
+replier = ZeroMQRep(port="5555", debug=True)
 replier.open()
 replier.start()
 
 # Add your new module here:
-tft = TapasFineTuned(replier, debug = True)
+tft = TapasFineTuned(replier, debug=True)
 tft.start()
+
+cs = CosineSimilarity(replier, debug=False)
+cs.start()
 
 for i in range(30):
 
