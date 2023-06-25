@@ -3,6 +3,8 @@
  */
 package main;
 
+import connection.PythonConnector;
+import connection.PythonRunner;
 import faceID.FaceChecker;
 
 public class App {
@@ -24,12 +26,28 @@ public class App {
             FaceChecker faceChecker = new FaceChecker();
 
             if(faceChecker.checkFace()){
-                // 3) Start GUI
-                new Frame(this);
+                startAppAfterFaceCheck();
             }
         }else{
-            // 3) Start GUI
-            new Frame(this);
+            startAppAfterFaceCheck();
+        }
+    }
+
+    private void startAppAfterFaceCheck(){
+        // 3) Start Java-Python bridge
+        new PythonRunner().runPythonScript("app/src/main/python/main.py");
+
+        PythonConnector pythonConn = new PythonConnector();
+        pythonConn.open();
+
+        // 4) Start GUI
+        new Frame(this);
+
+        //TEst
+        try {
+            System.out.println("Response: "+pythonConn.askCosineSimilarity());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
