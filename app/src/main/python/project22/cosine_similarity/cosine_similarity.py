@@ -1,6 +1,11 @@
 from threading import Thread
 from ..zmq_rep import ZeroMQRep
 
+import torch
+from BertForSTS import BertForSTS
+from CosineSimilarityLoss import CosineSimilarityLoss
+from transformers import BertTokenizer
+
 
 class CosineSimilarity():
     """
@@ -10,11 +15,13 @@ class CosineSimilarity():
     """
 
     def __init__(self, replier, debug=False):
-
         self._debug = debug
         self._replier = replier
 
         self._stop = False
+
+        self.model = None
+        self.tokenizer = None
 
     def start(self):
         self._stop = False
@@ -43,17 +50,38 @@ class CosineSimilarity():
 
                 reply = self._replier.get_last_message_as_dict()
 
-                if (reply["cmd"] == "simple_cosine_similarity"):
-
+                if (reply["cmd"] == "load_cosine_model"):
                     sentence = reply["data"]
-
                     if (self._debug): print("tft cmd received : " + sentence)
 
-                    score = self.comute_cosine_similarity(sentence, sentence)
+                    self.load_model()
 
-                    answer = "The cosine similarity score is " + str(score) + "."
-
+                    answer = "cosine model loaded."
                     self._replier.send_response(answer)
 
-    def comute_cosine_similarity(self, sentence1, sentence2):
-        return 0.0
+                if (reply["cmd"] == "bert_cosine_similarity"):
+                    sentence = reply["data"]
+                    sentence = sentence.split("|||")
+                    if (self._debug): print("tft cmd received : " + sentence)
+
+                    score = self.predict_cosine_similarity(sentence, sentence)
+
+                    answer = str(score)
+                    self._replier.send_response(answer)
+
+    def predict_cosine_similarity(self, sentence1, sentence2):
+        test_input = self.tokenizer([sentence1, sentence2], padding='max_length', max_length=128, truncation=True, return_tensors="pt")
+        test_input['input_ids'] = test_input['input_ids']
+        test_input['attention_mask'] = test_input['attention_mask']
+        del test_input['token_type_ids']
+
+        output = self.model(test_input)
+        return torch.nn.functional.cosine_similarity(output[0], output[1], dim=0).item()
+
+    def load_model(self):
+        f = open("myfile.txt", "x")
+
+        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        loaded_model = BertForSTS()
+        loaded_model.load_state_dict(torch.load("/app/model"))
+        self.model = loaded_model

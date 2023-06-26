@@ -36,9 +36,21 @@ public class PythonConnector {
         return reply.getDataAsString();
     }
 
+    public String loadCosineSimilarity() throws Exception {
+
+        ZMQMessage message = new ZMQMessage("load_cosine_model", "");
+
+        ZMQMessage reply = zmqMessenger.sendMessage(message, true);
+
+        return reply.getDataAsString();
+    }
+
     public String askCosineSimilarity() throws Exception {
 
-        ZMQMessage message = new ZMQMessage("simple_cosine_similarity", "");
+        String sentence1 = "sentence1";
+        String sentence2 = "sentence2";
+
+        ZMQMessage message = new ZMQMessage("bert_cosine_similarity", sentence1+"|||"+sentence2);
 
         ZMQMessage reply = zmqMessenger.sendMessage(message, true);
 
