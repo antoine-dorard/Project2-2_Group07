@@ -53,7 +53,7 @@ public class PythonRunner {
         pythonConn.open();
 
         for(int i = 0; i < 10; i++){
-            pythonConn.askTAPAS("Question from Java?");
+            pythonConn.askTAPAS("What lectures is there on Monday at 9?");
         }
 
         String shutdownOK = pythonConn.askShutdown();

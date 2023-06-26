@@ -9,7 +9,7 @@ print("Python started...")
 #publisher = ZeroMQPublisher(port = "5556", debug = True)
 #publisher.open()
 
-replier = ZeroMQRep(port = "5555", debug = True)
+replier = ZeroMQRep(port = "5557", debug = True)
 replier.open()
 replier.start()
 

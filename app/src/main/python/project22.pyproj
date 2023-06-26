@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>project22</Name>
     <RootNamespace>project22</RootNamespace>
+    <InterpreterId>Global|PythonCore|3.11</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main.py" />
+    <Compile Include="project22\tapas_fine_tuned\tapas_predictor\tapas_predictor.py" />
+    <Compile Include="project22\tapas_fine_tuned\tapas_predictor\tapas_predictor_experiment.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="project22\tapas_fine_tuned\tapas_predictor\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="project22\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -48,8 +56,12 @@
     <Folder Include="project22\face_rec\" />
     <Folder Include="project22\" />
     <Folder Include="project22\tapas_fine_tuned\" />
+    <Folder Include="project22\tapas_fine_tuned\tapas_predictor\" />
     <Folder Include="project22\zmq_pub\" />
     <Folder Include="project22\zmq_rep\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.11" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

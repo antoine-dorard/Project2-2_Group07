@@ -1,0 +1,104 @@
+Experiments Results.
+ 
+True : 976
+False : 24
+Accuracy : 0.976
+ 
+False Values
+------------
+question : What courses are there on Wednesday at 17
+expected : Calculus
+answer : Calculus, MM
+ 
+question : What courses are offered on Wednesday at 17
+expected : Calculus
+answer : Calculus, MM
+ 
+question : What are the available lecture options on Wednesday at 17
+expected : Calculus
+answer : Calculus, MM
+ 
+question : What are the available lecture options on Friday at 15
+expected : Calculus
+answer : TCS, Calculus
+ 
+question : I would like to know the subjects covered on Wednesday at 11
+expected : Project 2-2
+answer : TCS, Project 2-2
+ 
+question : I would like to know the subjects covered on Wednesday at 15
+expected : MM
+answer : TCS, Calculus, MM
+ 
+question : I would like to know the subjects covered on Thursday at 13
+expected : SSA
+answer : SSA, Calculus
+ 
+question : I would like to know the subjects covered on Friday at 13
+expected : TCS
+answer : TCS, MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 9
+expected : Logic
+answer : TCS
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 11
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 15
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 17
+expected : TCS
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 11
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 13
+expected : TCS
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 15
+expected : MM
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 17
+expected : Calculus
+answer : MM
+ 
+question : What courses are offered at 17 on Wednesday
+expected : Calculus
+answer : Calculus, MM
+ 
+question : What are the available lecture options at 17 on Wednesday
+expected : Calculus
+answer : Calculus, MM
+ 
+question : I would like to know the subjects covered at 11 on Wednesday
+expected : Project 2-2
+answer : TCS, Project 2-2
+ 
+question : I would like to know the subjects covered at 13 on Wednesday
+expected : TCS
+answer : TCS, MM
+ 
+question : I would like to know the subjects covered at 17 on Wednesday
+expected : Calculus
+answer : Calculus, MM
+ 
+question : I would like to know the subjects covered at 13 on Thursday
+expected : SSA
+answer : SSA, Calculus
+ 
+question : I would like to know the subjects covered at 13 on Friday
+expected : TCS
+answer : TCS, MM
+ 
+question : I'm curious about the Wednesday timetable at 15. Can you share it with me?
+expected : MM
+answer : Calculus, MM
+ 

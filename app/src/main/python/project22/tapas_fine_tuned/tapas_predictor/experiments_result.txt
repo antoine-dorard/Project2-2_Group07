@@ -1,0 +1,56 @@
+Experiments Results.
+ 
+True : 988
+False : 12
+Accuracy : 0.988
+ 
+False Values
+------------
+question : What are the available lecture options on Friday at 15
+expected : Calculus
+answer : TCS
+ 
+question : I would like to know the subjects covered on Wednesday at 11
+expected : Project 2-2
+answer : TCS
+ 
+question : I would like to know the subjects covered on Wednesday at 15
+expected : MM
+answer : Calculus
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 9
+expected : Logic
+answer : TCS
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 11
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 15
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 17
+expected : TCS
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 11
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 13
+expected : TCS
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 15
+expected : MM
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 17
+expected : Calculus
+answer : MM
+ 
+question : I would like to know the subjects covered at 11 on Wednesday
+expected : Project 2-2
+answer : TCS
+ 

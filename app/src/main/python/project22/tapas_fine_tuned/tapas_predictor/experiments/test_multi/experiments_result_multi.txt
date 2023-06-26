@@ -1,0 +1,68 @@
+Experiments Results of Multi-turn Dialog.
+ 
+True : 5
+False : 15
+Accuracy : 0.25
+ 
+False Values
+------------
+question : What lectures are there on Monday at 11
+expected : MM
+answer : MM, MM
+ 
+question : What lectures are there on Monday at 13
+expected : Project 2-2
+answer : SSA, MM
+ 
+question : What lectures are there on Monday at 15
+expected : MM
+answer : SSA, MM
+ 
+question : What lectures are there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What lectures are there on Tuesday at 15
+expected : TCS
+answer : Project 2-2, SSA
+ 
+question : What lectures are there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What lectures are there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What lectures are there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What lectures are there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What lectures are there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What lectures are there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What lectures are there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What lectures are there on Friday at 15
+expected : Project 2-2
+answer : MM, Project 2-2
+ 

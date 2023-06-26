@@ -1,6 +1,8 @@
 from threading import Thread
 from ..zmq_rep import ZeroMQRep
-
+from .tapas_predictor import TapasPredictor
+import pandas as pd
+import os
 
 class TapasFineTuned():
 
@@ -18,6 +20,12 @@ class TapasFineTuned():
         self._replier       = replier
 
         self._stop          = False
+
+        self._current_dir   = os.path.dirname(os.path.realpath(__file__))
+
+        # Initialize the Tapas Predictor class instance.
+        self.predictor = TapasPredictor(model_path = self._current_dir + "\\tapas_predictor\\schedule-tapas-small-finetuned-sqa.pth")
+        self.table =  pd.read_csv(self._current_dir + "\\tapas_predictor\\student_schedule_week.csv").astype(str)
 
 
     def start(self):
@@ -55,8 +63,16 @@ class TapasFineTuned():
 
                     if(self._debug): print("tft cmd received : " + sentence)
 
-                    ## EXECUTE HERE
+                    if(isinstance(sentence, str)):
+                        queries = [sentence]
+                    elif(isinstance(sentence, list)):
+                        queries = sentence
+                    else:
+                        raise Exception("Type of input 'sentence' is not 'str' or 'list', so it's not supported...")
 
-                    answer = "This is the 'tft' Python answer.."
+                    answers = self.predictor.generate_answers(queries, self.table)
+
+                    #answer = "This is the 'tft' Python answer.."
+                    answer = answers[0]
 
                     self._replier.send_response(answer)

@@ -1,0 +1,19 @@
+What lectures are there on <DAY> at <TIME>
+What lecture is there on <DAY> at <TIME>
+What course is there on <DAY> at <TIME>
+What courses are there on <DAY> at <TIME>
+What subject is there on <DAY> at <TIME>
+What subjects are there on <DAY> at <TIME>
+What is the schedule on <DAY> at <TIME>
+What do we have on <DAY> at <TIME>
+What is happening on <DAY> at <TIME>
+On <DAY> at <TIME> what lectures do we have
+Which lectures are scheduled for <DAY> at <TIME> o'clock
+What courses are offered on <DAY> at <TIME>
+Can you tell me the schedule of <DAY> lectures at <TIME>
+I'm interested in knowing the lectures happening on <DAY> at <TIME>. Could you help?
+What are the available lecture options on <DAY> at <TIME>
+I would like to know the subjects covered on <DAY> at <TIME>
+I'd appreciate it if you could let me know about the lectures on <DAY> at <TIME>
+Which academic sessions are scheduled for <DAY> at <TIME>
+Could you provide details about the lectures happening on <DAY> at <TIME>

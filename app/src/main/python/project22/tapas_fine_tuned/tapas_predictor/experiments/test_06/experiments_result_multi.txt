@@ -1,0 +1,2100 @@
+Experiments Results of Multi-turn Dialog.
+ 
+True : 277
+False : 523
+Accuracy : 0.34625
+ 
+False Values
+------------
+question : What lectures are there on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What lectures are there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What lectures are there on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What lectures are there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What lectures are there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What lectures are there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What lectures are there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What lectures are there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What lectures are there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What lectures are there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What lecture is there on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What lecture is there on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What lecture is there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What lecture is there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What lecture is there on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What lecture is there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What lecture is there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What lecture is there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What lecture is there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What lecture is there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What lecture is there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What lecture is there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What lecture is there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What course is there on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What course is there on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What course is there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What course is there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What course is there on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What course is there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What course is there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What course is there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What course is there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What course is there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What course is there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What course is there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What course is there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What courses are there on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are there on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What courses are there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What courses are there on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What courses are there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What courses are there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What courses are there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What courses are there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What courses are there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What subject is there on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What subject is there on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What subject is there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What subject is there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What subject is there on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What subject is there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What subject is there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What subject is there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What subject is there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What subject is there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What subject is there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What subject is there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What subject is there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What subjects are there on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What subjects are there on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What subjects are there on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What subjects are there on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What subjects are there on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What subjects are there on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What subjects are there on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What subjects are there on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What subjects are there on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What subjects are there on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What subjects are there on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What subjects are there on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What subjects are there on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What is the schedule on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What is the schedule on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What is the schedule on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What is the schedule on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What is the schedule on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What is the schedule on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What is the schedule on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What is the schedule on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What is the schedule on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What is the schedule on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What is the schedule on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What is the schedule on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What is the schedule on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What do we have on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What do we have on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What do we have on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What do we have on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What do we have on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What do we have on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What do we have on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What do we have on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What do we have on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What do we have on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What do we have on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What do we have on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What do we have on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What is happening on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What is happening on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What is happening on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What is happening on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What is happening on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What is happening on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What is happening on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What is happening on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What is happening on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What is happening on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What is happening on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What is happening on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What is happening on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : On Monday at 13 what lectures do we have
+expected : Project 2-2
+answer : SSA
+ 
+question : On Monday at 15 what lectures do we have
+expected : MM
+answer : SSA
+ 
+question : On Tuesday at 9 what lectures do we have
+expected : Project 2-2
+answer : SSA
+ 
+question : On Tuesday at 13 what lectures do we have
+expected : Calculus
+answer : Project 2-2
+ 
+question : On Tuesday at 15 what lectures do we have
+expected : TCS
+answer : SSA
+ 
+question : On Wednesday at 9 what lectures do we have
+expected : Project 2-2
+answer : MM
+ 
+question : On Wednesday at 11 what lectures do we have
+expected : TCS
+answer : MM
+ 
+question : On Wednesday at 15 what lectures do we have
+expected : Calculus
+answer : MM
+ 
+question : On Thursday at 9 what lectures do we have
+expected : Project 2-2
+answer : SSA
+ 
+question : On Thursday at 13 what lectures do we have
+expected : Logic
+answer : SSA
+ 
+question : On Friday at 9 what lectures do we have
+expected : TCS
+answer : Project 2-2
+ 
+question : On Friday at 11 what lectures do we have
+expected : TCS
+answer : Project 2-2
+ 
+question : On Friday at 13 what lectures do we have
+expected : Calculus
+answer : 
+ 
+question : Which lectures are scheduled for Monday at 13 o'clock
+expected : Project 2-2
+answer : SSA
+ 
+question : Which lectures are scheduled for Monday at 15 o'clock
+expected : MM
+answer : SSA
+ 
+question : Which lectures are scheduled for Tuesday at 9 o'clock
+expected : Project 2-2
+answer : SSA
+ 
+question : Which lectures are scheduled for Tuesday at 13 o'clock
+expected : Calculus
+answer : Project 2-2
+ 
+question : Which lectures are scheduled for Tuesday at 15 o'clock
+expected : TCS
+answer : SSA
+ 
+question : Which lectures are scheduled for Wednesday at 9 o'clock
+expected : Project 2-2
+answer : MM
+ 
+question : Which lectures are scheduled for Wednesday at 11 o'clock
+expected : TCS
+answer : MM
+ 
+question : Which lectures are scheduled for Wednesday at 15 o'clock
+expected : Calculus
+answer : MM
+ 
+question : Which lectures are scheduled for Thursday at 9 o'clock
+expected : Project 2-2
+answer : SSA
+ 
+question : Which lectures are scheduled for Thursday at 13 o'clock
+expected : Logic
+answer : SSA
+ 
+question : Which lectures are scheduled for Friday at 9 o'clock
+expected : TCS
+answer : Project 2-2
+ 
+question : Which lectures are scheduled for Friday at 11 o'clock
+expected : TCS
+answer : Project 2-2
+ 
+question : Which lectures are scheduled for Friday at 13 o'clock
+expected : Calculus
+answer : 
+ 
+question : What courses are offered on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are offered on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What courses are offered on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are offered on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What courses are offered on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What courses are offered on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What courses are offered on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What courses are offered on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What courses are offered on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are offered on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What courses are offered on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are offered on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are offered on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : Can you tell me the schedule of Monday lectures at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : Can you tell me the schedule of Monday lectures at 15
+expected : MM
+answer : SSA
+ 
+question : Can you tell me the schedule of Tuesday lectures at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : Can you tell me the schedule of Tuesday lectures at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : Can you tell me the schedule of Tuesday lectures at 15
+expected : TCS
+answer : SSA
+ 
+question : Can you tell me the schedule of Wednesday lectures at 9
+expected : Project 2-2
+answer : MM
+ 
+question : Can you tell me the schedule of Wednesday lectures at 11
+expected : TCS
+answer : MM
+ 
+question : Can you tell me the schedule of Wednesday lectures at 15
+expected : Calculus
+answer : MM
+ 
+question : Can you tell me the schedule of Thursday lectures at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : Can you tell me the schedule of Thursday lectures at 13
+expected : Logic
+answer : SSA
+ 
+question : Can you tell me the schedule of Friday lectures at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : Can you tell me the schedule of Friday lectures at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : Can you tell me the schedule of Friday lectures at 13
+expected : Calculus
+answer : 
+ 
+question : I'm interested in knowing the lectures happening on Monday at 13. Could you help?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening on Monday at 15. Could you help?
+expected : MM
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening on Tuesday at 9. Could you help?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening on Tuesday at 13. Could you help?
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'm interested in knowing the lectures happening on Tuesday at 15. Could you help?
+expected : TCS
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening on Wednesday at 9. Could you help?
+expected : Project 2-2
+answer : MM
+ 
+question : I'm interested in knowing the lectures happening on Wednesday at 11. Could you help?
+expected : TCS
+answer : MM
+ 
+question : I'm interested in knowing the lectures happening on Wednesday at 15. Could you help?
+expected : Calculus
+answer : MM
+ 
+question : I'm interested in knowing the lectures happening on Thursday at 9. Could you help?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening on Thursday at 13. Could you help?
+expected : Logic
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening on Friday at 9. Could you help?
+expected : TCS
+answer : Project 2-2
+ 
+question : I'm interested in knowing the lectures happening on Friday at 11. Could you help?
+expected : TCS
+answer : Project 2-2
+ 
+question : I'm interested in knowing the lectures happening on Friday at 13. Could you help?
+expected : Calculus
+answer : 
+ 
+question : What are the available lecture options on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What are the available lecture options on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : What are the available lecture options on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What are the available lecture options on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What are the available lecture options on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : What are the available lecture options on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What are the available lecture options on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : What are the available lecture options on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : What are the available lecture options on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What are the available lecture options on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : What are the available lecture options on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What are the available lecture options on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What are the available lecture options on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : I would like to know the subjects covered on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : I would like to know the subjects covered on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : I would like to know the subjects covered on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : I would like to know the subjects covered on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : I would like to know the subjects covered on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : I would like to know the subjects covered on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : I would like to know the subjects covered on Wednesday at 11
+expected : TCS
+answer : 
+ 
+question : I would like to know the subjects covered on Wednesday at 15
+expected : Calculus
+answer : 
+ 
+question : I would like to know the subjects covered on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : I would like to know the subjects covered on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : I would like to know the subjects covered on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : I would like to know the subjects covered on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : I would like to know the subjects covered on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : I'd appreciate it if you could let me know about the lectures on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 11
+expected : SSA
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 13
+expected : MM
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Wednesday at 15
+expected : Calculus
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : Which academic sessions are scheduled for Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : Which academic sessions are scheduled for Monday at 15
+expected : MM
+answer : SSA
+ 
+question : Which academic sessions are scheduled for Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : Which academic sessions are scheduled for Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : Which academic sessions are scheduled for Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : Which academic sessions are scheduled for Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : Which academic sessions are scheduled for Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : Which academic sessions are scheduled for Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : Which academic sessions are scheduled for Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : Which academic sessions are scheduled for Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : Which academic sessions are scheduled for Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : Which academic sessions are scheduled for Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : Which academic sessions are scheduled for Friday at 13
+expected : Calculus
+answer : 
+ 
+question : Could you provide details about the lectures happening on Monday at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : Could you provide details about the lectures happening on Monday at 15
+expected : MM
+answer : SSA
+ 
+question : Could you provide details about the lectures happening on Tuesday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : Could you provide details about the lectures happening on Tuesday at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : Could you provide details about the lectures happening on Tuesday at 15
+expected : TCS
+answer : SSA
+ 
+question : Could you provide details about the lectures happening on Wednesday at 9
+expected : Project 2-2
+answer : MM
+ 
+question : Could you provide details about the lectures happening on Wednesday at 11
+expected : TCS
+answer : MM
+ 
+question : Could you provide details about the lectures happening on Wednesday at 15
+expected : Calculus
+answer : MM
+ 
+question : Could you provide details about the lectures happening on Thursday at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : Could you provide details about the lectures happening on Thursday at 13
+expected : Logic
+answer : SSA
+ 
+question : Could you provide details about the lectures happening on Friday at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : Could you provide details about the lectures happening on Friday at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : Could you provide details about the lectures happening on Friday at 13
+expected : Calculus
+answer : 
+ 
+question : What lectures are there at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What lectures are there at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What lectures are there at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What lectures are there at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What lectures are there at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What lectures are there at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What lectures are there at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What lectures are there at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What lectures are there at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What lectures are there at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What lectures are there at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What lecture is there at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What lecture is there at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What lecture is there at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What lecture is there at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What lecture is there at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What lecture is there at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What lecture is there at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What lecture is there at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What lecture is there at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What lecture is there at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What lecture is there at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What lecture is there at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What lecture is there at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What course is there at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What course is there at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What course is there at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What course is there at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What course is there at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What course is there at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What course is there at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What course is there at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What course is there at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What course is there at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What course is there at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What course is there at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What course is there at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What courses are there at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are there at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What courses are there at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are there at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What courses are there at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What courses are there at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What courses are there at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What courses are there at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What courses are there at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are there at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What courses are there at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are there at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are there at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What subject is there at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What subject is there at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What subject is there at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What subject is there at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What subject is there at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What subject is there at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What subject is there at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What subject is there at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What subject is there at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What subject is there at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What subject is there at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What subject is there at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What subject is there at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What subjects are there at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What subjects are there at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What subjects are there at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What subjects are there at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What subjects are there at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What subjects are there at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What subjects are there at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What subjects are there at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What subjects are there at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What subjects are there at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What subjects are there at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What subjects are there at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What subjects are there at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What is the schedule at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What is the schedule at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What is the schedule at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What is the schedule at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What is the schedule at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What is the schedule at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What is the schedule at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What is the schedule at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What is the schedule at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What is the schedule at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What is the schedule at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What is the schedule at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What is the schedule at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What do we have at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What do we have at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What do we have at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What do we have at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What do we have at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What do we have at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What do we have at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What do we have at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What do we have at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What do we have at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What do we have at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What do we have at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What do we have at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What is happening at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What is happening at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What is happening at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What is happening at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What is happening at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What is happening at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What is happening at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What is happening at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What is happening at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What is happening at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What is happening at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What is happening at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What is happening at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : At 13 on Monday what lectures do we have
+expected : Project 2-2
+answer : SSA
+ 
+question : At 15 on Monday what lectures do we have
+expected : MM
+answer : SSA
+ 
+question : At 9 on Tuesday what lectures do we have
+expected : Project 2-2
+answer : SSA
+ 
+question : At 13 on Tuesday what lectures do we have
+expected : Calculus
+answer : Project 2-2
+ 
+question : At 15 on Tuesday what lectures do we have
+expected : TCS
+answer : SSA
+ 
+question : At 9 on Wednesday what lectures do we have
+expected : Project 2-2
+answer : MM
+ 
+question : At 11 on Wednesday what lectures do we have
+expected : TCS
+answer : MM
+ 
+question : At 15 on Wednesday what lectures do we have
+expected : Calculus
+answer : MM
+ 
+question : At 9 on Thursday what lectures do we have
+expected : Project 2-2
+answer : SSA
+ 
+question : At 13 on Thursday what lectures do we have
+expected : Logic
+answer : SSA
+ 
+question : At 9 on Friday what lectures do we have
+expected : TCS
+answer : Project 2-2
+ 
+question : At 11 on Friday what lectures do we have
+expected : TCS
+answer : Project 2-2
+ 
+question : At 13 on Friday what lectures do we have
+expected : Calculus
+answer : 
+ 
+question : Which lectures are scheduled for 13 o'clock on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : Which lectures are scheduled for 15 o'clock on Monday
+expected : MM
+answer : SSA
+ 
+question : Which lectures are scheduled for 9 o'clock on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : Which lectures are scheduled for 13 o'clock on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : Which lectures are scheduled for 15 o'clock on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : Which lectures are scheduled for 9 o'clock on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : Which lectures are scheduled for 11 o'clock on Wednesday
+expected : TCS
+answer : MM
+ 
+question : Which lectures are scheduled for 15 o'clock on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : Which lectures are scheduled for 9 o'clock on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : Which lectures are scheduled for 13 o'clock on Thursday
+expected : Logic
+answer : SSA
+ 
+question : Which lectures are scheduled for 9 o'clock on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Which lectures are scheduled for 11 o'clock on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Which lectures are scheduled for 13 o'clock on Friday
+expected : Calculus
+answer : 
+ 
+question : What courses are offered at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are offered at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What courses are offered at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are offered at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What courses are offered at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What courses are offered at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What courses are offered at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What courses are offered at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What courses are offered at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What courses are offered at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What courses are offered at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are offered at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What courses are offered at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : Can you tell me the schedule of lectures at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : Can you tell me the schedule of lectures at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : Can you tell me the schedule of lectures at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : Can you tell me the schedule of lectures at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : Can you tell me the schedule of lectures at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : Can you tell me the schedule of lectures at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : Can you tell me the schedule of lectures at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : Can you tell me the schedule of lectures at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : Can you tell me the schedule of lectures at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : Can you tell me the schedule of lectures at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : Can you tell me the schedule of lectures at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Can you tell me the schedule of lectures at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Can you tell me the schedule of lectures at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : I'm interested in knowing the lectures happening at 13 on Monday. Could you help?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening at 15 on Monday. Could you help?
+expected : MM
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening at 9 on Tuesday. Could you help?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening at 13 on Tuesday. Could you help?
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'm interested in knowing the lectures happening at 15 on Tuesday. Could you help?
+expected : TCS
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening at 9 on Wednesday. Could you help?
+expected : Project 2-2
+answer : MM
+ 
+question : I'm interested in knowing the lectures happening at 11 on Wednesday. Could you help?
+expected : TCS
+answer : MM
+ 
+question : I'm interested in knowing the lectures happening at 15 on Wednesday. Could you help?
+expected : Calculus
+answer : MM
+ 
+question : I'm interested in knowing the lectures happening at 9 on Thursday. Could you help?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening at 13 on Thursday. Could you help?
+expected : Logic
+answer : SSA
+ 
+question : I'm interested in knowing the lectures happening at 9 on Friday. Could you help?
+expected : TCS
+answer : Project 2-2
+ 
+question : I'm interested in knowing the lectures happening at 11 on Friday. Could you help?
+expected : TCS
+answer : Project 2-2
+ 
+question : I'm interested in knowing the lectures happening at 13 on Friday. Could you help?
+expected : Calculus
+answer : 
+ 
+question : What are the available lecture options at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : What are the available lecture options at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : What are the available lecture options at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : What are the available lecture options at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : What are the available lecture options at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : What are the available lecture options at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : What are the available lecture options at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : What are the available lecture options at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : What are the available lecture options at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : What are the available lecture options at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : What are the available lecture options at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What are the available lecture options at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : What are the available lecture options at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : I would like to know the subjects covered at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : I would like to know the subjects covered at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : I would like to know the subjects covered at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : I would like to know the subjects covered at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : I would like to know the subjects covered at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : I would like to know the subjects covered at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : I would like to know the subjects covered at 11 on Wednesday
+expected : TCS
+answer : 
+ 
+question : I would like to know the subjects covered at 13 on Wednesday
+expected : MM
+answer : 
+ 
+question : I would like to know the subjects covered at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : I would like to know the subjects covered at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : I would like to know the subjects covered at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : I would like to know the subjects covered at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : I would like to know the subjects covered at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : I would like to know the subjects covered at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : I'd appreciate it if you could let me know about the lectures at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : I'd appreciate it if you could let me know about the lectures at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : I'd appreciate it if you could let me know about the lectures at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : I'd appreciate it if you could let me know about the lectures at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : Which academic sessions are scheduled at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : Which academic sessions are scheduled at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : Which academic sessions are scheduled at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : Which academic sessions are scheduled at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : Which academic sessions are scheduled at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : Which academic sessions are scheduled at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : Which academic sessions are scheduled at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : Which academic sessions are scheduled at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : Which academic sessions are scheduled at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : Which academic sessions are scheduled at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : Which academic sessions are scheduled at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Which academic sessions are scheduled at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Which academic sessions are scheduled at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : Could you provide details about the lectures happening at 13 on Monday
+expected : Project 2-2
+answer : SSA
+ 
+question : Could you provide details about the lectures happening at 15 on Monday
+expected : MM
+answer : SSA
+ 
+question : Could you provide details about the lectures happening at 9 on Tuesday
+expected : Project 2-2
+answer : SSA
+ 
+question : Could you provide details about the lectures happening at 13 on Tuesday
+expected : Calculus
+answer : Project 2-2
+ 
+question : Could you provide details about the lectures happening at 15 on Tuesday
+expected : TCS
+answer : SSA
+ 
+question : Could you provide details about the lectures happening at 9 on Wednesday
+expected : Project 2-2
+answer : MM
+ 
+question : Could you provide details about the lectures happening at 11 on Wednesday
+expected : TCS
+answer : MM
+ 
+question : Could you provide details about the lectures happening at 15 on Wednesday
+expected : Calculus
+answer : MM
+ 
+question : Could you provide details about the lectures happening at 9 on Thursday
+expected : Project 2-2
+answer : SSA
+ 
+question : Could you provide details about the lectures happening at 13 on Thursday
+expected : Logic
+answer : SSA
+ 
+question : Could you provide details about the lectures happening at 9 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Could you provide details about the lectures happening at 11 on Friday
+expected : TCS
+answer : Project 2-2
+ 
+question : Could you provide details about the lectures happening at 13 on Friday
+expected : Calculus
+answer : 
+ 
+question : What topics are covered in the Monday lectures starting at 13
+expected : Project 2-2
+answer : SSA
+ 
+question : What topics are covered in the Monday lectures starting at 15
+expected : MM
+answer : SSA
+ 
+question : What topics are covered in the Tuesday lectures starting at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What topics are covered in the Tuesday lectures starting at 13
+expected : Calculus
+answer : Project 2-2
+ 
+question : What topics are covered in the Tuesday lectures starting at 15
+expected : TCS
+answer : SSA
+ 
+question : What topics are covered in the Wednesday lectures starting at 9
+expected : Project 2-2
+answer : MM
+ 
+question : What topics are covered in the Wednesday lectures starting at 11
+expected : TCS
+answer : MM
+ 
+question : What topics are covered in the Wednesday lectures starting at 15
+expected : Calculus
+answer : MM
+ 
+question : What topics are covered in the Thursday lectures starting at 9
+expected : Project 2-2
+answer : SSA
+ 
+question : What topics are covered in the Thursday lectures starting at 13
+expected : Logic
+answer : SSA
+ 
+question : What topics are covered in the Friday lectures starting at 9
+expected : TCS
+answer : Project 2-2
+ 
+question : What topics are covered in the Friday lectures starting at 11
+expected : TCS
+answer : Project 2-2
+ 
+question : What topics are covered in the Friday lectures starting at 13
+expected : Calculus
+answer : 
+ 
+question : I'm curious about the Monday timetable at 13. Can you share it with me?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm curious about the Monday timetable at 15. Can you share it with me?
+expected : MM
+answer : SSA
+ 
+question : I'm curious about the Tuesday timetable at 9. Can you share it with me?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm curious about the Tuesday timetable at 13. Can you share it with me?
+expected : Calculus
+answer : Project 2-2
+ 
+question : I'm curious about the Tuesday timetable at 15. Can you share it with me?
+expected : TCS
+answer : SSA
+ 
+question : I'm curious about the Wednesday timetable at 9. Can you share it with me?
+expected : Project 2-2
+answer : MM
+ 
+question : I'm curious about the Wednesday timetable at 11. Can you share it with me?
+expected : TCS
+answer : MM
+ 
+question : I'm curious about the Wednesday timetable at 15. Can you share it with me?
+expected : Calculus
+answer : MM
+ 
+question : I'm curious about the Thursday timetable at 9. Can you share it with me?
+expected : Project 2-2
+answer : SSA
+ 
+question : I'm curious about the Thursday timetable at 13. Can you share it with me?
+expected : Logic
+answer : SSA
+ 
+question : I'm curious about the Friday timetable at 9. Can you share it with me?
+expected : TCS
+answer : Project 2-2
+ 
+question : I'm curious about the Friday timetable at 11. Can you share it with me?
+expected : TCS
+answer : Project 2-2
+ 
+question : I'm curious about the Friday timetable at 13. Can you share it with me?
+expected : Calculus
+answer : 
+ 

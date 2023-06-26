@@ -1,0 +1,10 @@
+What lectures are there on <DAY> at <TIME>
+What lecture is there on <DAY> at <TIME>
+What course is there on <DAY> at <TIME>
+What courses are there on <DAY> at <TIME>
+What subject is there on <DAY> at <TIME>
+What subjects are there on <DAY> at <TIME>
+What is the schedule on <DAY> at <TIME>
+What do we have on <DAY> at <TIME>
+What is happening on <DAY> at <TIME>
+On <DAY> at <TIME> what lectures do we have
