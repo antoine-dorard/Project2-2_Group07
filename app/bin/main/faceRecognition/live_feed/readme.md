@@ -1,1 +1,0 @@
-Run the FaceRecognition.java to launch the program

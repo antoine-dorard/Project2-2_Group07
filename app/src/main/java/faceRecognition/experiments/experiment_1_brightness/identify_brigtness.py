@@ -26,12 +26,12 @@ print("Face encodings loaded.")
 
 results = []
 
-while len(results) < 100:  # limit the experiment to 100 iterations
+while len(results) < 200:  # limit the experiment to 100 iterations
     # Capture a frame from the video feed
     ret, frame = cap.read()
 
     # Adjust brightness level randomly
-    brightness = random.uniform(0.25, 1.75)  # Random brightness factor
+    brightness = random.uniform(0, 3)  # Random brightness factor
     frame = cv2.convertScaleAbs(frame, alpha=brightness, beta=50)
 
     # Create a blob from the frame and normalize it
