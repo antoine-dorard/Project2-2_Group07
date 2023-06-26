@@ -57,10 +57,13 @@ public class UIFonts {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
                 // assign them to an enum value in another HashMap 'fontMap'.
                 fontMap.put(fontStyle, font);
-            } catch (FontFormatException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                try {
+                    Font font = new Font("Arial", Font.PLAIN, 14);
+                    fontMap.put(fontStyle, font);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }
